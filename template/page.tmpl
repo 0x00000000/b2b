@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    
+    <script type="text/javascript">
+        var rootUrl = '{$rootUrl}';
+    </script>
+    {foreach from=$cssFiles item=cssFile}
+    <link rel="stylesheet" type="text/css" href="{$rootUrl}{$cssFile}" />
+    {/foreach}
+    
+    {foreach from=$jsFiles item=jsFile}
+    <script type="text/javascript" src="{$rootUrl}{$jsFile}"></script>
+    {/foreach}
+</head>
+
+<body class="{$bodyClass}">
+
+<script stype="text/javascript">
+    var rootUrl = '{$rootUrl}';
+</script>
+
+<div class="all">
+    <div class="header">
+        <div class="headerTop">
+            <div class="headerLogo">
+            </div>
+            <div class="user">
+                {if $user}
+                <form action="{$rootUrl}/login" method="POST" class="headerForm">
+                    <input name="logout" value="1" type="hidden" />
+                    Здравствуйте, {$user->name}.
+                    <input type="submit" value="Выйти" />
+                </form>
+                {else}
+                <a href="{$rootUrl}/login">Войти</a>
+                {/if}
+            </div>
+        </div>
+        
+        <div class="mainMenu">
+            {foreach $mainMenu as $item}
+                <span><a href="{$item['link']}">{$item['caption']}</a></span>
+            {/foreach}
+        </div>
+    </header>
+    
+    <div class="body">
+        <div class="bodyLeft">
+        </div>
+        <div class="bodyCenter">
+            <div class="content">
+                {$content}
+            </div>
+        </div>
+        <div class="bodyRight">
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="copyright">
+        </div>
+    </div>
+</div>
+</body>
+</html>

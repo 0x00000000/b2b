@@ -1,0 +1,98 @@
+{if empty($productsCount)}
+    <h3>Upload products price</h3>
+
+    <div class="message">
+    {if $messageType}
+        {if $messageType === 'success'}
+            <p>Price was saved to DB.</p>
+        {else if $messageType === 'errorSavingToDB'}
+            <p>Can`t save price to DB. Error occured.</p>
+        {else if $messageType === 'errorReadingFromXLS'}
+            <p>Can`t read from XLS, check file forman. Error occured.</p>
+        {else if $messageType === 'errorUploadingFile'}
+            <p>Can`t upload file to server. Error occured.</p>
+        {/if}
+    {/if}
+    </div>
+
+    <form action="{$currentUrl}" method="POST" enctype="multipart/form-data">
+    <table class="formTable">
+    {include file="$baseTemplatePath/formFile.tmpl" name="priceXls" caption="Price (xls)"}
+    </table>
+    <p>
+        <input type="submit" name="submit" value="Upload" />
+        <input type="button" value="Cansel" class="back" />
+    </p>
+    </form>
+{else}
+    <h3>Products price is uploading</h3>
+    
+    <div id="error">Products were not saved to DB. Error occured.</div>
+    
+    <div id="success">Products were saved to DB.</div>
+    
+    <style type="text/css">
+        #error {
+            color: red;
+            display: none;
+        }
+        #success {
+            color: green;
+            font-weitht: bold;
+            display: none;
+        }
+        #progress {
+            border: 1px solid black;
+            width: 300px;
+            height: 30px;
+            background: blue;
+        }
+        #progress_left {
+            border: 1px solid black;
+            width: 0%;
+            height: 30px;
+            background: green;
+        }
+    </style>
+    <div id="progress">
+        <div id="progress_left">
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        (function(){
+            var productsCount = {$productsCount};
+            var productsUploadCount = {$productsUploadCount};
+            
+            sendSavePriceRequest(1);
+            
+            function sendSavePriceRequest(from) {
+                var progressWidth = Math.ceil((from + productsUploadCount) * 100 / productsCount);
+                var progressLeftElement = document.getElementById('progress_left');
+                progressLeftElement.style.setProperty('width', progressWidth + '%');
+                
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '{$currentUrl}/savePrice/' + from);
+                xhr.send();
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        var response = JSON.parse(xhr.response);
+                        if (response && ! response.error && response.finished) {
+                            document.getElementById('success').style.setProperty('display', 'block');
+                        } else {
+                            sendSavePriceRequest(from + productsUploadCount);
+                        }
+                    } else {
+                        document.getElementById('error').style.setProperty('display', 'block');
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    document.getElementById('error').style.setProperty('display', 'block');
+                };
+            }
+        })();
+    </script>
+{/if}
+

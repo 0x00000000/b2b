@@ -1,0 +1,5 @@
+<select name="{$name}">
+    {foreach $values as $key => $label}
+        <option value="{htmlspecialchars($key)}"{if ((! isset($value) || is_null($value)) && $key === '') || (isset($value) && $key == $value)} selected{/if}>{htmlspecialchars($label)}</option>
+    {/foreach}
+</select>

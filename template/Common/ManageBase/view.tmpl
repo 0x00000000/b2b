@@ -1,0 +1,21 @@
+<h3>View</h3>
+
+<table class="viewTable">
+{foreach $propertiesList as $propertyName => $property}
+{if $controlsList[$propertyName] !== 'none'}
+    {if $controlsList[$propertyName] === 'password'}
+    {else if $controlsList[$propertyName] === 'select'}
+        {include file="$baseTemplatePath/formViewSelect.tmpl" values=${$property['name']}Values value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {else if $controlsList[$propertyName] === 'selectBool'}
+        {include file="$baseTemplatePath/formViewBool.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {else if $controlsList[$propertyName] === 'html'}
+        {include file="$baseTemplatePath/formViewHtml.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {else}
+        {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {/if}
+{/if}
+{/foreach}
+</table>
+<p>
+    <input type="button" value="Back" class="back" />
+</p>

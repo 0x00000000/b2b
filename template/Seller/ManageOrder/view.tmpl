@@ -1,0 +1,45 @@
+<h3>View</h3>
+
+<table class="listTable"><tbody>
+    <tr>
+        <th>Код товара</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Количество</th>
+    </tr>
+    
+    {foreach $products as $code => $product}
+    <tr>
+        <th>{$code}</th>
+        <th>
+            {if $product['link']}
+                <a href="{$product['link']}" target="_blank" rel="noopener noreferrer">{$product['caption']}</a>
+            {else}
+                {$product['caption']}
+            {/if}
+        </th>
+        <th>{$product['price']}</th>
+        <th>{$product['count']}</th>
+    </tr>
+    {/foreach}
+</tbody></table>
+
+<table class="viewTable">
+{foreach $propertiesList as $propertyName => $property}
+{if $controlsList[$propertyName] !== 'none'}
+    {if $controlsList[$propertyName] === 'password'}
+    {else if $controlsList[$propertyName] === 'select'}
+        {include file="$baseTemplatePath/formViewSelect.tmpl" values=${$property['name']}Values value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {else if $controlsList[$propertyName] === 'selectBool'}
+        {include file="$baseTemplatePath/formViewBool.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {else if $controlsList[$propertyName] === 'html'}
+        {include file="$baseTemplatePath/formViewHtml.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {else}
+        {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
+    {/if}
+{/if}
+{/foreach}
+</table>
+<p>
+    <input type="button" value="Back" class="back" />
+</p>

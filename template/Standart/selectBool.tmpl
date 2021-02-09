@@ -1,0 +1,7 @@
+<select name="{$name}">
+    {if ! isset($value) || is_null($value)}
+    <option value="" selected="1">&nbsp;</option>
+    {/if}
+    <option value="1" {if isset($value) && $value === '1'} selected="1"{/if}>Yes</option>
+    <option value="0"{if isset($value) && $value === '0'} selected="1"{/if}>No</option>
+</select>

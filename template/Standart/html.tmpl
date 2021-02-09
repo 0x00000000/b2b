@@ -1,0 +1,30 @@
+<div class="htmlNicEditContainer">
+    <script type="text/javascript">
+    bkLib.onDomLoaded(function() {
+        var iconsPath = '{$rootUrl}/vendor/nicEdit/nicEditorIcons.gif';
+        {literal}
+        var params = {
+            maxHeight : 400,
+            iconsPath: iconsPath,
+        };
+        {/literal}
+        var nicEdit = new nicEditor(params).panelInstance('{$name}NicEditPanel');
+        var htmlContainer = document.getElementById('{$name}NicEditPanelContainer');
+        if (htmlContainer) {
+            htmlContainer = htmlContainer.querySelector('.nicEdit-main');
+        }
+        var input = document.getElementById('{$name}NicEditInput');
+        {literal}
+        if (input && htmlContainer) {
+            nicEdit.addEvent('blur', function() {
+                input.value = htmlContainer.innerHTML;
+            });
+        }
+        {/literal}
+    });
+    </script>
+    <div id="{$name}NicEditPanelContainer">
+        <textarea id="{$name}NicEditPanel">{$value}</textarea>
+        <input type="hidden" name="{$name}" id="{$name}NicEditInput" {if isset($value) && $value !== null} value="{htmlspecialchars($value)}"{/if} />
+    </div>
+</div>

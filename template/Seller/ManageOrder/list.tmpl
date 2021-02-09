@@ -1,0 +1,94 @@
+<div class="listContent">
+
+<h3>List</h3>
+
+<div class="message">
+{if $messageType}
+    {if $messageType === 'itemNotFound'}
+        <p>Item not found.</p>
+    {else if $messageType === 'editedSuccessfully'}
+        <p>Item was sucessfully updaeted.</p>
+    {else if $messageType === 'editingFailed'}
+        <p>Item wasn't updated. Error occured.</p>
+    {else if $messageType === 'deletedSuccessfully'}
+        <p>Item was successfully deleted.</p>
+    {else if $messageType === 'deletingFailed'}
+        <p>Item wasn't deleted. Error occured.</p>
+    {else if $messageType === 'disabledSuccessfully'}
+        <p>Item was successfully updated.</p>
+    {else if $messageType === 'enabledSuccessfully'}
+        <p>Item was successfully updated.</p>
+    {else if $messageType === 'disablingFailed'}
+        <p>Item wasn't updated. Error occured.</p>
+    {else if $messageType === 'enabledFailed'}
+        <p>Item wasn't updated. Error occured.</p>
+    {else if $messageType === 'wrongParamethers'}
+        <p>Wrong paramethers.</p>
+    {/if}
+{/if}
+</div>
+
+{if $pagesList}
+<div class="pages">
+{foreach $pagesList as $page}
+{if $page === $currentPage}
+    <strong>{$page}</strong>
+{else}
+    <a href="{$baseUrl}/list/{$page}">{$page}</a>
+{/if}
+{/foreach}
+</div>
+{/if}
+
+<table class="listTable"><tbody>
+    <tr>
+    {foreach $propertiesList as $propertyName => $property}
+    {if $controlsList[$propertyName] === 'none'}
+    {else if $controlsList[$propertyName] === 'textarea'}
+    {else if $controlsList[$propertyName] === 'html'}
+    {else if $controlsList[$propertyName] === 'password'}
+    {else}
+        <th>{$property['caption']}</th>
+    {/if}
+    {/foreach}
+    <th>Export</th>
+    <th>Active</th>
+    <th>Actions</th>
+
+    </tr>
+    
+    {foreach $itemsList as $item}
+    <tr>
+    {foreach $propertiesList as $propertyName => $property}
+    {if $controlsList[$propertyName] === 'none'}
+    {else if $controlsList[$propertyName] === 'textarea'}
+    {else if $controlsList[$propertyName] === 'html'}
+    {else if $controlsList[$propertyName] === 'password'}
+    {else}
+        <td>
+        {if $controlsList[$propertyName] === 'select'}
+            {include file="$baseTemplatePath/viewSelect.tmpl" values=${$property['name']}Values value="{$item->{$propertyName}}"}
+        {else if $controlsList[$propertyName] === 'selectBool'}
+            {include file="$baseTemplatePath/viewBool.tmpl" value="{$item->{$propertyName}}"}
+        {else}
+            {include file="$baseTemplatePath/viewText.tmpl" value="{$item->{$propertyName}}"}
+        {/if}
+        </td>
+    {/if}
+    {/foreach}
+    <td>
+        {if ! $item->disabled}<a href="{$baseUrl}/export/{$item->id}">export</a>&nbsp;{/if}
+    </td>
+    <td>
+        <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}enable{else}disable{/if}</a>&nbsp;
+    </td>
+    <td>
+        <a href="{$baseUrl}/edit/{$item->id}">edit</a>&nbsp;
+        <a href="{$baseUrl}/view/{$item->id}">view</a>&nbsp;
+        <a href="{$baseUrl}/delete/{$item->id}" onClick="return confirm('Do you want to delete the order?');">delete</a>
+    </td>
+    </tr>
+    {/foreach}
+</tbody></table>
+
+</div>

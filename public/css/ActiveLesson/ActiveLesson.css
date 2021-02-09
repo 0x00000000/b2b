@@ -1,0 +1,16 @@
+.whiteBoard {
+    position: relative;
+    width: 980px;
+    overflow-y: scroll;
+}
+
+.pointer {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    margin-left: -10px;
+    margin-top: -10px;
+}
+

@@ -1,0 +1,20 @@
+<h3>View your profile</h3>
+
+<div class="message">
+{if $messageType}
+    {if $messageType === 'profileUpdated'}
+        <p>Your profile was updated.</p>
+    {else if $messageType === 'passwordChanged'}
+        <p>Your password was chanaged.</p>
+    {/if}
+{/if}
+</div>
+
+<p><a href="{$baseUrl}/edit">Edit your profile</a></p>
+<p><a href="{$baseUrl}/password">Change your password</a></p>
+<table class="viewTable smallTable">
+    
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->login}" caption="Login"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->name}" caption="Name"}
+    
+</table>

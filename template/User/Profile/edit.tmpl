@@ -1,0 +1,25 @@
+<h3>Edit your profile</h3>
+
+<div class="message">
+{if $messageType}
+    {if $messageType === 'savingFailed'}
+        <p>Changes weren't saved. Error occured.</p>
+    {else if $messageType === 'emptyName'}
+        <p>Empty name. Error occured.</p>
+    {/if}
+{/if}
+</div>
+
+<form action="{$currentUrl}" method="POST">
+<table class="formTable smallTable">
+
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->login}" caption="Login"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="Name"}
+    
+</table>
+<p>
+    <input type="submit" name="submit" value="Save" />
+    <input type="button" value="Cansel" class="back" />
+</p>
+</form>
