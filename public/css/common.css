@@ -8,7 +8,7 @@ body, html {
 
 h1 {
     font-size: 200%;
-    margin: 10px 0 2px 0;
+    margin: 15px 0 10px 0;
     padding: 0;
 }
 
@@ -177,6 +177,10 @@ table.smallTable {
     max-width: 800px;
 }
 
+table.smallestTable {
+    max-width: 400px;
+}
+
 .htmlContentToolsControlBox {
     border: 1px solid #222;
     padding: 3px;
@@ -272,3 +276,15 @@ body .ct-widget.ct-ignition {
     margin: 0px auto;
 }
 
+.hidden {
+    display: none;
+}
+
+.message {
+    color: gray;
+}
+
+.errorMessage,
+.message.errorMessage {
+    color: red;
+}

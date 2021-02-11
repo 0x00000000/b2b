@@ -132,10 +132,12 @@ abstract class ControllerManageBase extends ControllerBase {
             if (! $model->isPk($propertyName)) {
                 if ($controlsList[$propertyName] !== self::CONTROL_NONE) {
                     $value = $this->getFromPost($propertyName);
-                    $value = $this->convertFromPost($value, $propertyData);
-                    if (! is_null($value)) {
-                        $model->$propertyName = $value;
-                        $canSave = true;
+                    if ($controlsList[$propertyName] !== self::CONTROL_PASSWORD || $value !== '') {
+                        $value = $this->convertFromPost($value, $propertyData);
+                        if (! is_null($value)) {
+                            $model->$propertyName = $value;
+                            $canSave = true;
+                        }
                     }
                 }
             }

@@ -26,8 +26,4 @@ abstract class ControllerSellerBase extends ControllerBase {
         $this->getPageView()->set('bodyClass', 'seller');
     }
     
-    protected function addJsAndCssFiles() {
-        parent::addJsAndCssFiles();
-    }
-    
 }

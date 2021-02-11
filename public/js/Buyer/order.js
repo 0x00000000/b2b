@@ -164,9 +164,9 @@ function renderForm(orderData) {
     form.method = 'POST';
     var table = document.createElement('table');
     table.className = 'formTable';
-    tr = createInput('Name', 'name', orderData);
-    table.appendChild(tr);
     tr = createInput('Surname', 'surname', orderData);
+    table.appendChild(tr);
+    tr = createInput('Name', 'name', orderData);
     table.appendChild(tr);
     tr = createInput('Patronymic', 'patronymic', orderData);
     table.appendChild(tr);

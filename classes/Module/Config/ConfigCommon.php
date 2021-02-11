@@ -37,12 +37,12 @@ class ConfigCommon extends ConfigBase {
             'salt2' => 'gHjeMzz)$3',
         ),
         'admin' => array(
+            'mainPageUrl' => '/admin/manage/seller',
             'itemsPerPage' => 20,
-            'mainPageUrl' => '/admin',
         ),
         'seller' => array(
-            'itemsPerPage' => 20,
             'mainPageUrl' => '/seller',
+            'itemsPerPage' => 20,
             'productsUploadCount' => 500,
             'pricePath' => 'data/xls/price/price.xls',
             'orderPath' => 'data/xls/order/order.xls',

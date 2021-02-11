@@ -141,6 +141,7 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
         
         $line = 0;
         foreach ($order->products as $code => $product) {
+            $line++;
             $sheet->setCellValueByColumnAndRow(
                 2,
                 $line,
@@ -161,7 +162,6 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
                 $line,
                 $product['count']
             );
-            $line++;
         }
         
         $objWriter = \PHPExcel_IOFactory::createWriter($xls, 'Excel5');

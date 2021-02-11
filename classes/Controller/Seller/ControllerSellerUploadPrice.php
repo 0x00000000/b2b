@@ -35,6 +35,10 @@ class ControllerSellerUploadPrice extends ControllerSellerBase {
             $this->innerActionDoUploadPrice();
         }
         
+        $this->addCssFile('/css/Seller/uploadPrice.css');
+        
+        $this->addJsFile('/js/Seller/uploadPrice.js');
+        
         $this->getView()->setTemplate('Seller/uploadPrice');
         $content = $this->getView()->render();
         

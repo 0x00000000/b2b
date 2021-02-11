@@ -229,28 +229,26 @@ abstract class ControllerBase extends Controller {
         $urlPrefix = Config::instance()->get('application', 'urlPrefix');
         if ($this->getAuth() && $this->getAuth()->isAdmin()) {
             $mainMenu = array(
-                array('link' => $urlPrefix . '/admin/settings', 'caption' => 'Настройки'),
-                array('link' => $urlPrefix . '/admin/manage/admin', 'caption' => 'Управление админами'),
-                array('link' => $urlPrefix . '/admin/manage/seller', 'caption' => 'Управление продавцами'),
-                array('link' => $urlPrefix . '/admin/manage/buyer', 'caption' => 'Управление покупателями'),
+                array('link' => $urlPrefix . '/admin/manage/seller', 'caption' => 'Manage sellers'),
+                array('link' => $urlPrefix . '/admin/manage/admin', 'caption' => 'Manage admins'),
             );
         } else if ($this->getAuth() && $this->getAuth()->isSeller()) {
             $mainMenu = array(
-                array('link' => $urlPrefix . '/seller/order', 'caption' => 'Заказы'),
-                array('link' => $urlPrefix . '/seller/price', 'caption' => 'Загрузить прайс'),
+                array('link' => $urlPrefix . '/seller/order', 'caption' => 'Orders'),
+                array('link' => $urlPrefix . '/seller/price', 'caption' => 'Upload price'),
             );
         } else {
             $mainMenu = array(
-                array('link' => $urlPrefix . '/', 'caption' => 'Каталог'),
-                array('link' => $urlPrefix . '/order', 'caption' => 'Ваш заказ'),
+                array('link' => $urlPrefix . '/', 'caption' => 'Catalog'),
+                array('link' => $urlPrefix . '/order', 'caption' => 'Your order'),
             );
         }
         
-        if ($this->getAuth()) {
-            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Выход');
-            $mainMenu[] = array('link' => $urlPrefix . '/profile', 'caption' => 'Профиль');
+        if ($this->getAuth()->getUser()) {
+            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Logout');
+            $mainMenu[] = array('link' => $urlPrefix . '/profile', 'caption' => 'Profile');
         } else {
-            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Вход');
+            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Login');
         }
         
         $this->getPageView()->set('mainMenu', $mainMenu);

@@ -33,6 +33,7 @@ class ControllerAdminManageAdmin extends ControllerAdminManageBase {
         'isAdmin' => self::CONTROL_NONE,
         'isSeller' => self::CONTROL_NONE,
         'isBuyer' => self::CONTROL_NONE,
+        'deleted' => self::CONTROL_NONE,
     );
     
     /**

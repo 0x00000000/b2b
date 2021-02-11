@@ -1,0 +1,47 @@
+<div class="listContent">
+
+{if $currentCategory}
+<h3>{$currentCategory->caption}</h3>
+{else}
+<h3>All products</h3>
+{/if}
+
+<h5 id="basket">{if $order && $order->getProductsCount()}In your basket threr are {$order->getProductsCount()} product(s). Total cost is ' + {$order->getProductsCost()}{else}You basket is empty{/if}</h5>
+
+{if $categoriesList}
+    <div class="categories">
+        {foreach $categoriesList as $category}
+            {if $currentCategory && $category->id === $currentCategory->id}
+                <strong>{$category->caption}</strong>
+            {else}
+                <a href="{$baseUrl}/{$category->id}">{$category->caption}</a>
+            {/if}
+        {/foreach}
+    </div>
+{/if}
+
+<table class="listTable">
+    <tr>
+        <th>Code</th>
+        <th>Caption</th>
+        <th>Price</th>
+        <th>Buy</th>
+    </tr>
+    
+    {foreach $productsList as $product}
+        <tr>
+            <td>{$product->code}</td>
+            <td>
+                {if $product->link}
+                    <a href="{$product->link}" target="_blank" rel="noopener noreferrer">{$product->caption}</a>
+                {else}
+                    {$product->caption}
+                {/if}
+            </td>
+            <td>{$product->price}</td>
+            <td><a href="" onClick="addToBasket('{$product->code}', 1); return false;">Buy</a></td>
+        </tr>
+    {/foreach}
+</table>
+
+</div>

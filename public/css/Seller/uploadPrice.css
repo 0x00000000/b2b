@@ -1,0 +1,12 @@
+.progress {
+    border: 1px solid black;
+    width: 300px;
+    height: 30px;
+    background: blue;
+}
+.progressLeft {
+    border: 1px solid black;
+    width: 0%;
+    height: 28px;
+    background: green;
+}

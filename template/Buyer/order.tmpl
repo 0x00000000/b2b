@@ -1,0 +1,36 @@
+<div class="listContent">
+
+<h3>Your order</h3>
+
+<div class="message">
+    {if $messageType}
+        {if $messageType === 'errorSaveOrderEmptyBasket'}
+            <p>Order was not saved. Your basket is empty.</p>
+        {else if $messageType === 'errorSaveOrderEmptyName'}
+            <p>Order was not saved. Name is empty.</p>
+        {else if $messageType === 'errorSaveOrderEmptySurname'}
+            <p>Order was not saved. Surname is empty.</p>
+        {else if $messageType === 'errorSaveOrderEmptyPhoneAndEmail'}
+            <p>Order was not saved. Your phone and email are empty.</p>
+        {else if $messageType === 'errorSaveOrderSavingError'}
+            <p>Order was not saved. There was problem with saving your order.</p>
+        {else if $messageType === 'orderSaved' && $orderId}
+            <p>Order was saved. Your order number is {$orderId}.</p>
+        {else if $messageType === 'orderSaved'}
+            <p>Order was saved.</p>
+        {/if}
+    {/if}
+</div>
+
+<h5 id="basket">
+{if $order && $order->getProductsCount()}In your basket threr are {$order->getProductsCount()} product(s). Total cost is {$order->getProductsCost()}{else}You basket is empty{/if}</h5>
+
+<div id="table"></div>
+
+<div id="form"></div>
+
+<script type="text/javascript">
+    loadBasket();
+</script>
+
+</div>

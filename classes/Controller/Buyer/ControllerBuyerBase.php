@@ -27,4 +27,3 @@ abstract class ControllerBuyerBase extends ControllerBase {
     }
         
 }
-    
