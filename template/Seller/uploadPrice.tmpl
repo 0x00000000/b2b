@@ -11,6 +11,8 @@
             <p>Can`t read from XLS, check file forman. Error occured.</p>
         {else if $messageType === 'errorUploadingFile'}
             <p>Can`t upload file to server. Error occured.</p>
+        {else if $messageType === 'errorInternalError'}
+            <p>Internal error occured.</p>
         {/if}
     {/if}
     </div>

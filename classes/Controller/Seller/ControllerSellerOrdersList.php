@@ -121,56 +121,13 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
     
     protected function printXls($order) {
         $filePath = $this->getOrderPath();
-        if ($filePath && $this->saveXls($order, $filePath)) {
+        $saved = Factory::instance()->createModule('XlsOrderSaver')->saveXls(
+            $order,
+            $filePath
+        );
+        if ($saved) {
             $this->sendFile($filePath, $order->id);
         }
-    }
-    
-    protected function saveXls($order, $filePath) {
-        $errorReportingPrevValue = error_reporting(E_ERROR);
-        // Создаем объект класса PHPExcel
-        $xls = new \PHPExcel();
-        // Устанавливаем индекс активного листа
-        $xls->setActiveSheetIndex(0);
-        // Получаем активный лист
-        $sheet = $xls->getActiveSheet();
-        // Подписываем лист
-        $sheet->setTitle('Заказ');
-        
-        $codesList = [6808, 8827, 9861, 6652, 8753];
-        
-        $line = 0;
-        foreach ($order->products as $code => $product) {
-            $line++;
-            $sheet->setCellValueByColumnAndRow(
-                2,
-                $line,
-                $code
-            );
-            $sheet->setCellValueByColumnAndRow(
-                3,
-                $line,
-                $product['caption']
-            );
-            $sheet->setCellValueByColumnAndRow(
-                4,
-                $line,
-                $product['price']
-            );
-            $sheet->setCellValueByColumnAndRow(
-                5,
-                $line,
-                $product['count']
-            );
-        }
-        
-        $objWriter = \PHPExcel_IOFactory::createWriter($xls, 'Excel5');
-        
-        $objWriter->save($filePath);
-        
-        error_reporting($errorReportingPrevValue);
-        
-        return true;
     }
     
     protected function getOrderPath() {
