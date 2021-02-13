@@ -1,14 +1,15 @@
-<h1>Login to your account</h1>
+<h1>Войдите в ваш аккаунт</h1>
 
 {if $messageType}
     {if $messageType === 'loginFailed'}
-    <div class="message"><p>Wrong login or password.</p></div>
+    <div class="message"><p>Неверный логин или пароль.</p></div>
     {/if}
 {/if}
 
 <form action="{$currentUrl}" method="POST">
 <table class="formTable smallestTable">
-<tr><td>Login:</td><td><input name="login" type="text" maxlength="255" /></td></tr>
-<tr><td>Password:</td><td><input name="password" maxlength="255" type="password" /></td></tr>
-<tr><td></td><td><input type="submit" value="Login" /></td></tr>
+<tr><td>Логин:</td><td><input name="login" type="text" maxlength="255" /></td></tr>
+<tr><td>Пароль:</td><td><input name="password" maxlength="255" type="password" /></td></tr>
+<tr><td></td><td><input type="submit" value="Войти" /></td></tr>
+</table>
 </form>

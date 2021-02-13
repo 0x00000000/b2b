@@ -1,29 +1,29 @@
 <div class="listContent">
 
-<h3>Your order</h3>
+<h3 id="basketEmpty"{if $order && $order->getProductsCount()} class="hidden"{/if}>Ваша корзина пуста.</h3>
+<h3 id="basket"{if ! $order || ! $order->getProductsCount()} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span></h3>
+
+<h1>Ваш заказ</h1>
 
 <div class="message">
     {if $messageType}
         {if $messageType === 'errorSaveOrderEmptyBasket'}
-            <p>Order was not saved. Your basket is empty.</p>
+            <p>Ваша корзина пуста.</p>
         {else if $messageType === 'errorSaveOrderEmptyName'}
-            <p>Order was not saved. Name is empty.</p>
+            <p>Заполните ваше имя.</p>
         {else if $messageType === 'errorSaveOrderEmptySurname'}
-            <p>Order was not saved. Surname is empty.</p>
+            <p>Заполните вашу фамилию.</p>
         {else if $messageType === 'errorSaveOrderEmptyPhoneAndEmail'}
-            <p>Order was not saved. Your phone and email are empty.</p>
+            <p>Заполните телефон или email.</p>
         {else if $messageType === 'errorSaveOrderSavingError'}
-            <p>Order was not saved. There was problem with saving your order.</p>
+            <p>Заказ не отправлен, возникли технические проблемы. Свяжитесь с нами по телефону.</p>
         {else if $messageType === 'orderSaved' && $orderId}
-            <p>Order was saved. Your order number is {$orderId}.</p>
+            <p>Ваш заказ отправлен. Номер вашего заказа {$orderId}.</p>
         {else if $messageType === 'orderSaved'}
-            <p>Order was saved.</p>
+            <p>Ваш заказ отправлен.</p>
         {/if}
     {/if}
 </div>
-
-<h5 id="basket">
-{if $order && $order->getProductsCount()}In your basket threr are {$order->getProductsCount()} product(s). Total cost is {$order->getProductsCost()}{else}You basket is empty{/if}</h5>
 
 <div id="table"></div>
 

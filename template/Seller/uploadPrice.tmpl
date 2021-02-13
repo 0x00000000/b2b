@@ -1,37 +1,36 @@
 {if empty($productsCount)}
-    <h3>Upload products price</h3>
+    <h3>Загрузить прайс</h3>
 
     <div class="message">
     {if $messageType}
         {if $messageType === 'success'}
-            <p>Price was saved to DB.</p>
+            <p>Прайс обновлён.</p>
         {else if $messageType === 'errorSavingToDB'}
-            <p>Can`t save price to DB. Error occured.</p>
+            <p>Возникла ошибка. Проблемы с записью в базу.</p>
         {else if $messageType === 'errorReadingFromXLS'}
-            <p>Can`t read from XLS, check file forman. Error occured.</p>
+            <p>Возникла ошибка. Ошибка чтения xls файла.</p>
         {else if $messageType === 'errorUploadingFile'}
-            <p>Can`t upload file to server. Error occured.</p>
+            <p>Возникла ошибка. Ошибка загрузки файла на сервер.</p>
         {else if $messageType === 'errorInternalError'}
-            <p>Internal error occured.</p>
+            <p>Возникла внутренняя ошибка.</p>
         {/if}
     {/if}
     </div>
 
     <form action="{$currentUrl}" method="POST" enctype="multipart/form-data">
     <table class="formTable">
-    {include file="$baseTemplatePath/formFile.tmpl" name="priceXls" caption="Price (xls)"}
+    {include file="$baseTemplatePath/formFile.tmpl" name="priceXls" caption="Прайс (xls)"}
     </table>
     <p>
-        <input type="submit" name="submit" value="Upload" />
-        <input type="button" value="Cansel" class="back" />
+        <input type="submit" name="submit" value="Загрузить" />
     </p>
     </form>
 {else}
-    <h3>Products price is uploading</h3>
+    <h3>Прайс загружается</h3>
     
-    <div id="error" class="errorMessage hidden">Products were not saved to DB. Error occured.</div>
+    <div id="error" class="errorMessage hidden">Продукты не были сохранены. Возникла ошибка.</div>
     
-    <div id="success" class="message hidden">Products were saved to DB.</div>
+    <div id="success" class="message hidden">Продукты были сохранены.</div>
     
     <div id="progress" class="progress">
         <div id="progressLeft" class="progressLeft">

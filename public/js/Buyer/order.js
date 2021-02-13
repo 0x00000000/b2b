@@ -51,12 +51,16 @@ function fillBacket(response) {
     var count = response.basket ? response.basket.count : 0;
     var cost = response.basket ? response.basket.cost : 0;
     if (count) {
-        document.getElementById('basket').innerHTML = 'In your basket ' + count + ' products. Total cost is ' + cost;
+        document.getElementById('basket').style.display = 'block';
+        document.getElementById('basketEmpty').style.display = 'none';
+        document.getElementById('basketCount').innerHTML = count;
+        document.getElementById('basketCost').innerHTML = cost;
         var table = renderTable(response.basket.order.products);
         document.getElementById('table').innerHTML = '';
         document.getElementById('table').appendChild(table);
     } else {
-        document.getElementById('basket').innerHTML = 'You basket is empty';
+        document.getElementById('basket').style.display = 'none';
+        document.getElementById('basketEmpty').style.display = 'block';
         document.getElementById('table').innerHTML = '';
     }
 }
@@ -164,19 +168,19 @@ function renderForm(orderData) {
     form.method = 'POST';
     var table = document.createElement('table');
     table.className = 'formTable';
-    tr = createInput('Surname', 'surname', orderData);
+    tr = createInput('Фамилия', 'surname', orderData);
     table.appendChild(tr);
-    tr = createInput('Name', 'name', orderData);
+    tr = createInput('Имя', 'name', orderData);
     table.appendChild(tr);
-    tr = createInput('Patronymic', 'patronymic', orderData);
+    tr = createInput('Отчество', 'patronymic', orderData);
     table.appendChild(tr);
-    tr = createInput('Phone', 'phone', orderData);
+    tr = createInput('Телефон', 'phone', orderData);
     table.appendChild(tr);
     tr = createInput('Email', 'email', orderData);
     table.appendChild(tr);
-    tr = createInput('Address', 'address', orderData);
+    tr = createInput('Адрес', 'address', orderData);
     table.appendChild(tr);
-    tr = createInput('Comment', 'comment', orderData);
+    tr = createInput('Коментарий', 'comment', orderData);
     table.appendChild(tr);
     
     tr = document.createElement('tr');
@@ -186,7 +190,7 @@ function renderForm(orderData) {
     input = document.createElement('input');
     input.type = 'submit';
     input.name = 'submit';
-    input.value = 'Send';
+    input.value = 'Отправить';
     td.appendChild(input);
     tr.appendChild(td);
     table.appendChild(tr);

@@ -1,29 +1,29 @@
 <div class="listContent">
 
-<h3>List</h3>
+<h3>Список заказов</h3>
 
 <div class="message">
 {if $messageType}
     {if $messageType === 'itemNotFound'}
-        <p>Item not found.</p>
+        <p>Заказ не найден.</p>
     {else if $messageType === 'editedSuccessfully'}
-        <p>Item was sucessfully updaeted.</p>
+        <p>Изменения сохранены.</p>
     {else if $messageType === 'editingFailed'}
-        <p>Item wasn't updated. Error occured.</p>
+        <p>Произошла ошибка. Изменения не сохранены.</p>
     {else if $messageType === 'deletedSuccessfully'}
-        <p>Item was successfully deleted.</p>
+        <p>Заказ был удалён.p>
     {else if $messageType === 'deletingFailed'}
-        <p>Item wasn't deleted. Error occured.</p>
+        <p>Произошла ошибка. Заказ не был удалён.</p>
     {else if $messageType === 'disabledSuccessfully'}
-        <p>Item was successfully updated.</p>
+        <p>Изменения сохранены.</p>
     {else if $messageType === 'enabledSuccessfully'}
-        <p>Item was successfully updated.</p>
+        <p>Изменения сохранены.</p>
     {else if $messageType === 'disablingFailed'}
-        <p>Item wasn't updated. Error occured.</p>
+        <p>Произошла ошибка. Иизменения не сохранены.</p>
     {else if $messageType === 'enabledFailed'}
-        <p>Item wasn't updated. Error occured.</p>
+        <p>Произошла ошибка. Изменения не сохранены.</p>
     {else if $messageType === 'wrongParamethers'}
-        <p>Wrong paramethers.</p>
+        <p>Неверные параметры.</p>
     {/if}
 {/if}
 </div>
@@ -51,9 +51,9 @@
         <th>{$property['caption']}</th>
     {/if}
     {/foreach}
-    <th>Export</th>
-    <th>Active</th>
-    <th>Actions</th>
+    <th>Экспорт</th>
+    <th>Активировать</th>
+    <th>Действия</th>
 
     </tr>
     
@@ -77,15 +77,15 @@
     {/if}
     {/foreach}
     <td>
-        {if ! $item->disabled}<a href="{$baseUrl}/export/{$item->id}">export</a>&nbsp;{/if}
+        {if ! $item->disabled}<a href="{$baseUrl}/export/{$item->id}">экспортировать</a>&nbsp;{/if}
     </td>
     <td>
-        <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}enable{else}disable{/if}</a>&nbsp;
+        <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}активировать{else}деактивировать{/if}</a>
     </td>
     <td>
-        <a href="{$baseUrl}/edit/{$item->id}">edit</a>&nbsp;
-        <a href="{$baseUrl}/view/{$item->id}">view</a>&nbsp;
-        <a href="{$baseUrl}/delete/{$item->id}" onClick="return confirm('Do you want to delete the order?');">delete</a>
+        <a href="{$baseUrl}/view/{$item->id}">просмотр</a>&nbsp;&nbsp;&nbsp;
+        <a href="{$baseUrl}/edit/{$item->id}">изменить</a>&nbsp;&nbsp;&nbsp;
+        <a href="{$baseUrl}/delete/{$item->id}" onClick="return confirm('Удалить заказ?');">удалить</a>
     </td>
     </tr>
     {/foreach}

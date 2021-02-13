@@ -1,20 +1,21 @@
 <div class="listContent">
 
-{if $currentCategory}
-<h3>{$currentCategory->caption}</h3>
-{else}
-<h3>All products</h3>
-{/if}
+<h3 id="basketEmpty"{if $order && $order->getProductsCount()} class="hidden"{/if}>Ваша корзина пуста.</h3>
+<h3 id="basket"{if ! $order || ! $order->getProductsCount()} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span>.<br /><a href="{$rootUrl}/order">Оформить заказ</a></h3>
 
-<h5 id="basket">{if $order && $order->getProductsCount()}In your basket threr are {$order->getProductsCount()} product(s). Total cost is ' + {$order->getProductsCost()}{else}You basket is empty{/if}</h5>
+{if $currentCategory}
+<h1>{$currentCategory->caption}</h1>
+{else}
+<h1>Все продукты</h1>
+{/if}
 
 {if $categoriesList}
     <div class="categories">
         {foreach $categoriesList as $category}
             {if $currentCategory && $category->id === $currentCategory->id}
-                <strong>{$category->caption}</strong>
+                <strong>{$category->caption}</strong>&nbsp;&nbsp;|&nbsp;&nbsp;
             {else}
-                <a href="{$baseUrl}/{$category->id}">{$category->caption}</a>
+                <a href="{$baseUrl}/{$category->id}">{$category->caption}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
             {/if}
         {/foreach}
     </div>
@@ -22,16 +23,16 @@
 
 <table class="listTable">
     <tr>
-        <th>Code</th>
-        <th>Caption</th>
-        <th>Price</th>
-        <th>Buy</th>
+        <th>Код товара</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Купить</th>
     </tr>
     
     {foreach $productsList as $product}
         <tr>
             <td>{$product->code}</td>
-            <td>
+            <td class="leftAlign">
                 {if $product->link}
                     <a href="{$product->link}" target="_blank" rel="noopener noreferrer">{$product->caption}</a>
                 {else}
@@ -39,7 +40,7 @@
                 {/if}
             </td>
             <td>{$product->price}</td>
-            <td><a href="" onClick="addToBasket('{$product->code}', 1); return false;">Buy</a></td>
+            <td><a href="" onClick="addToBasket('{$product->code}', 1, this); return false;">Купить</a></td>
         </tr>
     {/foreach}
 </table>

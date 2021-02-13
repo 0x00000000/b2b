@@ -39,12 +39,10 @@ class ControllerBuyerCatalog extends ControllerBuyerBase {
             $productsConditionsList, 0, 0, array('id' => 'asc')
         );
         
+        $order = Factory::instance()->createModel('Order');
         $orderState = $this->getFromSession('orderState');
         if ($orderState) {
-            $order = Factory::instance()->createModel('Order');
             $order->setState($orderState);
-        } else {
-            $order = null;
         }
         
         $this->getView()->setTemplate('Buyer/catalog');

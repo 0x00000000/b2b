@@ -1,33 +1,33 @@
 <div class="listContent">
 
-<h3>List</h3>
+<h3>Список</h3>
 
 <div class="message">
 {if $messageType}
     {if $messageType === 'addedSuccessfully'}
-        <p>Item was added.</p>
+        <p>Элемент добавлен.</p>
     {else if $messageType === 'addingFailed'}
-        <p>Item wasn't added. Error occured.</p>
+        <p>Произошла ошибка. Элемент не был добавлен.</p>
     {else if $messageType === 'itemNotFound'}
-        <p>Item not found.</p>
+        <p>Элемент не найден.</p>
     {else if $messageType === 'editedSuccessfully'}
-        <p>Item was sucessfully updaeted.</p>
+        <p>Элемент был изменён.</p>
     {else if $messageType === 'editingFailed'}
-        <p>Item wasn't updated. Error occured.</p>
+        <p>Произошла ошибка. Элемент не был изменён.</p>
     {else if $messageType === 'deletedSuccessfully'}
-        <p>Item was successfully deleted.</p>
+        <p>Элемент был удалён.</p>
     {else if $messageType === 'deletingFailed'}
-        <p>Item wasn't deleted. Error occured.</p>
+        <p>Произошла ошибка. Элемент не был удалён.</p>
     {else if $messageType === 'disabledSuccessfully'}
-        <p>Item was successfully updated.</p>
+        <p>Элемент был изменён.</p>
     {else if $messageType === 'enabledSuccessfully'}
-        <p>Item was successfully updated.</p>
+        <p>Элемент был изменён.</p>
     {else if $messageType === 'disablingFailed'}
-        <p>Item wasn't updated. Error occured.</p>
+        <p>Произошла ошибка. Элемент не был изменён.</p>
     {else if $messageType === 'enabledFailed'}
-        <p>Item wasn't updated. Error occured.</p>
+        <p>Произошла ошибка. Элемент не был изменён.</p>
     {else if $messageType === 'wrongParamethers'}
-        <p>Wrong paramethers.</p>
+        <p>Неверные параметры.</p>
     {/if}
 {/if}
 </div>
@@ -44,7 +44,7 @@
 </div>
 {/if}
 
-<p><a href="{$baseUrl}/add">Create new</a></a>
+<p><a href="{$baseUrl}/add">Создать</a></a>
         
 <table class="listTable"><tbody>
     <tr>
@@ -57,7 +57,7 @@
         <th>{$property['caption']}</th>
     {/if}
     {/foreach}
-    <th>Actions</th>
+    <th>Действия</th>
 
     </tr>
     
@@ -81,7 +81,10 @@
     {/if}
     {/foreach}
     <td>
-        <a href="{$baseUrl}/edit/{$item->id}">edit</a>&nbsp;<a href="{$baseUrl}/view/{$item->id}">view</a>&nbsp;<a href="{$baseUrl}/delete/{$item->id}">delete</a>&nbsp;<a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}enable{else}disable{/if}</a>
+        <a href="{$baseUrl}/view/{$item->id}">просмотреть</a>&nbsp;&nbsp;&nbsp;
+        <a href="{$baseUrl}/edit/{$item->id}">изменить</a>&nbsp;&nbsp;&nbsp;
+        <a href="{$baseUrl}/delete/{$item->id}">удалить</a>&nbsp;&nbsp;&nbsp;
+        <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}активировать{else}деактивировать{/if}</a>
     </td>
     </tr>
     {/foreach}

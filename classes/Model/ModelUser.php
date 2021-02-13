@@ -46,14 +46,14 @@ class ModelUser extends ModelDatabase {
      */
     protected $_propertiesList = array(
         array('name' => 'id'),
-        array('name' => 'login'),
-        array('name' => 'password'),
-        array('name' => 'name'),
+        array('name' => 'login', 'caption' => 'Логин'),
+        array('name' => 'password', 'caption' => 'Пароль'),
+        array('name' => 'name', 'caption' => 'ФИО'),
         array('name' => 'isAdmin', 'type' => self::TYPE_BOOL),
         array('name' => 'isSeller', 'type' => self::TYPE_BOOL),
         array('name' => 'isBuyer', 'type' => self::TYPE_BOOL),
-        array('name' => 'disabled', 'type' => self::TYPE_BOOL),
-        array('name' => 'deleted', 'type' => self::TYPE_BOOL),
+        array('name' => 'disabled', 'type' => self::TYPE_BOOL, 'caption' => 'Отключён'),
+        array('name' => 'deleted', 'type' => self::TYPE_BOOL, 'caption' => 'Удалён'),
     );
     
     /**
