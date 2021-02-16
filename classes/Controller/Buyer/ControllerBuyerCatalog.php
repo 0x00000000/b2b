@@ -28,7 +28,7 @@ class ControllerBuyerCatalog extends ControllerBuyerBase {
         $productsConditionsList = array('disabled' => '0', 'deleted' => '0');
         if ((int) $categoryId) {
             $currentCategory = Factory::instance()->createModel('Category')->getOneModel(
-                array('id' => (int) $categoryId, 'disabled' => '0', 'deleted' => '0'),
+                array('id' => (int) $categoryId, 'disabled' => '0', 'deleted' => '0')
             );
             $productsConditionsList['categoryId'] = $currentCategory->id;
         } else {

@@ -143,6 +143,7 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
         header ("Content-Length: " . filesize($filePath));
         header ("Content-Disposition: attachment; filename=" . $sendName);
         readfile($filePath);
+        exit;
     }
     
 }

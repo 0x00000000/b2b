@@ -11,11 +11,12 @@
 
 {if $categoriesList}
     <div class="categories">
-        {foreach $categoriesList as $category}
+        {foreach $categoriesList as $key => $category}
+            {if $key !== 0}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}
             {if $currentCategory && $category->id === $currentCategory->id}
-                <strong>{$category->caption}</strong>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <strong>{$category->caption}</strong>
             {else}
-                <a href="{$baseUrl}/{$category->id}">{$category->caption}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{$baseUrl}/{$category->id}">{$category->caption}</a>
             {/if}
         {/foreach}
     </div>

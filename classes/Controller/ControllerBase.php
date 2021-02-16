@@ -247,8 +247,6 @@ abstract class ControllerBase extends Controller {
         if ($this->getAuth()->getUser()) {
             $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Выйти');
             $mainMenu[] = array('link' => $urlPrefix . '/profile', 'caption' => 'Профиль');
-        } else {
-            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Войти');
         }
         
         $this->getPageView()->set('mainMenu', $mainMenu);
