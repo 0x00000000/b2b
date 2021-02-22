@@ -58,7 +58,7 @@ class DatabaseMysql extends Database {
         
         $query = 'select * from `' . $this->escape($this->_prefix . $table) . '`' 
             . ' where `' . $this->escape($primaryKey) . '` = "'
-            . $this->escape($pk) . '"';
+            . $this->escape((string) $pk) . '"';
         $this->_lastQuery = $query;
         
         $res = $this->_mysqli->query($query);
@@ -91,7 +91,7 @@ class DatabaseMysql extends Database {
                     $value = 'asc';
                 }
                 $sortingQueryList[] = '`' . $this->escape($key) . '` '
-                    . $this->escape($value);
+                    . $this->escape((string) $value);
             }
             
             $sortingQuery = ' order by ' . implode(', ', $sortingQueryList);
@@ -157,7 +157,7 @@ class DatabaseMysql extends Database {
             $valsArray = array();
             foreach ($data as $key => $val) {
                 $keysArray[] = '`' . $this->escape($key) . '`';
-                $valsArray[] = '"' . $this->escape($val) . '"';
+                $valsArray[] = '"' . $this->escape((string) $val) . '"';
             }
             
             $query .= ' (' . implode(', ', $keysArray) . ') ' . 
@@ -195,7 +195,7 @@ class DatabaseMysql extends Database {
                 $valsQueryRow = array();
                 foreach ($keysList as $key) {
                     if (isset($recordData[$key])) {
-                        $valsQueryRow[] = '"' . $this->escape($recordData[$key]) . '"';
+                        $valsQueryRow[] = '"' . $this->escape((string) $recordData[$key]) . '"';
                     } else {
                         $valsQueryRow[] = '""';
                     }
@@ -237,7 +237,7 @@ class DatabaseMysql extends Database {
                     if (! is_null($val)) {
                         $valsArray[] = '`' . $this->escape($key) . '`'
                             . ' = '
-                            . '"' . $this->escape($val) . '"';
+                            . '"' . $this->escape((string) $val) . '"';
                     } else {
                         $valsArray[] = '`' . $this->escape($key) . '`' . ' = NULL';
                     }
@@ -247,7 +247,7 @@ class DatabaseMysql extends Database {
             if (count($valsArray)) {
                 $query .= ' set ' . implode(', ', $valsArray)
                     . ' where `' . $this->escape($primaryKey)
-                    . '` = "' . $data[$primaryKey] . '"';
+                    . '` = "' . $this->escape((string) $data[$primaryKey]) . '"';
                 $this->_lastQuery = $query;
                 
                 if ($this->_mysqli->query($query)) {
@@ -270,7 +270,7 @@ class DatabaseMysql extends Database {
             $conditionQueryList = array();
             foreach ($conditionsList as $key => $value) {
                 $conditionQueryList[] = '`' . $this->escape($key) . '` = "'
-                    . $this->escape($value) . '"';
+                    . $this->escape((string) $value) . '"';
             }
             
             $conditionQuery = '(' . implode(' and ', $conditionQueryList) . ')';
@@ -296,7 +296,7 @@ class DatabaseMysql extends Database {
         $query = 'delete from `'
             . $this->escape($this->_prefix . $table)
             . '` where `' . $this->escape($primaryKey)
-            . '` = "' . $this->escape($pk) . '"';
+            . '` = "' . $this->escape((string) $pk) . '"';
         $this->_lastQuery = $query;
         if ($this->_mysqli->query($query)) {
             $result = true;
@@ -349,7 +349,7 @@ class DatabaseMysql extends Database {
                 ) {
                     $conditionQueryList[] = '`' . $this->escape($key) . '`'
                         . ' ' . $value['condition'] . ' '
-                        . '"' . $this->escape($value['value']) . '"';
+                        . '"' . $this->escape((string) $value['value']) . '"';
                 }
             }
             

@@ -1,0 +1,59 @@
+<h3>Регистрация</h3>
+
+<div class="message">
+{if $messageType}
+    {if $messageType === 'savingFailed'}
+        <p>Изменения не были сохранены. Возникла ошибка.</p>
+    {else if $messageType === 'emptyLogin'}
+        <p>Укажите ваш Логин.</p>
+    {else if $messageType === 'existingLogin'}
+        <p>Такой логин уже зарегистрирован в системе.</p>
+    {else if $messageType === 'emptyPassword'}
+        <p>Пароль не может быть пустым.</p>
+    {else if $messageType === 'emptyConfirm'}
+        <p>Введите подтверждение пароля.</p>
+    {else if $messageType === 'passwordDifferent'}
+        <p>Введённые пароли отличаются.</p>
+    {else if $messageType === 'emptyOrganization'}
+        <p>Укажите Юридическое название.</p>
+    {else if $messageType === 'emptyName'}
+        <p>Укажите ваш ФИО руководителя.</p>
+    {else if $messageType === 'emptyPhone'}
+        <p>Укажите ваш Телефон.</p>
+    {else if $messageType === 'checkBot'}
+        <p>Вы дали неверный ответ на вопрос. Подтвердите что вы не робот.</p>
+    {/if}
+{/if}
+</div>
+
+<form action="{$currentUrl}" method="POST">
+<table class="formTable smallTable">
+
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->login}" name="login" caption="Логин*"}
+    
+    {include file="$baseTemplatePath/formPassword.tmpl" name="password" caption="Пароль*"}
+    
+    {include file="$baseTemplatePath/formPassword.tmpl" name="confirmPassword" caption="Подтвердите пароль*"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->organization}" name="organization" caption="Юридическое название*"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="ФИО руководителя*"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->phone}" name="phone" caption="Телефон*"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->email}" name="email" caption="E-Mail"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->inn}" name="inn" caption="ИНН"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->address}" name="address" caption="Адрес магазина или торговой точки"}
+    
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="" name="questionAnswer" caption="{$question->question}"}
+    
+</table>
+<p>
+    {include file="$baseTemplatePath/hidden.tmpl" value="{$question->id}" name="questionId"}
+    {include file="$baseTemplatePath/buttonSubmit.tmpl" value="Зарегистрироваться"}
+    {include file="$baseTemplatePath/buttonCancel.tmpl" value="Отмена"}
+</p>
+</form>

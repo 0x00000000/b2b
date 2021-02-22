@@ -13,6 +13,9 @@ use B2bShop\Module\Request\Request;
 use B2bShop\Module\Response\Response;
 use B2bShop\Module\View\View;
 
+use B2bShop\Model\Model;
+use B2bShop\Model\ModelDatabase;
+
 /**
  * Executes actions and renders page.
  */
@@ -227,25 +230,36 @@ abstract class ControllerBase extends Controller {
      */
     protected function setPageViewMenuVariables(): void {
         $urlPrefix = Config::instance()->get('application', 'urlPrefix');
-        if ($this->getAuth() && $this->getAuth()->isAdmin()) {
+        if ($this->getAuth()->isAdmin()) {
             $mainMenu = array(
-                array('link' => $urlPrefix . '/admin/manage/seller', 'caption' => 'Продавцы'),
-                array('link' => $urlPrefix . '/admin/manage/admin', 'caption' => 'Администраторы'),
+                array('link' => $urlPrefix . '/admin/seller', 'caption' => 'Продавцы'),
+                array('link' => $urlPrefix . '/admin/admin', 'caption' => 'Администраторы'),
             );
-        } else if ($this->getAuth() && $this->getAuth()->isSeller()) {
+        } else if ($this->getAuth()->isSeller()) {
             $mainMenu = array(
                 array('link' => $urlPrefix . '/seller/order', 'caption' => 'Заказы'),
-                array('link' => $urlPrefix . '/seller/price', 'caption' => 'Загрузить прайс'),
+                array('link' => $urlPrefix . '/seller/price', 'caption' => 'Прайс'),
+                array('link' => $urlPrefix . '/seller/new', 'caption' => 'Заявки'),
+                array('link' => $urlPrefix . '/seller/buyer', 'caption' => 'Покупатели'),
+                array('link' => $urlPrefix . '/seller/question', 'caption' => 'Антибот'),
             );
-        } else {
+        } else if ($this->getAuth()->isBuyer()) {
             $mainMenu = array(
                 array('link' => $urlPrefix . '/', 'caption' => 'Каталог'),
                 array('link' => $urlPrefix . '/order', 'caption' => 'Ваш заказ'),
             );
         }
         
-        if ($this->getAuth()->getUser()) {
-            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Выйти');
+        if ($this->getAuth()->isGuest() || $this->getAuth()->isBuyer()) {
+            $mainMenu[] = array('link' => 'http://genesis.lg.ua/?page_id=32', 'caption' => 'Контакты');
+            $mainMenu[] = array('link' => 'http://genesis.lg.ua/?page_id=32', 'caption' => 'О компании');
+        }
+        
+        if ($this->getAuth()->isGuest()) {
+            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Вход');
+            $mainMenu[] = array('link' => $urlPrefix . '/register', 'caption' => 'Регистрация');
+        } else {
+            // $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Выход');
             $mainMenu[] = array('link' => $urlPrefix . '/profile', 'caption' => 'Профиль');
         }
         
@@ -384,6 +398,16 @@ abstract class ControllerBase extends Controller {
         return $url;
     }
     
+    protected function getProfileUrl(): string {
+        $url = '';
+        
+        if ($this->getRequest()) {
+            $url = $this->getRequest()->getRootUrl() . '/profile';
+        }
+        
+        return $url;
+    }
+    
     /**
      * Gets variable value from $_GET.
      */
@@ -401,6 +425,15 @@ abstract class ControllerBase extends Controller {
      * Gets variable value from $_POST.
      */
     protected function getFromPost(string $name, string $defaultValue = null): ?string {
+        if (array_key_exists($name, $this->getRequest()->post)) {
+            $value = (string) $this->getRequest()->post[$name];
+        } else {
+            $value = $defaultValue;
+        }
+        
+        return $value;
+    }
+    protected function getFromPost2(string $name, string $defaultValue = null): ?string {
         if (array_key_exists($name, $this->getRequest()->post)) {
             $value = (string) $this->getRequest()->post[$name];
         } else {
@@ -462,6 +495,88 @@ abstract class ControllerBase extends Controller {
         $this->addJsFile('/vendor/jquery/jquery-3.3.1.js');
         $this->addJsFile('/vendor/nicEdit/nicEdit.js');
         $this->addJsFile('/js/common.js');
+    }
+    
+    protected function setPropertiesFromPost(ModelDatabase $model): bool {
+        $canSave = false;
+        $propertiesList = $model->getPropertiesList();
+        $controlsList = $this->getModelControlsList($model);
+        
+        foreach ($propertiesList as $propertyName => $propertyData) {
+            if (! $model->isPk($propertyName)) {
+                if ($controlsList[$propertyName] !== self::CONTROL_NONE) {
+                    $value = $this->getFromPost($propertyName);
+                    if (! is_null($value) && ($controlsList[$propertyName] !== self::CONTROL_PASSWORD || $value !== '')) {
+                        $value = $this->convertFromPost($value, $propertyData);
+                        $model->$propertyName = $value;
+                        $canSave = true;
+                    }
+                }
+            }
+        }
+        return $canSave;
+    }
+    
+    protected function convertFromPost(?string $value, array $propertyData = array()) {
+        if (array_key_exists('type', $propertyData) && $propertyData['type'] === ModelDatabase::TYPE_BOOL) {
+            if ($value === '') {
+                $preparedValue = null;
+            } else if ($value === '1') {
+                $preparedValue = true;
+            } else {
+                $preparedValue = false;
+            }
+        } else {
+            $preparedValue = $value;
+        }
+        
+        return $preparedValue;
+    }
+    
+    protected function getModelControlsList(ModelDatabase $model) {
+        $propertiesList = $model->getPropertiesList();
+        
+        $controlsList = $this->getControlsList($model);
+        
+        foreach ($propertiesList as $propertyName => $property) {
+            if (! array_key_exists($propertyName, $controlsList)) {
+                if (! empty($property['skipControl'])) {
+                    $controlType = self::CONTROL_NONE;
+                } else {
+                    switch ($property['type']) {
+                        case Model::TYPE_TEXT:
+                        case Model::TYPE_INT:
+                            $controlType = self::CONTROL_INPUT;
+                            break;
+                        case Model::TYPE_BOOL:
+                            $controlType = self::CONTROL_SELECT_BOOL;
+                            break;
+                        case Model::TYPE_FK:
+                            $controlType = self::CONTROL_SELECT;
+                            break;
+                        case Model::TYPE_ENUM:
+                            $controlType = self::CONTROL_SELECT;
+                            break;
+                        default:
+                            $controlType = self::CONTROL_INPUT;
+                            break;
+                    }
+                }
+                $controlsList[$propertyName] = $controlType;
+            }
+        }
+        return $controlsList;
+    }
+    
+    /**
+     * @var array $_modelControlsList Defines controls for model properties.
+     * 
+     * propertyName => controlType
+     * f. e.
+     * 'deleted' => self::CONTROL_NONE,
+     */
+    protected function getControlsList(ModelDatabase $model) {
+        return array();
     }
     
 }

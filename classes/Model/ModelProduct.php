@@ -37,4 +37,8 @@ class ModelProduct extends ModelDatabase {
         array('name' => 'deleted', 'type' => self::TYPE_BOOL, 'skipControl' => true),
     );
     
+    public function getPrice(): string {
+        return number_format((float) $this->getRawProperty('price'), 2, '.', '');
+    }
+    
 }

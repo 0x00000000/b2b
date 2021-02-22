@@ -7,11 +7,7 @@ namespace B2bShop\Controller\Admin;
 class ControllerAdminIndex extends ControllerAdminBase {
     
     protected function actionIndex() {
-        $this->getView()->setTemplate('Admin/index');
-        
-        $content = $this->getView()->render();
-        
-        return $content;
+        $this->redirect($this->getRootUrl() . '/admin/seller');
     }
     
 }

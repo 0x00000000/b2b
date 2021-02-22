@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace B2bShop\Model;
 
 use B2bShop\Module\Factory\Factory;
+use B2bShop\ModelUser;
 
 /**
  * Model order.
  * 
  * @property string|null $id Id.
+ * @property string|null $date Order date and time list.
  * @property string|null $productCodesList Product codes list.
+ * @property int|null $userId Order's user id.
+ * @property Model|null $user Order's user object.
+ * @property string|null $comment Order's comment.
  * @property bool $disabled Is product disabled.
  * @property bool $deleted Is product deleted.
  */
@@ -28,16 +33,16 @@ class ModelOrder extends ModelDatabase {
         array('name' => 'id'),
         array('name' => 'date'),
         array('name' => 'products'),
-        array('name' => 'name'),
-        array('name' => 'surname'),
-        array('name' => 'patronymic'),
-        array('name' => 'phone'),
-        array('name' => 'email'),
-        array('name' => 'address'),
+        array('name' => 'user'),
+        array('name' => 'userId'),
         array('name' => 'comment'),
         array('name' => 'disabled', 'type' => self::TYPE_BOOL, 'skipControl' => false),
         array('name' => 'deleted', 'type' => self::TYPE_BOOL, 'skipControl' => true),
     );
+    
+    /**
+     * Buyer model.
+     */
     
     /**
      * Class constructor.
@@ -76,13 +81,28 @@ class ModelOrder extends ModelDatabase {
         return $count;
     }
     
-    public function getProductsCost(): float {
+    public function getProductsCost(): string {
         $cost = 0;
         foreach ($this->products as $productData) {
             $cost += $productData['cost'];
         }
         
-        return round($cost, 2);
+        return number_format((float) $cost, 2, '.', '');
+    }
+    
+    public function getUser() {
+        $user = null;
+        if ($this->userId) {
+            $conditionsList = array('id' => $this->userId, 'isBuyer' => true, 'deleted' => false);
+            $user = Factory::instance()->createModel('Buyer')->getOneModel($conditionsList);
+        }
+        return $user;
+    }
+    
+    public function setUser($user) {
+        if ($user instanceof ModelUser && $user->id && $user->isBuyer) {
+            $this->userId = $user->id;
+        }
     }
     
     public function addProduct($product, $count = 1) {
@@ -91,15 +111,15 @@ class ModelOrder extends ModelDatabase {
             if (! array_key_exists($product->code, $products)) {
                 $products[$product->code] = array(
                     'caption' => $product->caption,
-                    'cost' => round($product->cost, 2),
                     'link' => $product->link,
                     'price' => $product->price,
-                    'cost' => $count * $product->price,
+                    'cost' => number_format($count * $product->price, 2, '.', ''),
                     'count' => $count,
                 );
             } else {
                 $products[$product->code]['count'] += $count;
-                $products[$product->code]['cost'] += $count * $products[$product->code]['price'];
+                $cost = $products[$product->code]['count'] * $products[$product->code]['price'];
+                $products[$product->code]['cost'] = number_format($cost, 2, '.', '');
             }
             $this->products = $products;
         }
@@ -111,8 +131,10 @@ class ModelOrder extends ModelDatabase {
             if (array_key_exists($code, $products)) {
                 if (! is_null($count)) {
                     $products[$code]['count'] -= $count;
-                    $products[$code]['cost'] -= $count * $products[$code]['price'];
-                    if ($products[$code]['count'] <= 0) {
+                    if ($products[$code]['count'] > 0) {
+                        $cost = $products[$code]['count'] * $products[$code]['price'];
+                        $products[$code]['cost'] = number_format($cost, 2, '.', '');
+                    } else {
                         unset($products[$code]);
                     }
                 } else {

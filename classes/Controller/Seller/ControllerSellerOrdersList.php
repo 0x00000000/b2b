@@ -37,8 +37,25 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
     protected $_templateNames = array(
         'list' => 'Seller/ManageOrder/list',
         'view' => 'Seller/ManageOrder/view',
-        'edit' => 'Seller/ManageOrder/edit',
     );
+    
+    /**
+     * @var array $_modelControlsList Defines controls for model properties.
+     * 
+     * propertyName => controlType
+     */
+    protected $_modelControlsList = array(
+        'products' => self::CONTROL_NONE,
+    );
+    
+    /**
+     * Class constructor.
+     */
+    public function __construct() {
+        parent::__construct();
+        
+        $this->_itemsPerPage = Config::instance()->get('seller', 'itemsPerPage');
+    }
     
     protected function actionIndex() {
         
@@ -50,7 +67,7 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
             $this->_id = $get['id'];
         }
         
-        if ($this->_action === 'add') {
+        if ($this->_action === 'add' || $this->_action === 'edit') {
             $content = '';
             $this->send404();
         } else if ($this->_action === 'export' && $this->_id) {
@@ -62,12 +79,6 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
         return $content;
     }
     
-    protected function getModelControlsList() {
-        $controlsList = parent::getModelControlsList();
-        $controlsList['products'] = 'none';
-        return $controlsList;
-    }
-    
     protected function innerActionView() {
         $conditionsList = $this->_conditionsList;
         $conditionsList['id'] = $this->_id;
@@ -75,23 +86,10 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
         $item = $model->getOneModel($conditionsList);
         
         if ($item) {
-            $this->getView()->set('products', $item->products);
+            $this->getView()->set('order', $item);
         }
         
         return parent::innerActionView();
-    }
-    
-    protected function innerActionEdit() {
-        $conditionsList = $this->_conditionsList;
-        $conditionsList['id'] = $this->_id;
-        $model = Factory::instance()->createModel($this->_modelName);
-        $item = $model->getOneModel($conditionsList);
-        
-        if ($item) {
-            $this->getView()->set('products', $item->products);
-        }
-        
-        return parent::innerActionEdit();
     }
     
     protected function innerActionExport() {
@@ -137,13 +135,18 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
     }
     
     protected function sendFile($filePath, $orderId) {
-        $sendName = str_replace('.', '-' . $orderId . '.', basename($filePath));
-        header ("Content-Type: application/octet-stream");
-        header ("Accept-Ranges: bytes");
-        header ("Content-Length: " . filesize($filePath));
-        header ("Content-Disposition: attachment; filename=" . $sendName);
-        readfile($filePath);
-        exit;
+        if (is_file($filePath) && is_readable($filePath)) {
+            $sendName = str_replace('.', '-' . $orderId . '.', basename($filePath));
+            header ('Content-Type: application/octet-stream');
+            header ('Accept-Ranges: bytes');
+            header ('Content-Length: ' . filesize($filePath));
+            header ('Content-Disposition: attachment; filename=' . $sendName);
+            readfile($filePath);
+            exit;
+        } else {
+            echo 'File is unavailable!';
+            exit;
+        }
     }
     
 }

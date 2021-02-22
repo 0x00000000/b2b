@@ -28,7 +28,7 @@
 {/if}
 </div>
 
-{if $pagesList}
+{if $pagesCount > 1}
 <div class="pages">
 {foreach $pagesList as $page}
 {if $page === $currentPage}
@@ -40,55 +40,48 @@
 </div>
 {/if}
 
-<table class="listTable"><tbody>
+<table class="listTable">
     <tr>
-    {foreach $propertiesList as $propertyName => $property}
-    {if $controlsList[$propertyName] === 'none'}
-    {else if $controlsList[$propertyName] === 'textarea'}
-    {else if $controlsList[$propertyName] === 'html'}
-    {else if $controlsList[$propertyName] === 'password'}
-    {else}
-        <th>{$property['caption']}</th>
-    {/if}
-    {/foreach}
-    <th>Экспорт</th>
-    <th>Активировать</th>
-    <th>Действия</th>
-
+        <th>Id заказа</th>
+        <th>Дата</th>
+        <th>Заказчик</th>
+        <th>Комментарий</th>
+        <th>Экспорт</th>
+        <th>Активировать</th>
+        <th>Действия</th>
     </tr>
     
     {foreach $itemsList as $item}
     <tr>
-    {foreach $propertiesList as $propertyName => $property}
-    {if $controlsList[$propertyName] === 'none'}
-    {else if $controlsList[$propertyName] === 'textarea'}
-    {else if $controlsList[$propertyName] === 'html'}
-    {else if $controlsList[$propertyName] === 'password'}
-    {else}
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->id}"}</td>
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->date}"}</td>
         <td>
-        {if $controlsList[$propertyName] === 'select'}
-            {include file="$baseTemplatePath/viewSelect.tmpl" values=${$property['name']}Values value="{$item->{$propertyName}}"}
-        {else if $controlsList[$propertyName] === 'selectBool'}
-            {include file="$baseTemplatePath/viewBool.tmpl" value="{$item->{$propertyName}}"}
-        {else}
-            {include file="$baseTemplatePath/viewText.tmpl" value="{$item->{$propertyName}}"}
-        {/if}
+            {if $item->user && $item->user->organization}
+                {include file="$baseTemplatePath/viewText.tmpl" value="{$item->user->organization}"}<br />
+            {/if}
+            {if $item->user && $item->user->name}
+                {include file="$baseTemplatePath/viewText.tmpl" value="{$item->user->name}"}<br />
+            {/if}
+            {if $item->user && $item->user->phone}
+                <div class="singleLine">{include file="$baseTemplatePath/viewText.tmpl" value="{$item->user->phone}"}</div>
+            {/if}
+            {if $item->user && $item->user->email}
+                {include file="$baseTemplatePath/viewText.tmpl" value="{$item->user->email}"}<br />
+            {/if}
         </td>
-    {/if}
-    {/foreach}
-    <td>
-        {if ! $item->disabled}<a href="{$baseUrl}/export/{$item->id}">экспортировать</a>&nbsp;{/if}
-    </td>
-    <td>
-        <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}активировать{else}деактивировать{/if}</a>
-    </td>
-    <td>
-        <a href="{$baseUrl}/view/{$item->id}">просмотр</a>&nbsp;&nbsp;&nbsp;
-        <a href="{$baseUrl}/edit/{$item->id}">изменить</a>&nbsp;&nbsp;&nbsp;
-        <a href="{$baseUrl}/delete/{$item->id}" onClick="return confirm('Удалить заказ?');">удалить</a>
-    </td>
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->comment}"}</td>
+        <td>
+            {if ! $item->disabled}<a href="{$baseUrl}/export/{$item->id}">экспортировать</a>&nbsp;{/if}
+        </td>
+        <td>
+            <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}активировать{else}деактивировать{/if}</a>
+        </td>
+        <td>
+            <a href="{$baseUrl}/view/{$item->id}">просмотр</a>&nbsp;&nbsp;&nbsp;
+            <a href="{$baseUrl}/delete/{$item->id}" onClick="return confirm('Удалить заказ?');">удалить</a>
+        </td>
     </tr>
     {/foreach}
-</tbody></table>
+</table>
 
 </div>

@@ -4,8 +4,10 @@
 {if $messageType}
     {if $messageType === 'savingFailed'}
         <p>Изменения не были сохранены. Возникла ошибка.</p>
+    {else if $messageType === 'emptyLogin'}
+        <p>Укажите ваш Логин.</p>
     {else if $messageType === 'emptyName'}
-        <p>Пустое ФИО. Возникла ошибка.</p>
+        <p>Укажите ваше ФИО.</p>
     {/if}
 {/if}
 </div>
@@ -13,13 +15,17 @@
 <form action="{$currentUrl}" method="POST">
 <table class="formTable smallTable">
 
-    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->login}" caption="Логин"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->login}" caption="Логин*"}
     
-    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="ФИО"}
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="ФИО*"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->phone}" name="phone" caption="Телефон"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->email}" name="email" caption="E-Mail"}
     
 </table>
 <p>
-    <input type="submit" name="submit" value="Сохранить" />
-    <input type="button" value="Отмена" class="back" />
+    {include file="$baseTemplatePath/buttonSubmit.tmpl" value="Сохранить"}
+    {include file="$baseTemplatePath/buttonCancel.tmpl" value="Отмена"}
 </p>
 </form>

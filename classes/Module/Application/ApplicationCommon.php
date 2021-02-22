@@ -34,17 +34,21 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/admin/settings[/<action>]', 'Admin/ControllerAdminSettings', 'index');
         
-        $router->setRule('/admin/manage/admin[/<action>][/<id>]', 'Admin/ControllerAdminManageAdmin', 'index');
+        $router->setRule('/admin/admin[/<action>][/<id>]', 'Admin/ControllerAdminManageAdmin', 'index');
         
-        $router->setRule('/admin/manage/seller[/<action>][/<id>]', 'Admin/ControllerAdminManageSeller', 'index');
-        
-        $router->setRule('/admin/manage/buyer[/<action>][/<id>]', 'Admin/ControllerAdminManageBuyer', 'index');
+        $router->setRule('/admin/seller[/<action>][/<id>]', 'Admin/ControllerAdminManageSeller', 'index');
         
         $router->setRule('/seller', 'Seller/ControllerSellerIndex', 'index');
         
         $router->setRule('/seller/order[/<action>][/<id>]', 'Seller/ControllerSellerOrdersList', 'index');
         
         $router->setRule('/seller/price[/<action>][/<from>]', 'Seller/ControllerSellerUploadPrice', 'index');
+        
+        $router->setRule('/seller/new[/<action>][/<id>]', 'Seller/ControllerSellerManageNew', 'index');
+        
+        $router->setRule('/seller/buyer[/<action>][/<id>]', 'Seller/ControllerSellerManageBuyer', 'index');
+        
+        $router->setRule('/seller/question[/<action>][/<id>]', 'Seller/ControllerSellerManageQuestion', 'index');
         
         $router->setRule('/order/buy/<code>/<count>', 'Buyer/ControllerBuyerOrder', 'buy');
         
@@ -55,6 +59,8 @@ class ApplicationCommon extends ApplicationBase {
         $router->setRule('/catalog[/<categoryId>][/<page>]', 'Buyer/ControllerBuyerCatalog', 'catalog');
         
         $router->setRule('/profile[/<action>]', 'User/ControllerUserProfile', 'index');
+        
+        $router->setRule('/register', 'User/ControllerUserRegister', 'register');
         
         $router->setRule('/login', 'User/ControllerUserLogin', 'index');
         

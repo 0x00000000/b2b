@@ -39,7 +39,7 @@ class ControllerAdminManageSeller extends ControllerAdminManageBase {
     /**
      * @var array $_innerUrl Inner url to controller's root page. Should be started from '/'.
      */
-    protected $_innerUrl = '/admin/manage/seller';
+    protected $_innerUrl = '/admin/seller';
     
     /**
      * @var array $_templateNames View templates' names.

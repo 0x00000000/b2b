@@ -85,7 +85,8 @@ table td {
     text-align: center;
     vertical-align: middle;
 }
-table td.leftAlign {
+table td.alignLeft,
+table.alignLeft td {
     text-align: left;
 }
 
@@ -288,6 +289,10 @@ body .ct-widget.ct-ignition {
 
 .hidden {
     display: none;
+}
+
+.singleLine {
+    white-space: nowrap;
 }
 
 .message {

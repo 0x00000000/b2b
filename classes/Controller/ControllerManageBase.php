@@ -48,6 +48,8 @@ abstract class ControllerManageBase extends ControllerBase {
      * @var array $_modelControlsList Defines controls for model properties.
      * 
      * propertyName => controlType
+     * f. e.
+     * 'deleted' => self::CONTROL_NONE,
      */
     protected $_modelControlsList = array();
     
@@ -106,10 +108,9 @@ abstract class ControllerManageBase extends ControllerBase {
         $model = Factory::instance()->createModel($this->_modelName);
         $propertiesList = $model->getPropertiesList();
         $this->getView()->set('propertiesList', $propertiesList);
-        $controlsList = $this->getModelControlsList();
+        $controlsList = $this->getModelControlsList($model);
         $this->getView()->set('controlsList', $controlsList);
         
-        $propertiesList = $model->getPropertiesList();
         foreach ($propertiesList as $propertyName => $propertyData) {
             if (
                 $propertyData['type'] === Model::TYPE_ENUM
@@ -121,29 +122,6 @@ abstract class ControllerManageBase extends ControllerBase {
                 $this->getView()->set($propertyData['name'] . 'Values', $values);
             }
         }
-    }
-    
-    protected function setPropertiesFromPost(ModelDatabase $model): bool {
-        $canSave = false;
-        $propertiesList = $model->getPropertiesList();
-        $controlsList = $this->getModelControlsList();
-        
-        foreach ($propertiesList as $propertyName => $propertyData) {
-            if (! $model->isPk($propertyName)) {
-                if ($controlsList[$propertyName] !== self::CONTROL_NONE) {
-                    $value = $this->getFromPost($propertyName);
-                    if ($controlsList[$propertyName] !== self::CONTROL_PASSWORD || $value !== '') {
-                        $value = $this->convertFromPost($value, $propertyData);
-                        if (! is_null($value)) {
-                            $model->$propertyName = $value;
-                            $canSave = true;
-                        }
-                    }
-                }
-            }
-        }
-        
-        return $canSave;
     }
     
     /**
@@ -203,8 +181,6 @@ abstract class ControllerManageBase extends ControllerBase {
             if ($model->save()) {
                 $this->setStashData('messageType', 'addedSuccessfully');
             } else {
-                var_export($model->getLastError());
-                exit;
                 $this->setStashData('messageType', 'addingFailed');
             }
         } else {
@@ -371,6 +347,7 @@ abstract class ControllerManageBase extends ControllerBase {
         } else {
             $currentPage = 1;
         }
+        $currentPage = (string) $currentPage;
         
         $itemsList = array();
         $model = Factory::instance()->createModel($this->_modelName);
@@ -388,7 +365,7 @@ abstract class ControllerManageBase extends ControllerBase {
         
         $pagesList = array();
         if ($modelsCount > 1) {
-            $pagesCount = floor(($modelsCount - 1) / $this->_itemsPerPage);
+            $pagesCount = ceil($modelsCount / $this->_itemsPerPage);
             for ($i = 1; $i <= $pagesCount; $i++) {
                 $pagesList[] = (string) $i;
             }
@@ -406,57 +383,15 @@ abstract class ControllerManageBase extends ControllerBase {
         return $content;
     }
     
-    protected function convertFromPost(?string $value, array $propertyData = array()) {
-        if (array_key_exists('type', $propertyData) && $propertyData['type'] === ModelDatabase::TYPE_BOOL) {
-            if ($value === '') {
-                $preparedValue = null;
-            } else if ($value === '1') {
-                $preparedValue = true;
-            } else {
-                $preparedValue = false;
-            }
-        } else {
-            $preparedValue = $value;
-        }
-        
-        return $preparedValue;
-    }
-    
-    protected function getModelControlsList() {
-        $model = Factory::instance()->createModel($this->_modelName);
-        $propertiesList = $model->getPropertiesList();
-        $this->getView()->set('propertiesList', $propertiesList);
-        
-        $controlsList = $this->_modelControlsList;
-        
-        foreach ($propertiesList as $propertyName => $property) {
-            if (! array_key_exists($propertyName, $controlsList)) {
-                if (! empty($property['skipControl'])) {
-                    $controlType = self::CONTROL_NONE;
-                } else {
-                    switch ($property['type']) {
-                        case Model::TYPE_TEXT:
-                        case Model::TYPE_INT:
-                            $controlType = self::CONTROL_INPUT;
-                            break;
-                        case Model::TYPE_BOOL:
-                            $controlType = self::CONTROL_SELECT_BOOL;
-                            break;
-                        case Model::TYPE_FK:
-                            $controlType = self::CONTROL_SELECT;
-                            break;
-                        case Model::TYPE_ENUM:
-                            $controlType = self::CONTROL_SELECT;
-                            break;
-                        default:
-                            $controlType = self::CONTROL_INPUT;
-                            break;
-                    }
-                }
-                $controlsList[$propertyName] = $controlType;
-            }
-        }
-        return $controlsList;
+    /**
+     * @var array $_modelControlsList Defines controls for model properties.
+     * 
+     * propertyName => controlType
+     * f. e.
+     * 'deleted' => self::CONTROL_NONE,
+     */
+    protected function getControlsList(ModelDatabase $model) {
+        return $this->_modelControlsList;
     }
     
 }

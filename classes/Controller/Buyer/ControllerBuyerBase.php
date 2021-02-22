@@ -9,13 +9,16 @@ use B2bShop\Controller\ControllerBase;
 abstract class ControllerBuyerBase extends ControllerBase {
     
     /**
-     * Executes before controller action.
+     * Execute controller action.
      */
-    protected function before(): void {
-        if (! $this->getAuth()->isBuyer()) {
+    public function execute(string $action): void {
+        if (! $this->getAuth() || ! $this->getAuth()->isBuyer()) {
             $this->redirect($this->getAuthUrl());
         }
+        
+        parent::execute($action);
     }
+    
     
     /**
      * Adds common varibles to page's view.

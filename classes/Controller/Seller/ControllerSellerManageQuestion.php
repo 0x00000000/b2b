@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-namespace B2bShop\Controller\Admin;
+namespace B2bShop\Controller\Seller;
+
+use B2bShop\Module\Factory\Factory;
 
 use B2bShop\Model\ModelDatabase;
 
-class ControllerAdminManageAdmin extends ControllerAdminManageBase {
+class ControllerSellerManageQuestion extends ControllerSellerManageBase {
     
     /**
      * @var string $_modelName Name of managed model class.
      */
-    protected $_modelName = 'User';
+    protected $_modelName = 'Question';
     
     /**
      * @var array $_conditionsList Default conditions list.
      */
-    protected $_conditionsList = array('isAdmin' => true, 'deleted' => false,);
+    protected $_conditionsList = array('deleted' => false);
     
     /**
      * @var array $_sortingList Default sorting list.
      */
-    protected $_sortingList = array('disabled' => 'asc', 'name' => 'asc');
+    protected $_sortingList = array('disabled' => 'asc', 'id' => 'desc');
     
     /**
      * @var array $_modelControlsList Defines controls for model properties.
@@ -29,17 +31,13 @@ class ControllerAdminManageAdmin extends ControllerAdminManageBase {
      * propertyName => controlType
      */
     protected $_modelControlsList = array(
-        'password' => self::CONTROL_PASSWORD,
-        'isAdmin' => self::CONTROL_NONE,
-        'isSeller' => self::CONTROL_NONE,
-        'isBuyer' => self::CONTROL_NONE,
         'deleted' => self::CONTROL_NONE,
     );
     
     /**
      * @var array $_innerUrl Inner url to controller's root page. Should be started from '/'.
      */
-    protected $_innerUrl = '/admin/admin';
+    protected $_innerUrl = '/seller/question';
     
     /**
      * @var array $_templateNames View templates' names.
@@ -50,17 +48,5 @@ class ControllerAdminManageAdmin extends ControllerAdminManageBase {
         'view' => 'Common/ManageBase/view',
         'edit' => 'Common/ManageBase/edit',
     );
-    
-    protected function setPropertiesFromPost(ModelDatabase $model): bool {
-        $result = parent::setPropertiesFromPost($model);
-        
-        if ($result) {
-            $model->isAdmin = true;
-            $model->isSeller = false;
-            $model->isBuyer = false;
-        }
-        
-        return $result;
-    }
     
 }

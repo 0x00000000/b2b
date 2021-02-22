@@ -116,7 +116,13 @@ abstract class AuthBase extends Auth {
      * Check if user is a buyer.
      */
     public function isBuyer() {
-        return true;
+        $result = false;
+        
+        if ($this->getUser()) {
+            $result = $this->getUser()->isBuyer;
+        }
+        
+        return $result;
     }
     
     /**
@@ -160,6 +166,10 @@ abstract class AuthBase extends Auth {
                 if ($userId) {
                     $user = Factory::instance()->createModel('User');
                     $success = $user->loadByPk($userId);
+                    if ($user->isBuyer) {
+                        $user = Factory::instance()->createModel('Buyer');
+                        $success = $user->loadByPk($userId);
+                    }
                     if (! $success) {
                         $user = null;
                     }

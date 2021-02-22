@@ -32,7 +32,7 @@
 {/if}
 </div>
 
-{if $pagesList}
+{if $pagesCount > 1}
 <div class="pages">
 {foreach $pagesList as $page}
 {if $page === $currentPage}
@@ -46,7 +46,7 @@
 
 <p><a href="{$baseUrl}/add">Создать</a></a>
         
-<table class="listTable"><tbody>
+<table class="listTable">
     <tr>
     {foreach $propertiesList as $propertyName => $property}
     {if $controlsList[$propertyName] === 'none'}
@@ -88,6 +88,6 @@
     </td>
     </tr>
     {/foreach}
-</tbody></table>
+</table>
 
 </div>

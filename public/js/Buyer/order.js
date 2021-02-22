@@ -71,6 +71,7 @@ function renderTable(productData) {
         return function() {addToBasket(localCode, localCoount); return false;}
     }
     
+    var totalCost = 0;
     if (productData) {
         var table = document.createElement('table');
         var th, tr, td, a, span;
@@ -94,6 +95,8 @@ function renderTable(productData) {
         table.appendChild(tr);
         for (var key in productData) {
             var product = productData[key];
+            totalCost += Number(product.cost);
+            
             tr = document.createElement('tr');
             td = document.createElement('td');
             td.innerHTML = key;
@@ -136,6 +139,19 @@ function renderTable(productData) {
             tr.appendChild(td);
             table.appendChild(tr);
         }
+        
+        tr = document.createElement('tr');
+        td = document.createElement('td');
+        td.style.fontWeight = 'bold';
+        td.innerHTML = 'Итого';
+        tr.appendChild(td);
+        td = document.createElement('td');
+        td.colspan = '4';
+        td.className = 'alignLeft';
+        td.style.fontWeight = 'bold';
+        td.innerHTML = totalCost.toFixed(2);
+        tr.appendChild(td);
+        table.appendChild(tr);
     } else {
         var table = document.createElement('span');
     }
@@ -168,18 +184,6 @@ function renderForm(orderData) {
     form.method = 'POST';
     var table = document.createElement('table');
     table.className = 'formTable';
-    tr = createInput('Фамилия', 'surname', orderData);
-    table.appendChild(tr);
-    tr = createInput('Имя', 'name', orderData);
-    table.appendChild(tr);
-    tr = createInput('Отчество', 'patronymic', orderData);
-    table.appendChild(tr);
-    tr = createInput('Телефон', 'phone', orderData);
-    table.appendChild(tr);
-    tr = createInput('Email', 'email', orderData);
-    table.appendChild(tr);
-    tr = createInput('Адрес', 'address', orderData);
-    table.appendChild(tr);
     tr = createInput('Коментарий', 'comment', orderData);
     table.appendChild(tr);
     

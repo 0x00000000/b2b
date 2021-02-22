@@ -2,26 +2,21 @@
 
 declare(strict_types=1);
 
-namespace B2bShop\Controller\Admin;
+namespace B2bShop\Controller\Seller;
 
 use B2bShop\Model\ModelDatabase;
 
-class ControllerAdminManageBuyer extends ControllerAdminManageBase {
-    
-    /**
-     * @var string $_modelName Name of managed model class.
-     */
-    protected $_modelName = 'User';
+class ControllerSellerManageNew extends ControllerSellerManageBuyer {
     
     /**
      * @var array $_conditionsList Default conditions list.
      */
-    protected $_conditionsList = array('isBuyer' => true, 'isSeller' => false, 'isAdmin' => false, 'deleted' => false,);
+    protected $_conditionsList = array('isNew' => true, 'isBuyer' => true, 'isSeller' => false, 'isAdmin' => false, 'deleted' => false,);
     
     /**
      * @var array $_sortingList Default sorting list.
      */
-    protected $_sortingList = array('disabled' => 'asc', 'name' => 'asc');
+    protected $_sortingList = array('isNew' => 'desc', 'disabled' => 'asc', 'id' => 'desc');
     
     /**
      * @var array $_modelControlsList Defines controls for model properties.
@@ -33,13 +28,14 @@ class ControllerAdminManageBuyer extends ControllerAdminManageBase {
         'isAdmin' => self::CONTROL_NONE,
         'isSeller' => self::CONTROL_NONE,
         'isBuyer' => self::CONTROL_NONE,
+        'isNew' => self::CONTROL_NONE,
         'deleted' => self::CONTROL_NONE,
     );
     
     /**
      * @var array $_innerUrl Inner url to controller's root page. Should be started from '/'.
      */
-    protected $_innerUrl = '/admin/manage/buyer';
+    protected $_innerUrl = '/seller/new';
     
     /**
      * @var array $_templateNames View templates' names.
@@ -50,17 +46,5 @@ class ControllerAdminManageBuyer extends ControllerAdminManageBase {
         'view' => 'Common/ManageBase/view',
         'edit' => 'Common/ManageBase/edit',
     );
-    
-    protected function setPropertiesFromPost(ModelDatabase $model): bool {
-        $result = parent::setPropertiesFromPost($model);
-        
-        if ($result) {
-            $model->isAdmin = false;
-            $model->isSeller = false;
-            $model->isBuyer = true;
-        }
-        
-        return $result;
-    }
     
 }

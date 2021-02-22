@@ -671,4 +671,11 @@ abstract class ModelDatabase extends Model {
         return $modelName;
     }
     
+    /**
+     * Format number with two decimal places.
+     */
+    protected function formatAsMoney($number) {
+        return number_format((float) $number, 2, '.', '');
+    }
+    
 }

@@ -9,12 +9,6 @@
     {if $messageType}
         {if $messageType === 'errorSaveOrderEmptyBasket'}
             <p>Ваша корзина пуста.</p>
-        {else if $messageType === 'errorSaveOrderEmptyName'}
-            <p>Заполните ваше имя.</p>
-        {else if $messageType === 'errorSaveOrderEmptySurname'}
-            <p>Заполните вашу фамилию.</p>
-        {else if $messageType === 'errorSaveOrderEmptyPhoneAndEmail'}
-            <p>Заполните телефон или email.</p>
         {else if $messageType === 'errorSaveOrderSavingError'}
             <p>Заказ не отправлен, возникли технические проблемы. Свяжитесь с нами по телефону.</p>
         {else if $messageType === 'orderSaved' && $orderId}

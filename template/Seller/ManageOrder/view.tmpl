@@ -1,45 +1,46 @@
 <h3>Просмотр заказа</h3>
 
-<table class="listTable"><tbody>
+<table class="listTable">
     <tr>
         <th>Код</th>
         <th>Название</th>
         <th>Цена</th>
         <th>Количество</th>
+        <th>Стоимость</th>
     </tr>
     
-    {foreach $products as $code => $product}
+    {foreach $order->products as $code => $product}
     <tr>
-        <th>{$code}</th>
-        <th>
+        <td>{$code}</td>
+        <td class="alignLeft">
             {if $product['link']}
                 <a href="{$product['link']}" target="_blank" rel="noopener noreferrer">{$product['caption']}</a>
             {else}
                 {$product['caption']}
             {/if}
-        </th>
-        <th>{$product['price']}</th>
-        <th>{$product['count']}</th>
+        </td>
+        <td>{$product['price']}</td>
+        <td>{$product['count']}</td>
+        <td>{$product['cost']}</td>
     </tr>
     {/foreach}
-</tbody></table>
-
-<table class="viewTable">
-{foreach $propertiesList as $propertyName => $property}
-{if $controlsList[$propertyName] !== 'none'}
-    {if $controlsList[$propertyName] === 'password'}
-    {else if $controlsList[$propertyName] === 'select'}
-        {include file="$baseTemplatePath/formViewSelect.tmpl" values=${$property['name']}Values value="{$item->{$propertyName}}" caption="{$property['caption']}"}
-    {else if $controlsList[$propertyName] === 'selectBool'}
-        {include file="$baseTemplatePath/formViewBool.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
-    {else if $controlsList[$propertyName] === 'html'}
-        {include file="$baseTemplatePath/formViewHtml.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
-    {else}
-        {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
-    {/if}
-{/if}
-{/foreach}
+    <tr>
+        <td><strong>Итого</strong></td>
+        <td class="alignLeft" colspan="4"><strong>{$order->getProductsCost()}</strong></td></tr>
 </table>
+
+<table class="listTable alignLeft">
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->id}" caption="Id заказа"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->date}" caption="Дата"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->organization}" caption="Юридическое название"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->name}" caption="ФИО руководителя"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->phone}" caption="Телефон"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->email}" caption="E-mail"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->address}" caption="Адрес"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->inn}" caption="ИНН"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->comment}" caption="Комментарий"}
+</table>
+
 <p>
-    <input type="button" value="Back" class="Назад" />
+    {include file="$baseTemplatePath/buttonCancel.tmpl" value="Назад"}
 </p>

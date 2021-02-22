@@ -19,6 +19,7 @@ class ControllerSellerManageBase extends ControllerManageBase {
         parent::execute($action);
     }
     
+    
     /** 
      * Adds common varibles to page's view.
      */

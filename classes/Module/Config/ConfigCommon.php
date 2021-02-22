@@ -37,8 +37,8 @@ class ConfigCommon extends ConfigBase {
             'salt2' => 'gHjeMzz)$3',
         ),
         'admin' => array(
-            'mainPageUrl' => '/admin/manage/seller',
-            'itemsPerPage' => 20,
+            'mainPageUrl' => '/admin',
+            'itemsPerPage' => 4,
         ),
         'seller' => array(
             'mainPageUrl' => '/seller',

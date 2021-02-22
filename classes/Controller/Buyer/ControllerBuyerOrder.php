@@ -43,33 +43,14 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
         
         $id = null;
         if ($order->getProductsCount()) {
-            $name = $this->getFromPost('submit');
-            $surname = $this->getFromPost('surname');
-            $patronymic = $this->getFromPost('patronymic', '');
-            $phone = $this->getFromPost('phone');
-            $email = $this->getFromPost('email');
-            $address = $this->getFromPost('address', '');
             $comment = $this->getFromPost('comment', '');
-            if (empty($name)) {
-                $this->setStashData('messageType', 'errorSaveOrderEmptyName');
-            } else if (empty($surname)) {
-                $this->setStashData('messageType', 'errorSaveOrderEmptySurname');
-            } else if (empty($phone) && empty($email)) {
-                $this->setStashData('messageType', 'errorSaveOrderEmptyPhoneAndEmail');
+            $order->userId = $this->getAuth()->getUser()->id;
+            $order->comment = $comment;
+            $id = $order->save();
+            if ($id) {
+                $this->setStashData('messageType', 'orderSaved');
             } else {
-                $order->name = $name;
-                $order->surname = $surname;
-                $order->patronymic = $patronymic;
-                $order->phone = $phone;
-                $order->email = $email;
-                $order->address = $address;
-                $order->comment = $comment;
-                $id = $order->save();
-                if ($id) {
-                    $this->setStashData('messageType', 'orderSaved');
-                } else {
-                    $this->setStashData('messageType', 'errorSaveOrderSavingError');
-                }
+                $this->setStashData('messageType', 'errorSaveOrderSavingError');
             }
         } else {
             $this->setStashData('messageType', 'errorSaveOrderEmptyBasket');
