@@ -15,6 +15,7 @@ class ControllerBuyerCatalog extends ControllerBuyerBase {
     protected $_innerUrl = '/catalog';
     
     protected function actionCatalog() {
+        $this->addCssFile('/css/Buyer/catalog.css');
         $this->addJsFile('/js/Buyer/catalog.js');
         
         $categoryId = $this->getFromGet('categoryId');

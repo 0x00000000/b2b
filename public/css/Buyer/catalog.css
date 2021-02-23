@@ -1,0 +1,130 @@
+.categories {
+    padding-bottom: 16px;
+}
+
+.categories strong:hover, .categories a:hover {
+    background: #eee;
+}
+
+.catalogTable {
+    display: table;
+    text-align: left;
+    width: 100%;
+}
+
+.bordered .catalogFirstCell {
+    border-bottom: 1px solid gray;
+}
+
+.bordered .catalogSecondCell {
+    border-bottom: 1px solid gray;
+}
+
+.catalogCellCaption {
+    font-weight: bold;
+}
+
+.catalogShowOnSmallWidth {
+    display: none !important;
+}
+
+.catalogBigLine {
+    display: table-row;
+}
+
+.catalogBigLine:hover {
+    background-color: #eee;
+}
+
+.catalogFirstCell {
+    display: table-cell;
+}
+
+.catalogFirstCellIn {
+    display: block;
+    padding: 2px;
+}
+
+.catalogSecondCell {
+    display: table-cell;
+}
+
+.catalogSecondCellIn {
+    display: block;
+    min-width: 150px;
+}
+
+.catalogCode {
+    float: left;
+    width: 33%;
+    min-width: 50px;
+    padding: 2px;
+}
+
+.catalogPrice {
+    float: left;
+    width: 33%;
+    min-width: 50px;
+    padding: 2px;
+}
+
+.catalogBuy {
+    float: left;
+    width: 33%;
+    min-width: 50px;
+    padding: 2px;
+}
+
+@media(max-width: 600px) {
+    .catalogShowOnBigWidth {
+        display: none !important;
+    }
+    
+    .catalogShowOnSmallWidth {
+        display: inline !important;
+    }
+    
+    .catalogTable {
+        display: block;
+        text-align: left;
+    }
+    
+    .bordered .catalogFirstCell {
+        border-bottom: 0px solid;
+    }
+    
+    .bordered .catalogSecondCell {
+        border-bottom: 0px solid;
+    }
+    
+    .bordered .catalogSecondCellIn {
+        border-bottom: 1px solid gray;
+    }
+    
+    .catalogBigLine {
+        display: table;
+        width: 100%;
+    }
+    
+    .catalogBigLine:hover {
+        background-color: #eee;
+    }
+    
+    .catalogFirstCell {
+        display: table-row;
+    }
+    
+    .catalogFirstCellIn {
+        display: table-cell;
+        padding: 2px;
+    }
+    
+    .catalogSecondCell {
+        display: table-row;
+    }
+    
+    .catalogSecondCellIn {
+        display: table-cell;
+    }
+    
+}

@@ -121,11 +121,12 @@ function renderTable(productData) {
             tr.appendChild(td);
             
             td = document.createElement('td');
+            td.className = 'orderChangeCount'
             a = document.createElement('a');
             a.className = 'orderDecrease';
             a.href = '';
             a.onclick = createAddToBasketCallback(key, -1);
-            a.innerHTML = '-';
+            a.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;';
             td.appendChild(a);
             span = document.createElement('span');
             span.innerHTML = product.count;
@@ -134,7 +135,7 @@ function renderTable(productData) {
             a.className = 'orderIncrease';
             a.href = '';
             a.onclick = createAddToBasketCallback(key, 1);
-            a.innerHTML = '+';
+            a.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;';
             td.appendChild(a);
             tr.appendChild(td);
             table.appendChild(tr);

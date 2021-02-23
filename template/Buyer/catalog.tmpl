@@ -1,13 +1,9 @@
 <div class="listContent">
 
-<h3 id="basketEmpty"{if $order && $order->getProductsCount()} class="hidden"{/if}>Ваша корзина пуста.</h3>
-<h3 id="basket"{if ! $order || ! $order->getProductsCount()} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span>.<br /><a href="{$rootUrl}/order">Оформить заказ</a></h3>
-
-{if $currentCategory}
-<h1>{$currentCategory->caption}</h1>
-{else}
-<h1>Все продукты</h1>
-{/if}
+<div class="basket">
+    <h3 id="basketEmpty"{if $order && $order->getProductsCount()} class="hidden"{/if}>Ваша корзина пуста.</h3>
+    <h3 id="basket"{if ! $order || ! $order->getProductsCount()} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span>.<br /><a href="{$rootUrl}/order">Оформить заказ</a></h3>
+</div>
 
 {if $categoriesList}
     <div class="categories">
@@ -22,28 +18,47 @@
     </div>
 {/if}
 
-<table class="listTable">
-    <tr>
-        <th>Код товара</th>
-        <th>Название</th>
-        <th>Цена</th>
-        <th>Купить</th>
-    </tr>
-    
+{if $currentCategory}
+<h1>{$currentCategory->caption}</h1>
+{else}
+<h1>Все продукты</h1>
+{/if}
+
+<div class="catalogTable bordered">
+    <div class="catalogBigLine catalogShowOnBigWidth">
+        <div class="catalogFirstCell catalogCellCaption">
+            <div class="catalogFirstCellIn">
+                Название
+            </div>
+        </div>
+        <div class="catalogSecondCell catalogCellCaption">
+            <div class="catalogSecondCellIn">
+                <div class="catalogCode">Код товара</div>
+                <div class="catalogPrice">Цена</div>
+                <div class="catalogBuy">Купить</div>
+            </div>
+        </div>
+    </div>
     {foreach $productsList as $product}
-        <tr>
-            <td>{$product->code}</td>
-            <td class="alignLeft">
+    <div class="catalogBigLine">
+        <div class="catalogFirstCell">
+            <div class="catalogFirstCellIn">
                 {if $product->link}
                     <a href="{$product->link}" target="_blank" rel="noopener noreferrer">{$product->caption}</a>
                 {else}
                     {$product->caption}
                 {/if}
-            </td>
-            <td>{$product->price}</td>
-            <td><a href="" onClick="addToBasket('{$product->code}', 1, this); return false;">Купить</a></td>
-        </tr>
+            </div>
+        </div>
+        <div class="catalogSecondCell">
+            <div class="catalogSecondCellIn">
+                <div class="catalogCode"><span class="catalogShowOnSmallWidth">Код:&nbsp;</span>{$product->code}</div>
+                <div class="catalogPrice"><span class="catalogShowOnSmallWidth">Цена:&nbsp;</span>{$product->price}</div>
+                <div class="catalogBuy"><a href="" onClick="addToBasket('{$product->code}', 1, this); return false;">Купить</a></div>
+            </div>
+        </div>
+    </div>
     {/foreach}
-</table>
+</div>
 
 </div>

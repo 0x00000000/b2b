@@ -1,0 +1,87 @@
+#wraper .units-row .unit-70 {
+    width: 100%;
+}
+
+.userInfo {
+    float: right;
+    padding-left: 20px;
+}
+
+.userInfoLine {
+    float: left;
+}
+
+.userInfo h3 {
+    line-height: 30px;
+    font-size: 18px;
+    text-align:center;
+}
+
+.userInfo input[type="submit"] {
+    height: 30px;
+    line-height: 18px;
+    font-size: 18px;
+}
+
+.basket {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.basket h3 {
+    font-size: 18px;
+}
+
+.headerForm {
+    margin: 0;
+}
+
+.unit-70.topMenu {
+}
+
+.orderChangeCount a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.orderChangeCount a:hover {
+    background-color: #eee;
+    text-decoration: none;
+}
+
+@media(max-width: 600px){
+    .userInfoLine {
+        clear: both;
+    }
+    
+    .basket {
+        padding-bottom: 5px;
+        min-height: 70px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .units-row .genesisLogo.unit-30 {
+        margin-bottom: 0;
+    }
+    
+    .unit-70.topMenu ul.menu {
+        display: block;
+        padding: 0 !important;
+        margin: 0;
+        font-size: 14px;
+    }
+    .unit-70.topMenu ul.menu li {
+        float: left;
+    }
+    body .unit-70.topMenu ul.menu li a {
+        padding: 5px;
+    }
+    
+    body .unit-70.topMenu ul.menu li.current-menu-item a,
+    body .unit-70.topMenu ul.menu li:hover a {
+        color: white;
+        background-color: #0065B3;
+    }
+    
+}

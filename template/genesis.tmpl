@@ -65,18 +65,10 @@ img.emoji {
 
  <div class="cbp-af-header">
 
-<div style="background:#333; color:#FFF; padding-bottom:5px ">
-<div class="units-row geer" style="max-width:1140px; margin:0 auto 0 auto; padding:0 20px 0 20px;">
-    <div class="unit-53 vopros"></div>
-     
-    <div class="unit-53 carttop"> </div>
-</div>
-</div>
-
 <div class="units-row" style="max-width:1140px; margin:0 auto 0 auto;">
-    <div class="unit-30"><div align="center"><a href="http://genesis.lg.ua" ><img style="border:none;" src="http://genesis.lg.ua/wp-content/uploads/2015/12/logog.png" /></a></div></div>
+    <div class="unit-30 genesisLogo"><div align="center"><a href="http://genesis.lg.ua" ><img style="border:none;" src="http://genesis.lg.ua/wp-content/uploads/2015/12/logog.png" /></a></div></div>
    <!--меню-->  
-    <div class="unit-70">
+    <div class="unit-70 topMenu">
     
     <nav>
 <div align="center"><a id="touch-menu" class="mobile-menu" href="#"><i class="fa fa-th-large fa-lg"></i></a></div>
@@ -99,20 +91,20 @@ img.emoji {
 <div class="units-row">
 
 <div class="unit-70" style="position:relative">
-    <div style="float: right;">
-    {if $user}
-    <div style="float: left;">
-    <h2 class="let" style="text-align:center; line-height:42px;">Здравствуйте, {$user->name}</h2>
-    </div>
-    <div style="float: left;">
-    <form action="{$rootUrl}/login" method="POST" class="headerForm woocommerce-product-search">
-      <input name="logout" type="hidden" value="1" />
-      <input type="submit" value="Выйти" />
-    </form>
-    </div>
-    {else}
-    <h2 class="let" style="text-align:center; line-height:30px;"><a href="{$rootUrl}/login">Войти</a></h2>
-    {/if}
+    <div class="userInfo">
+        {if $user}
+        <div class="userInfoLine">
+            <h3 class="let">Здравствуйте, {$user->name}</h3>
+        </div>
+        <div class="userInfoLine">
+            <form action="{$rootUrl}/login" method="POST" class="headerForm woocommerce-product-search">
+                <input name="logout" type="hidden" value="1" />
+                <input type="submit" value="Выйти" />
+            </form>
+        </div>
+        {else}
+        <h3 class="let"><a href="{$rootUrl}/login">Войти</a></h3>
+        {/if}
     </div>
   
   {$content}
