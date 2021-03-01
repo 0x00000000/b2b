@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace B2bShop\Controller\Seller;
+namespace B2bShop\Controller\Admin;
 
 use B2bShop\Module\Factory\Factory;
 
 use B2bShop\Model\ModelDatabase;
 
-class ControllerSellerManageQuestion extends ControllerSellerManageBase {
+class ControllerAdminManageQuestion extends ControllerAdminManageBase {
     
     /**
      * @var string $_modelName Name of managed model class.
@@ -37,7 +37,7 @@ class ControllerSellerManageQuestion extends ControllerSellerManageBase {
     /**
      * @var array $_innerUrl Inner url to controller's root page. Should be started from '/'.
      */
-    protected $_innerUrl = '/seller/question';
+    protected $_innerUrl = '/admin/question';
     
     /**
      * @var array $_templateNames View templates' names.

@@ -38,6 +38,10 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/admin/seller[/<action>][/<id>]', 'Admin/ControllerAdminManageSeller', 'index');
         
+        $router->setRule('/admin/question[/<action>][/<id>]', 'Admin/ControllerAdminManageQuestion', 'index');
+        
+        $router->setRule('/admin/page[/<action>][/<id>]', 'Admin/ControllerAdminManagePage', 'index');
+        
         $router->setRule('/seller', 'Seller/ControllerSellerIndex', 'index');
         
         $router->setRule('/seller/order[/<action>][/<id>]', 'Seller/ControllerSellerOrdersList', 'index');
@@ -47,8 +51,6 @@ class ApplicationCommon extends ApplicationBase {
         $router->setRule('/seller/new[/<action>][/<id>]', 'Seller/ControllerSellerManageNew', 'index');
         
         $router->setRule('/seller/buyer[/<action>][/<id>]', 'Seller/ControllerSellerManageBuyer', 'index');
-        
-        $router->setRule('/seller/question[/<action>][/<id>]', 'Seller/ControllerSellerManageQuestion', 'index');
         
         $router->setRule('/order/buy/<code>/<count>', 'Buyer/ControllerBuyerOrder', 'buy');
         
@@ -64,7 +66,11 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/login', 'User/ControllerUserLogin', 'index');
         
+        $router->setRule('/logout', 'User/ControllerUserLogin', 'logout');
+        
         $router->setRule('/', 'Buyer/ControllerBuyerCatalog', 'catalog');
+        
+        $router->setDefaultRule('ControllerPage', 'index');
         
     }
     

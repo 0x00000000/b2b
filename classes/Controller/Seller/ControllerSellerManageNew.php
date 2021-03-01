@@ -16,7 +16,7 @@ class ControllerSellerManageNew extends ControllerSellerManageBuyer {
     /**
      * @var array $_sortingList Default sorting list.
      */
-    protected $_sortingList = array('isNew' => 'desc', 'disabled' => 'asc', 'id' => 'desc');
+    protected $_sortingList = array('disabled' => 'asc', 'id' => 'desc');
     
     /**
      * @var array $_modelControlsList Defines controls for model properties.

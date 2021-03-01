@@ -20,6 +20,15 @@ class ControllerUserLogin extends ControllerBase {
         return $content;
     }
     
+    protected function actionLogout() {
+        
+        if ($this->getAuth()->isGuest()) {
+            $this->redirect($this->getAuthUrl());
+        } else {
+            $this->innerActionDoLogout();
+        }
+    }
+    
     protected function innerActionLogin() {
         
         if (array_key_exists('login', $this->getRequest()->post)) {
@@ -53,7 +62,6 @@ class ControllerUserLogin extends ControllerBase {
     }
     
     protected function innerActionLogout() {
-        
         if (array_key_exists('logout', $this->getRequest()->post)) {
             $this->innerActionDoLogout();
         }
@@ -68,10 +76,8 @@ class ControllerUserLogin extends ControllerBase {
     }
     
     protected function innerActionDoLogout() {
-        if ($this->getFromPost('logout')) {
-            if ($this->getAuth()->logout()) {
-                $this->redirect($this->getRootUrl());
-            }
+        if ($this->getAuth()->logout()) {
+            $this->redirect($this->getRootUrl());
         }
     }
     

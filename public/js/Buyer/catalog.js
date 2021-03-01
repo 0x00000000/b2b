@@ -1,5 +1,9 @@
 function addToBasket(code, count, link) {
     var xhr = new XMLHttpRequest();
+    count = parseInt(count);
+    if (count <= 0) {
+        count = 1;
+    }
     xhr.open('GET', rootUrl + '/order/buy/' + code + '/' + count);
     xhr.send();
 

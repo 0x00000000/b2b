@@ -11,13 +11,16 @@ use B2bShop\Module\Factory\Factory;
  * Model user.
  * 
  * @property string|null $id Buyer's id.
+ * @property string $organization Buyer's organization.
  * @property string $login Buyer's login.
  * @property string $name Buyer's name.
- * @property string $organization Buyer's organization.
  * @property string $phone Buyer's phone.
  * @property string $email Buyer's email.
  * @property string $address Buyer's address.
+ * @property string $city Buyer's city.
  * @property string $inn Buyer's inn.
+ * @property string $date Registration date.
+ * @property string $status Buyer's status.
  * @property bool $isAdmin Is user admin.
  * @property bool $isSeller Is user a seller.
  * @property bool $isBuyer Is user a buyer.
@@ -34,14 +37,17 @@ class ModelBuyer extends ModelUser {
      */
     protected $_propertiesList = array(
         array('name' => 'id'),
+        array('name' => 'organization', 'caption' => 'Юридическое название'),
         array('name' => 'login', 'caption' => 'Логин'),
         array('name' => 'password', 'caption' => 'Пароль'),
         array('name' => 'name', 'caption' => 'ФИО'),
         array('name' => 'phone', 'caption' => 'Телефон'),
         array('name' => 'email', 'caption' => 'E-Mail'),
-        array('name' => 'organization', 'caption' => 'Юридическое название'),
         array('name' => 'address', 'caption' => 'Адрес магазина или торговой точки'),
+        array('name' => 'city', 'caption' => 'Город'),
         array('name' => 'inn', 'caption' => 'ИНН'),
+        array('name' => 'date', 'caption' => 'Дата регистрации'),
+        array('name' => 'status', 'caption' => 'Статус'),
         array('name' => 'isAdmin', 'type' => self::TYPE_BOOL),
         array('name' => 'isSeller', 'type' => self::TYPE_BOOL),
         array('name' => 'isBuyer', 'type' => self::TYPE_BOOL),

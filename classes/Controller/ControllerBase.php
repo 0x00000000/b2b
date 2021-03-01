@@ -100,11 +100,15 @@ abstract class ControllerBase extends Controller {
         $methodName = 'action' . ucfirst($action);
         if (strlen($action) && method_exists($this, $methodName)) {
             $this->before();
+            
+            // Should be called before rendering content.
+            // In that case controller will be able reset page view variables.
+            $this->setPageViewVariables();
+            
             $this->setContentViewVariables();
             $content = $this->$methodName();
             
             $this->addJsAndCssFiles();
-            $this->setPageViewVariables();
             $this->setPageViewMenuVariables();
             $this->getPageView()->set('content', $content);
             $this->after();
@@ -158,6 +162,8 @@ abstract class ControllerBase extends Controller {
      * Renders and prints page.
      */
     protected function printPage(): void {
+        $this->getPageView()->set('cssFiles', $this->_cssFiles);
+        $this->getPageView()->set('jsFiles', $this->_jsFiles);
         if ($this->getAjaxMode()) {
             $this->getPageView()->setTemplate($this->_ajaxTemplate);
         } else {
@@ -234,6 +240,8 @@ abstract class ControllerBase extends Controller {
             $mainMenu = array(
                 array('link' => $urlPrefix . '/admin/seller', 'caption' => 'Продавцы'),
                 array('link' => $urlPrefix . '/admin/admin', 'caption' => 'Администраторы'),
+                array('link' => $urlPrefix . '/admin/question', 'caption' => 'Антибот'),
+                array('link' => $urlPrefix . '/admin/page', 'caption' => 'Страницы'),
             );
         } else if ($this->getAuth()->isSeller()) {
             $mainMenu = array(
@@ -241,26 +249,25 @@ abstract class ControllerBase extends Controller {
                 array('link' => $urlPrefix . '/seller/price', 'caption' => 'Прайс'),
                 array('link' => $urlPrefix . '/seller/new', 'caption' => 'Заявки'),
                 array('link' => $urlPrefix . '/seller/buyer', 'caption' => 'Покупатели'),
-                array('link' => $urlPrefix . '/seller/question', 'caption' => 'Антибот'),
             );
         } else if ($this->getAuth()->isBuyer()) {
             $mainMenu = array(
                 array('link' => $urlPrefix . '/', 'caption' => 'Каталог'),
                 array('link' => $urlPrefix . '/order', 'caption' => 'Ваш заказ'),
+                array('link' => $urlPrefix . '/contacts', 'caption' => 'Контакты'),
             );
         }
         
-        if ($this->getAuth()->isGuest() || $this->getAuth()->isBuyer()) {
+        if ($this->getAuth()->isGuest()) {
             $mainMenu[] = array('link' => 'http://genesis.lg.ua/?page_id=32', 'caption' => 'Контакты');
-            $mainMenu[] = array('link' => 'http://genesis.lg.ua/?page_id=32', 'caption' => 'О компании');
         }
         
         if ($this->getAuth()->isGuest()) {
-            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Вход');
             $mainMenu[] = array('link' => $urlPrefix . '/register', 'caption' => 'Регистрация');
+            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Вход');
         } else {
-            // $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Выход');
             $mainMenu[] = array('link' => $urlPrefix . '/profile', 'caption' => 'Профиль');
+            $mainMenu[] = array('link' => $urlPrefix . '/logout', 'caption' => 'Выйти', 'class' => 'leave');
         }
         
         $this->getPageView()->set('mainMenu', $mainMenu);
@@ -281,9 +288,6 @@ abstract class ControllerBase extends Controller {
         $this->getPageView()->set('pageTitle', $config->get('site', 'title'));
         $this->getPageView()->set('pageKeywords', $config->get('site', 'keywords'));
         $this->getPageView()->set('pageDescription', $config->get('site', 'description'));
-        
-        $this->getPageView()->set('cssFiles', $this->_cssFiles);
-        $this->getPageView()->set('jsFiles', $this->_jsFiles);
     }
     
     protected function setContentViewVariables() {

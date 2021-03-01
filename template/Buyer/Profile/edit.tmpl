@@ -8,8 +8,6 @@
         <p>Укажите ваш Логин.</p>
     {else if $messageType === 'emptyOrganization'}
         <p>Укажите Юридическое название.</p>
-    {else if $messageType === 'emptyName'}
-        <p>Укажите ваш ФИО руководителя.</p>
     {else if $messageType === 'emptyPhone'}
         <p>Укажите ваш Телефон.</p>
     {/if}
@@ -23,7 +21,7 @@
     
     {include file="$baseTemplatePath/formText.tmpl" value="{$user->organization}" name="organization" caption="Юридическое название*"}
     
-    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="ФИО руководителя*"}
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="Ваше имя"}
     
     {include file="$baseTemplatePath/formText.tmpl" value="{$user->phone}" name="phone" caption="Телефон*"}
     
@@ -32,6 +30,8 @@
     {include file="$baseTemplatePath/formText.tmpl" value="{$user->inn}" name="inn" caption="ИНН"}
     
     {include file="$baseTemplatePath/formText.tmpl" value="{$user->address}" name="address" caption="Адрес магазина или торговой точки"}
+    
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->city}" name="city" caption="Город"}
     
 </table>
 <p>

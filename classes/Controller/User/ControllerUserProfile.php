@@ -38,9 +38,9 @@ class ControllerUserProfile extends ControllerBase {
             $action = $get['action'];
         }
         
-        if ($action === 'edit') {
+        if ($action === 'edit' && $this->getAuth()->isAdmin()) {
             $content = $this->innerActionEdit();
-        } else if ($action === 'password') {
+        } else if (($action === 'password') && ($this->getAuth()->isBuyer() || $this->getAuth()->isAdmin())) {
             $content = $this->innerActionPassword();
         } else if (empty($action)) {
             $content = $this->innerActionView();
@@ -95,8 +95,6 @@ class ControllerUserProfile extends ControllerBase {
             $messageType = null;
             if (empty($user->login)) {
                 $messageType = 'emptyLogin';
-            } else if (empty($user->name)) {
-                $messageType = 'emptyName';
             } else if ($this->getAuth()->isBuyer()) {
                 if (empty($user->organization)) {
                     $messageType = 'emptyOrganization';

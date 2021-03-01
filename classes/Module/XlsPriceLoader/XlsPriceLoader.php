@@ -173,6 +173,7 @@ class XlsPriceLoader extends XlsPriceLoaderAbstract{
 
                         $productData[] = array(
                             'categoryId' => $categoryModel->id,
+                            'sort' => $counter,
                             'code' => $product['code'],
                             'caption' => $product['caption'],
                             'price' => $product['price'],

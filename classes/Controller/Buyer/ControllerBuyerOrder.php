@@ -19,6 +19,7 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
             $this->innerActionDoSaveOrder();
         }
         
+        $this->addCssFile('/css/Buyer/order.css');
         $this->addJsFile('/js/Buyer/order.js');
         
         $order = Factory::instance()->createModel('Order');

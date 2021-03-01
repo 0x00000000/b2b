@@ -9,6 +9,7 @@ namespace B2bShop\Model;
  * 
  * @property string|null $id Id.
  * @property string|null $categoryId Category id. 
+ * @property string|null $sort Sorting value.
  * @property string|null $code Code.
  * @property string|null $caption Caption.
  * @property string|null $price Price.
@@ -29,6 +30,7 @@ class ModelProduct extends ModelDatabase {
     protected $_propertiesList = array(
         array('name' => 'id'),
         array('name' => 'categoryId', 'type' => self::TYPE_FK, 'fkModelName' => 'Category'),
+        array('name' => 'sort', 'skipControl' => true),
         array('name' => 'code'),
         array('name' => 'caption'),
         array('name' => 'price'),

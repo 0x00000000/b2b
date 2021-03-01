@@ -26,7 +26,7 @@ class ControllerBuyerCatalog extends ControllerBuyerBase {
             0, 0, array('id' => 'asc')
         );
         
-        $productsConditionsList = array('disabled' => '0', 'deleted' => '0');
+        $productsConditionsList = array('disabled' => false, 'deleted' => false);
         if ((int) $categoryId) {
             $currentCategory = Factory::instance()->createModel('Category')->getOneModel(
                 array('id' => (int) $categoryId, 'disabled' => '0', 'deleted' => '0')
@@ -37,7 +37,7 @@ class ControllerBuyerCatalog extends ControllerBuyerBase {
         }
         
         $productsList = Factory::instance()->createModel('Product')->getModelsList(
-            $productsConditionsList, 0, 0, array('id' => 'asc')
+            $productsConditionsList, 0, 0, array('sort' => 'asc')
         );
         
         $order = Factory::instance()->createModel('Order');

@@ -73,12 +73,7 @@ class ModelOrder extends ModelDatabase {
     }
     
     public function getProductsCount(): int {
-        $count = 0;
-        foreach ($this->products as $productData) {
-            $count += $productData['count'];
-        }
-        
-        return $count;
+        return count($this->products);
     }
     
     public function getProductsCost(): string {

@@ -10,12 +10,16 @@
 </div>
 {/if}
 
+{if $user->isAdmin}
 <p><a href="{$baseUrl}/edit">Измнить профиль</a></p>
+{/if}
+{if $user->isBuyer || $user->isAdmin}
 <p><a href="{$baseUrl}/password">Изменить пароль</a></p>
+{/if}
 <table class="viewTable smallTable">
     
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->login}" caption="Логин"}
-    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->name}" caption="ФИО"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->name}" caption="Ваге имя"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->phone}" caption="Телефон"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->email}" caption="E-Mail"}
     

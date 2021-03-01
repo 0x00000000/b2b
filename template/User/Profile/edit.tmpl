@@ -6,8 +6,6 @@
         <p>Изменения не были сохранены. Возникла ошибка.</p>
     {else if $messageType === 'emptyLogin'}
         <p>Укажите ваш Логин.</p>
-    {else if $messageType === 'emptyName'}
-        <p>Укажите ваше ФИО.</p>
     {/if}
 {/if}
 </div>
@@ -17,7 +15,7 @@
 
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->login}" caption="Логин*"}
     
-    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="ФИО*"}
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->name}" name="name" caption="Ваше имя"}
     
     {include file="$baseTemplatePath/formText.tmpl" value="{$user->phone}" name="phone" caption="Телефон"}
     

@@ -20,6 +20,18 @@ function addToBasket(code, count) {
         document.getElementById('error').style.setProperty('display', 'block');
     };
 }
+
+function changeCountInBasket(code, count) {
+    var originInput = document.getElementById('orderCountOrig' + code);
+    if (originInput && typeof originInput.value !== undefined) {
+        var origCount = parseInt(originInput.value);
+        var diffCount = count - origCount;
+        if (diffCount) {
+            addToBasket(code, diffCount)
+        }
+    }
+}
+
 function loadBasket() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', rootUrl + '/order/get');
@@ -69,6 +81,11 @@ function renderTable(productData) {
         var localCode = code;
         var localCoount = count;
         return function() {addToBasket(localCode, localCoount); return false;}
+    }
+    
+    function createChangeCountInBasketCallback(code) {
+        var localCode = code;
+        return function() {changeCountInBasket(localCode, this.value); return false;}
     }
     
     var totalCost = 0;
@@ -122,21 +139,33 @@ function renderTable(productData) {
             
             td = document.createElement('td');
             td.className = 'orderChangeCount'
-            a = document.createElement('a');
+            /*a = document.createElement('a');
             a.className = 'orderDecrease';
             a.href = '';
             a.onclick = createAddToBasketCallback(key, -1);
             a.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;';
-            td.appendChild(a);
-            span = document.createElement('span');
-            span.innerHTML = product.count;
-            td.appendChild(span);
-            a = document.createElement('a');
+            td.appendChild(a);*/
+            input = document.createElement('input');
+            input.className = 'orderCount';
+            input.value = product.count;
+            input.onchange = createChangeCountInBasketCallback(key);
+            td.appendChild(input);
+            input = document.createElement('input');
+            input.type = 'hidden';
+            input.value = product.count;
+            input.id = 'orderCountOrig' + key;
+            td.appendChild(input);
+            input = document.createElement('input');
+            input.type = 'button';
+            input.value = 'OK';
+            input.className = 'orderCountSet';
+            td.appendChild(input);
+            /*a = document.createElement('a');
             a.className = 'orderIncrease';
             a.href = '';
             a.onclick = createAddToBasketCallback(key, 1);
             a.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;';
-            td.appendChild(a);
+            td.appendChild(a);*/
             tr.appendChild(td);
             table.appendChild(tr);
         }

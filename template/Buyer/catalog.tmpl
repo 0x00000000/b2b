@@ -18,6 +18,12 @@
     </div>
 {/if}
 
+<div class="downloadPrice">
+<a href="http://genesis.lg.ua/Prkfn/price_new.xls">Скачать прайс в Excel по торговым маркам</a>
+<br />
+<a href="http://genesis.lg.ua/Prkfn/price_new_group.xls">Скачать прайс в Excel по группам товаров</a>
+</div>
+
 {if $currentCategory}
 <h1>{$currentCategory->caption}</h1>
 {else}
@@ -35,6 +41,7 @@
             <div class="catalogSecondCellIn">
                 <div class="catalogCode">Код товара</div>
                 <div class="catalogPrice">Цена</div>
+                <div class="catalogPrice">Кол-во</div>
                 <div class="catalogBuy">Купить</div>
             </div>
         </div>
@@ -54,7 +61,8 @@
             <div class="catalogSecondCellIn">
                 <div class="catalogCode"><span class="catalogShowOnSmallWidth">Код:&nbsp;</span>{$product->code}</div>
                 <div class="catalogPrice"><span class="catalogShowOnSmallWidth">Цена:&nbsp;</span>{$product->price}</div>
-                <div class="catalogBuy"><a href="" onClick="addToBasket('{$product->code}', 1, this); return false;">Купить</a></div>
+                <div class="catalogCount"><input id="productCoount{$product->code}" value="1" /></div>
+                <div class="catalogBuy"><a href="" onClick="addToBasket('{$product->code}', document.getElementById('productCoount{$product->code}').value, this); return false;">Купить</a></div>
             </div>
         </div>
     </div>

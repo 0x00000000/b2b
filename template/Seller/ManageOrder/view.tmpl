@@ -33,10 +33,11 @@
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->id}" caption="Id заказа"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->date}" caption="Дата"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->organization}" caption="Юридическое название"}
-    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->name}" caption="ФИО руководителя"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->name}" caption="Имя"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->phone}" caption="Телефон"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->email}" caption="E-mail"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->address}" caption="Адрес"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->city}" caption="Город"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->user->inn}" caption="ИНН"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->comment}" caption="Комментарий"}
 </table>

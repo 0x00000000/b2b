@@ -71,8 +71,6 @@ class ControllerUserRegister extends ControllerBase {
             $messageType = 'passwordDifferent';
         } else if (empty($user->organization)) {
             $messageType = 'emptyOrganization';
-        } else if (empty($user->name)) {
-            $messageType = 'emptyName';
         } else if (empty($user->phone)) {
             $messageType = 'emptyPhone';
         }

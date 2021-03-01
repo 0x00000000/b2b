@@ -23,7 +23,7 @@ class ControllerSellerManageBuyer extends ControllerSellerManageBase {
     /**
      * @var array $_sortingList Default sorting list.
      */
-    protected $_sortingList = array('disabled' => 'asc', 'name' => 'asc');
+    protected $_sortingList = array('disabled' => 'asc', 'organization' => 'asc');
     
     /**
      * @var array $_modelControlsList Defines controls for model properties.
@@ -32,6 +32,7 @@ class ControllerSellerManageBuyer extends ControllerSellerManageBase {
      */
     protected $_modelControlsList = array(
         'password' => self::CONTROL_PASSWORD,
+        'status' => self::CONTROL_SELECT,
         'isAdmin' => self::CONTROL_NONE,
         'isSeller' => self::CONTROL_NONE,
         'isBuyer' => self::CONTROL_NONE,
@@ -49,7 +50,7 @@ class ControllerSellerManageBuyer extends ControllerSellerManageBase {
      */
     protected $_templateNames = array(
         'add' => 'Common/ManageBase/add',
-        'list' => 'Common/ManageBase/list',
+        'list' => 'Seller/Buyer/list',
         'view' => 'Common/ManageBase/view',
         'edit' => 'Common/ManageBase/edit',
     );
@@ -58,7 +59,6 @@ class ControllerSellerManageBuyer extends ControllerSellerManageBase {
         $result = parent::setPropertiesFromPost($model);
         
         if ($result) {
-            $model->isNew = false;
             $model->isAdmin = false;
             $model->isSeller = false;
             $model->isBuyer = true;
@@ -119,6 +119,20 @@ class ControllerSellerManageBuyer extends ControllerSellerManageBase {
         }
         
         $this->redirect($this->getBaseUrl());
+    }
+    
+    protected function setContentViewVariables() {
+        parent::setContentViewVariables();
+        
+        $this->getView()->set('statusValues', $this->getStatusValues());
+    }
+    
+    protected function getStatusValues() {
+        return array(
+            '0' => 'Потенциальный',
+            '1' => 'Работающий',
+            '2' => 'Бывший',
+        );
     }
     
 }

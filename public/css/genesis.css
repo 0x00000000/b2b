@@ -39,16 +39,6 @@
 .unit-70.topMenu {
 }
 
-.orderChangeCount a {
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.orderChangeCount a:hover {
-    background-color: #eee;
-    text-decoration: none;
-}
-
 @media(max-width: 600px){
     .userInfoLine {
         clear: both;
@@ -58,6 +48,7 @@
         padding-bottom: 5px;
         min-height: 70px;
     }
+    
 }
 
 @media only screen and (max-width: 767px) {

@@ -10,16 +10,16 @@
 </div>
 {/if}
 
-<p><a href="{$baseUrl}/edit">Измнить профиль</a></p>
 <p><a href="{$baseUrl}/password">Изменить пароль</a></p>
 <table class="viewTable smallTable">
     
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->login}" caption="Логин"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->organization}" caption="Юридическое название"}
-    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->name}" caption="ФИО руководителя"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->name}" caption="Ваше имя"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->phone}" caption="Телефон"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->email}" caption="E-Mail"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->inn}" caption="ИНН"}
     {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->address}" caption="Адрес магазина или торговой точки"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$user->city}" caption="Город"}
 
 </table>
