@@ -12,10 +12,10 @@ use B2bShop\ModelUser;
  * 
  * @property string|null $id Id.
  * @property string|null $date Order date and time list.
- * @property string|null $productCodesList Product codes list.
- * @property int|null $userId Order's user id.
- * @property Model|null $user Order's user object.
- * @property string|null $comment Order's comment.
+ * @property string|null $products Products data.
+ * @property string|null $userId User id.
+ * @property Model|null $user User object.
+ * @property string|null $comment Comment.
  * @property bool $disabled Is product disabled.
  * @property bool $deleted Is product deleted.
  */
@@ -39,10 +39,6 @@ class ModelOrder extends ModelDatabase {
         array('name' => 'disabled', 'type' => self::TYPE_BOOL, 'skipControl' => false),
         array('name' => 'deleted', 'type' => self::TYPE_BOOL, 'skipControl' => true),
     );
-    
-    /**
-     * Buyer model.
-     */
     
     /**
      * Class constructor.

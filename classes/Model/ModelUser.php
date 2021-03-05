@@ -11,8 +11,8 @@ use B2bShop\Module\Factory\Factory;
  * Model user.
  * 
  * @property string|null $id User's id.
- * @property string $login User's login.
- * @property string $name User's name.
+ * @property string|null $login User's login.
+ * @property string|null $name User's name.
  * @property bool $isAdmin Is user admin.
  * @property bool $isSeller Is user a seller.
  * @property bool $isBuyer Is user a buyer.

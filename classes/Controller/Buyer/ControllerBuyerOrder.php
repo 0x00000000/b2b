@@ -24,10 +24,8 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
         $this->addJsFile('/js/Buyer/FormSender.js');
         
         $order = Factory::instance()->createModel('Order');
-        $orderState = $this->getFromSession('orderState');
-        if ($orderState) {
-            $order->setState($orderState);
-        }
+        $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+        $order->setState($userOrder->getState());
         
         $this->getView()->setTemplate('Buyer/order');
         $this->getView()->set('order', $order);
@@ -38,10 +36,8 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
     
     protected function innerActionDoSaveOrder() {
         $order = Factory::instance()->createModel('Order');
-        $orderState = $this->getFromSession('orderState');
-        if ($orderState) {
-            $order->setState($orderState);
-        }
+        $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+        $order->setState($userOrder->getState());
         
         $id = null;
         if ($order->getProductsCount()) {
@@ -60,9 +56,13 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
         
         if ($id) {
             $this->setStashData('orderId', $id);
-            $this->unsetFromSession('orderState', $order->getState());
+            $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+            $userOrder->clearState();
+            $userOrder->save();
         } else {
-            $this->setToSession('orderState', $order->getState());
+            $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+            $userOrder->setState($order->getState());
+            $userOrder->save();
         }
         
         $this->redirect($this->getBaseUrl());
@@ -75,10 +75,8 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
         $count = (int) $this->getFromGet('count');
         
         $order = Factory::instance()->createModel('Order');
-        $orderState = $this->getFromSession('orderState');
-        if ($orderState) {
-            $order->setState($orderState);
-        }
+        $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+        $order->setState($userOrder->getState());
         
         if ($code && $count) {
             $product = Factory::instance()->createModel('Product')->getOneModel(array('disabled' => false, 'deleted' => false, 'code' => $code));
@@ -91,7 +89,8 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
             }
         }
         
-        $this->setToSession('orderState', $order->getState());
+        $userOrder->setState($order->getState());
+        $test = $userOrder->save();
         
         $result = array(
             'error' => false,
@@ -108,10 +107,8 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
         $this->setAjaxMode(true);
         
         $order = Factory::instance()->createModel('Order');
-        $orderState = $this->getFromSession('orderState');
-        if ($orderState) {
-            $order->setState($orderState);
-        }
+        $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+        $order->setState($userOrder->getState());
         
         $result = array(
             'error' => false,

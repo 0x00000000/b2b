@@ -41,10 +41,8 @@ class ControllerBuyerCatalog extends ControllerBuyerBase {
         );
         
         $order = Factory::instance()->createModel('Order');
-        $orderState = $this->getFromSession('orderState');
-        if ($orderState) {
-            $order->setState($orderState);
-        }
+        $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+        $order->setState($userOrder->getState());
         
         $this->getView()->setTemplate('Buyer/catalog');
         $this->getView()->set('categoriesList', $categoriesList);

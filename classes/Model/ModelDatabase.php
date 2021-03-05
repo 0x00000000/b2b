@@ -20,6 +20,11 @@ abstract class ModelDatabase extends Model {
     protected $_table = null;
     
     /**
+     * @var string $_pkFieldName Primary key field name.
+     */
+    protected $_pkFieldName = 'id';
+    
+    /**
      * @var array $_propertiesList List of properties.
      */
     protected $_propertiesList = array();
@@ -54,7 +59,7 @@ abstract class ModelDatabase extends Model {
         
         if ($this->getDatabase()) {
             if ($this->_table && $pk) {
-                $dbData = $this->getDatabase()->getByPk($this->_table, $pk);
+                $dbData = $this->getDatabase()->getByPk($this->_table, $pk, $this->_pkFieldName);
                 if ($dbData) {
                     $result = $this->setDataFromDB($dbData);
                 }
@@ -70,9 +75,13 @@ abstract class ModelDatabase extends Model {
     protected function getDataList(
         array $conditionsList,
         ?int $limit = 0, ?int $offset = 0,
-        ?array $sortingList = array('id' => 'desc')
+        ?array $sortingList = array()
     ): array {
         $result = array();
+        
+        if (empty($sortingList)) {
+            $sortingList[$this->_pkFieldName] = 'desc';
+        }
         
         if ($this->getDatabase()) {
             if ($this->_table) {
@@ -124,9 +133,13 @@ abstract class ModelDatabase extends Model {
     public function getModelsList(
         array $conditionsList,
         ?int $limit = 0, ?int $offset = 0,
-        ?array $sortingList = array('id' => 'desc')
+        ?array $sortingList = array()
     ): array {
         $result = array();
+        
+        if (empty($sortingList)) {
+            $sortingList[$this->_pkFieldName] = 'desc';
+        }
         
         $dbDataList = $this->getDataList(
             $conditionsList,
@@ -200,7 +213,7 @@ abstract class ModelDatabase extends Model {
                             $result = $pk;
                         }
                     } else {
-                        $this->getDatabase()->updateRecord($this->_table, $data);
+                        $this->getDatabase()->updateRecord($this->_table, $data, $this->_pkFieldName);
                         $result = $this->getPk();
                     }
                 }
@@ -264,7 +277,7 @@ abstract class ModelDatabase extends Model {
         
         if ($this->getDatabase()) {
             if ($this->_table && $pk) {
-                $result = $this->getDatabase()->deleteRecord($this->_table, $pk);
+                $result = $this->getDatabase()->deleteRecord($this->_table, $pk, $this->_pkFieldName);
             }
         }
         
@@ -466,24 +479,24 @@ abstract class ModelDatabase extends Model {
     }
     
     /**
-     * Gets promary key value.
+     * Gets primary key value.
      */
     public function getPk() {
-        return $this->id;
+        return $this->{$this->_pkFieldName};
     }
     
     /**
      * Sets promary key value.
      */
     protected function setPk($pk) {
-        $this->id = $pk;
+        $this->{$this->_pkFieldName} = $pk;
     }
     
     /**
      * Checks if property is primary key.
      */
     public function isPk($propertyName) {
-        return $propertyName === 'id';
+        return $propertyName === $this->_pkFieldName;
     }
     
     /**
@@ -504,8 +517,8 @@ abstract class ModelDatabase extends Model {
             }
         }
         
-        if (! array_key_exists('id', $extendedList)) {
-            $property = array('name' => 'id',);
+        if (! array_key_exists($this->_pkFieldName, $extendedList)) {
+            $property = array('name' => $this->_pkFieldName,);
             $extended = $this->getExtendedProperty($property);
             if ($extended) {
                 $extendedList[$extended['name']] = $extended;
