@@ -42,6 +42,8 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/admin/page[/<action>][/<id>]', 'Admin/ControllerAdminManagePage', 'index');
         
+        $router->setRule('/admin/file[/<action>][/<id>]', 'Admin/ControllerAdminManageFile', 'index');
+        
         $router->setRule('/seller', 'Seller/ControllerSellerIndex', 'index');
         
         $router->setRule('/seller/order[/<action>][/<id>]', 'Seller/ControllerSellerOrdersList', 'index');
@@ -63,6 +65,8 @@ class ApplicationCommon extends ApplicationBase {
         $router->setRule('/profile[/<action>]', 'User/ControllerUserProfile', 'index');
         
         $router->setRule('/register', 'User/ControllerUserRegister', 'register');
+        
+        $router->setRule('/file[/<url>]', 'ControllerFile', 'index');
         
         $router->setRule('/login', 'User/ControllerUserLogin', 'index');
         

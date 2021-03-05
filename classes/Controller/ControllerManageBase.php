@@ -356,7 +356,6 @@ abstract class ControllerManageBase extends ControllerBase {
             $this->_itemsPerPage,
             ((int) $currentPage - 1) * (int) $this->_itemsPerPage,
             $this->_sortingList
-            
         );
         
         $modelsCount = $model->getCount(

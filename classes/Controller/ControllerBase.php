@@ -241,6 +241,7 @@ abstract class ControllerBase extends Controller {
                 array('link' => $urlPrefix . '/admin/seller', 'caption' => 'Продавцы'),
                 array('link' => $urlPrefix . '/admin/admin', 'caption' => 'Администраторы'),
                 array('link' => $urlPrefix . '/admin/question', 'caption' => 'Антибот'),
+                array('link' => $urlPrefix . '/admin/file', 'caption' => 'Файлы'),
                 array('link' => $urlPrefix . '/admin/page', 'caption' => 'Страницы'),
             );
         } else if ($this->getAuth()->isSeller()) {

@@ -1,6 +1,6 @@
 <h3>Изменить</h3>
 
-<form action="{$currentUrl}" method="POST">
+<form action="{$currentUrl}" method="POST" enctype="multipart/form-data">
 <table class="formTable">
 {foreach $propertiesList as $propertyName => $property}
 {if $controlsList[$propertyName] !== 'none'}
@@ -16,6 +16,8 @@
         {include file="$baseTemplatePath/formHtml.tmpl" name="{$property['name']}" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
     {else if $controlsList[$propertyName] === 'password'}
         {include file="$baseTemplatePath/formPassword.tmpl" name="{$property['name']}" caption="{$property['caption']}"}
+    {else if $controlsList[$propertyName] === 'file'}
+        {include file="$baseTemplatePath/formFile.tmpl" name="{$property['name']}" caption="{$property['caption']}"}
     {else}
         {include file="$baseTemplatePath/formText.tmpl" name="{$property['name']}" value="{$item->{$propertyName}}" caption="{$property['caption']}"}
     {/if}

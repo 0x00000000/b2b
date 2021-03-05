@@ -7,16 +7,14 @@ namespace B2bShop\Model;
 use B2bShop\Module\Auth\Auth;
 
 /**
- * Model page.
+ * Model file.
  * 
  * @property string|null $id Id.
- * @property string|null $caption Caption.
- * @property string|null $comment Comment.
+ * @property string|null $content File content. 
+ * @property string|null $name File name.
+ * @property string|null $type MIME file type.
  * @property string|null $url Url, started from "/" .
- * @property string|null $title Title. 
- * @property string|null $keywords Meta keywords. 
- * @property string|null $description Meta description.
- * @property string|null $content Page content (html).
+ * @property string|null $comment Comment.
  * @property bool $accessAdmin Access rights for viewing.
  * @property bool $accessSeller Access rights for viewing.
  * @property bool $accessBuyer Access rights for viewing.
@@ -24,25 +22,23 @@ use B2bShop\Module\Auth\Auth;
  * @property bool $disabled Is user disabled.
  * @property bool $deleted Is user deleted.
  */
-class ModelPage extends ModelAccessRights {
+class ModelFile extends ModelAccessRights {
     
     /**
      * @var string $_table Name of database table.
      */
-    protected $_table = 'page';
+    protected $_table = 'file';
     
     /**
      * @var array $_propertiesList List of properties.
      */
     protected $_propertiesList = array(
         array('name' => 'id'),
-        array('name' => 'caption', 'caption' => 'Название'),
-        array('name' => 'comment', 'caption' => 'Комментарий'),
+        array('name' => 'content', 'caption' => 'Файл'),
+        array('name' => 'name', 'caption' => 'Имя файла'),
+        array('name' => 'type', 'caption' => 'MIME тип файла'),
         array('name' => 'url', 'caption' => 'Uri'),
-        array('name' => 'title', 'caption' => 'Заголовок'),
-        array('name' => 'keywords', 'caption' => 'Ключевые слова'),
-        array('name' => 'description', 'caption' => 'Описание'),
-        array('name' => 'content', 'caption' => 'Контент'),
+        array('name' => 'comment', 'caption' => 'Комментарий'),
         array('name' => 'accessAdmin', 'type' => self::TYPE_BOOL, 'caption' => 'Доступна админам'),
         array('name' => 'accessSeller', 'type' => self::TYPE_BOOL, 'caption' => 'Доступна продавцам'),
         array('name' => 'accessBuyer', 'type' => self::TYPE_BOOL, 'caption' => 'Доступна покупателям'),

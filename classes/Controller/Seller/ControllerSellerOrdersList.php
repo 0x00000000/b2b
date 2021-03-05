@@ -137,10 +137,10 @@ class ControllerSellerOrdersList extends ControllerSellerManageBase {
     protected function sendFile($filePath, $orderId) {
         if (is_file($filePath) && is_readable($filePath)) {
             $sendName = str_replace('.', '-' . $orderId . '.', basename($filePath));
-            header ('Content-Type: application/octet-stream');
-            header ('Accept-Ranges: bytes');
-            header ('Content-Length: ' . filesize($filePath));
-            header ('Content-Disposition: attachment; filename=' . $sendName);
+            header('Content-Type: application/vnd.ms-excel');
+            header('Accept-Ranges: bytes');
+            header('Content-Length: ' . filesize($filePath));
+            header('Content-Disposition: attachment; filename=' . $sendName);
             readfile($filePath);
             exit;
         } else {
