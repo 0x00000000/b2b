@@ -1,0 +1,40 @@
+<h3>Просмотр заказа</h3>
+
+<table class="listTable">
+    <tr>
+        <th>Код</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Стоимость</th>
+    </tr>
+    
+    {foreach $item->products as $code => $product}
+    <tr>
+        <td>{$code}</td>
+        <td class="alignLeft">
+            {if $product['link']}
+                <a href="{$product['link']}" target="_blank" rel="noopener noreferrer">{$product['caption']}</a>
+            {else}
+                {$product['caption']}
+            {/if}
+        </td>
+        <td>{$product['price']}</td>
+        <td>{$product['count']}</td>
+        <td>{$product['cost']}</td>
+    </tr>
+    {/foreach}
+    <tr>
+        <td><strong>Итого</strong></td>
+        <td class="alignLeft" colspan="4"><strong>{$item->getProductsCost()}</strong></td></tr>
+</table>
+
+<table class="listTable alignLeft">
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->id}" caption="Id заказа"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->date}" caption="Дата"}
+    {include file="$baseTemplatePath/formViewText.tmpl" value="{$item->comment}" caption="Комментарий"}
+</table>
+
+<p>
+    {include file="$baseTemplatePath/buttonCancel.tmpl" value="Назад"}
+</p>

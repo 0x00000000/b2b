@@ -31,6 +31,7 @@ class ConfigCommon extends ConfigBase {
             'title' => 'Компьютерная периферия и аксессуары в Луганске',
             'keywords' => '',
             'description' => '',
+            'sessionLifeTime' => '86400',
         ),
         'user' => array(
             'salt1' => 'DSneicld3!',

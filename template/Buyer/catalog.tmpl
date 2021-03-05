@@ -1,8 +1,8 @@
 <div class="listContent">
 
 <div class="basket">
-    <h3 id="basketEmpty"{if $order && $order->getProductsCount()} class="hidden"{/if}>Ваша корзина пуста.</h3>
-    <h3 id="basket"{if ! $order || ! $order->getProductsCount()} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span>.<br /><a href="{$rootUrl}/order">Оформить заказ</a></h3>
+    <h3 id="basketEmpty" class="singleLine{if $order && $order->getProductsCount()} hidden{/if}">Ваша корзина пуста.</h3>
+    <h3 id="basket"{if ! $order || ! $order->getProductsCount()} class="hidden"{/if}><span class="singleLine">В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов).</span> <span class="singleLine">Стоимость товаров <span id="basketCost">{$order->getProductsCost()}.</span><br /><a href="{$rootUrl}/order" class="singleLine">Оформить заказ</a></h3>
 </div>
 
 {if $categoriesList}

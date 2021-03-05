@@ -1,11 +1,11 @@
 <h3>Регистрация</h3>
 
-<div class="message">
+<div class="errorMessage">
 {if $messageType}
     {if $messageType === 'savingFailed'}
         <p>Изменения не были сохранены. Возникла ошибка.</p>
     {else if $messageType === 'emptyLogin'}
-        <p>Укажите ваш Логин.</p>
+        <p>Укажите ваш логин.</p>
     {else if $messageType === 'existingLogin'}
         <p>Такой логин уже зарегистрирован в системе.</p>
     {else if $messageType === 'emptyPassword'}
@@ -15,9 +15,11 @@
     {else if $messageType === 'passwordDifferent'}
         <p>Введённые пароли отличаются.</p>
     {else if $messageType === 'emptyOrganization'}
-        <p>Укажите Юридическое название.</p>
+        <p>Укажите юридическое название.</p>
     {else if $messageType === 'emptyPhone'}
-        <p>Укажите ваш Телефон.</p>
+        <p>Укажите ваш телефон.</p>
+    {else if $messageType === 'emptyCity'}
+        <p>Укажите ваш город.</p>
     {else if $messageType === 'checkBot'}
         <p>Вы дали неверный ответ на вопрос. Подтвердите что вы не робот.</p>
     {/if}
@@ -45,7 +47,7 @@
     
     {include file="$baseTemplatePath/formText.tmpl" value="{$user->address}" name="address" caption="Адрес магазина или торговой точки"}
     
-    {include file="$baseTemplatePath/formText.tmpl" value="{$user->city}" name="city" caption="Город"}
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->city}" name="city" caption="Город*"}
     
     {include file="$baseTemplatePath/formText.tmpl" value="" name="questionAnswer" caption="{$question->question}*"}
     

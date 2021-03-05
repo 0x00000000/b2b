@@ -1,9 +1,11 @@
 <div class="listContent">
 
-<h3 id="basketEmpty"{if $order && $order->getProductsCount()} class="hidden"{/if}>Ваша корзина пуста.</h3>
-<h3 id="basket"{if ! $order || ! $order->getProductsCount()} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span></h3>
+<h3 id="basketEmpty"{if $order && $order->getProductsCount() || $messageType === 'orderSaved'} class="hidden"{/if}>Ваша корзина пуста.</h3>
+<h3 id="basket"{if ! $order || ! $order->getProductsCount() || $messageType === 'orderSaved'} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span></h3>
 
+{if $order && $order->getProductsCount()}
 <h1>Ваш заказ</h1>
+{/if}
 
 <div class="message">
     {if $messageType}
@@ -12,19 +14,29 @@
         {else if $messageType === 'errorSaveOrderSavingError'}
             <p>Заказ не отправлен, возникли технические проблемы. Свяжитесь с нами по телефону.</p>
         {else if $messageType === 'orderSaved' && $orderId}
-            <p>Ваш заказ отправлен. Номер вашего заказа {$orderId}.</p>
+            <h3>Ваш заказ отправлен. Номер вашего заказа {$orderId}.</h3>
         {else if $messageType === 'orderSaved'}
-            <p>Ваш заказ отправлен.</p>
+            <h3>Ваш заказ отправлен.</h3>
         {/if}
     {/if}
 </div>
 
+{if $messageType !== 'orderSaved'}
 <div id="table"></div>
 
-<div id="form"></div>
+<div id="formBox"></div>
 
 <script type="text/javascript">
+    var formSender = new FormSender();
+    formSender.setSendCallback(function() {
+        var form = document.getElementById('form');
+        if (form) {
+            var form = document.getElementById('form');
+            form.submit();
+        }
+    });
     loadBasket();
 </script>
+{/if}
 
 </div>

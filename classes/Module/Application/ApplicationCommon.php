@@ -68,6 +68,8 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/logout', 'User/ControllerUserLogin', 'logout');
         
+        $router->setRule('/history[/<action>][/<id>]', 'Buyer/ControllerBuyerOrdersList', 'index');
+        
         $router->setRule('/', 'Buyer/ControllerBuyerCatalog', 'catalog');
         
         $router->setDefaultRule('ControllerPage', 'index');

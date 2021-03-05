@@ -1,11 +1,9 @@
-.orderChangeCount a {
+.orderChangeCount input[type=button] {
     padding-top: 5px;
     padding-bottom: 5px;
-}
-
-.orderChangeCount a:hover {
-    background-color: #eee;
-    text-decoration: none;
+    min-width: 25px;
+    height: 25px;
+    padding: 0;
 }
 
 input.orderCount {

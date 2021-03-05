@@ -73,6 +73,8 @@ class ControllerUserRegister extends ControllerBase {
             $messageType = 'emptyOrganization';
         } else if (empty($user->phone)) {
             $messageType = 'emptyPhone';
+        } else if (empty($user->city)) {
+            $messageType = 'emptyCity';
         }
         
         if (empty($messageType)) {

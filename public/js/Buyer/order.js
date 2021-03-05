@@ -1,9 +1,18 @@
 function addToBasket(code, count) {
+    formSender.disallowToSend();
+    var inputList = document.getElementsByClassName('orderCount');
+    for (var key in inputList) {
+        inputList[key].disabled = true;
+    }
     var xhr = new XMLHttpRequest();
     xhr.open('GET', rootUrl + '/order/buy/' + code + '/' + count);
     xhr.send();
 
     xhr.onload = function() {
+        var inputList = document.getElementsByClassName('orderCount');
+        for (var key in inputList) {
+            inputList[key].disabled = false;
+        }
         if (xhr.status == 200) {
             try {
                 var response = JSON.parse(xhr.response);
@@ -14,6 +23,9 @@ function addToBasket(code, count) {
                 fillBacket(response);
             }
         }
+        
+        formSender.allowToSend();
+        formSender.sendIfNeeded();
     };
     
     xhr.onerror = function() {
@@ -36,7 +48,8 @@ function loadBasket() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', rootUrl + '/order/get');
     xhr.send();
-
+    
+    
     xhr.onload = function() {
         if (xhr.status == 200) {
             try {
@@ -48,8 +61,8 @@ function loadBasket() {
                 fillBacket(response);
                 if (response.basket.count) {
                     var form = renderForm(response.basket.order);
-                    document.getElementById('form').innerHTML = '';
-                    document.getElementById('form').appendChild(form);
+                    document.getElementById('formBox').innerHTML = '';
+                    document.getElementById('formBox').appendChild(form);
                 }
             }
         }
@@ -138,13 +151,13 @@ function renderTable(productData) {
             tr.appendChild(td);
             
             td = document.createElement('td');
-            td.className = 'orderChangeCount'
-            /*a = document.createElement('a');
-            a.className = 'orderDecrease';
-            a.href = '';
-            a.onclick = createAddToBasketCallback(key, -1);
-            a.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;';
-            td.appendChild(a);*/
+            td.className = 'orderChangeCount singleLine'
+            input = document.createElement('input');
+            input.type = 'button';
+            input.className = 'orderDecrease';
+            input.onclick = createAddToBasketCallback(key, -1);
+            input.value = '-';
+            td.appendChild(input);
             input = document.createElement('input');
             input.className = 'orderCount';
             input.value = product.count;
@@ -155,17 +168,17 @@ function renderTable(productData) {
             input.value = product.count;
             input.id = 'orderCountOrig' + key;
             td.appendChild(input);
-            input = document.createElement('input');
+            /*input = document.createElement('input');
             input.type = 'button';
             input.value = 'OK';
             input.className = 'orderCountSet';
+            td.appendChild(input);*/
+            input = document.createElement('input');
+            input.type = 'button';
+            input.className = 'orderIncrease';
+            input.onclick = createAddToBasketCallback(key, 1);
+            input.value = '+';
             td.appendChild(input);
-            /*a = document.createElement('a');
-            a.className = 'orderIncrease';
-            a.href = '';
-            a.onclick = createAddToBasketCallback(key, 1);
-            a.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;';
-            td.appendChild(a);*/
             tr.appendChild(td);
             table.appendChild(tr);
         }
@@ -212,6 +225,8 @@ function renderForm(orderData) {
     var form = document.createElement('form');
     form.action = rootUrl + '/order';
     form.method = 'POST';
+    form.id = 'form';
+    form.onsubmit = function(){formSender.sendIfCan(); return false;};
     var table = document.createElement('table');
     table.className = 'formTable';
     tr = createInput('Коментарий', 'comment', orderData);
@@ -223,8 +238,8 @@ function renderForm(orderData) {
     td = document.createElement('td');
     input = document.createElement('input');
     input.type = 'submit';
-    input.name = 'submit';
-    input.value = 'Отправить';
+    input.name = 'save';
+    input.value = 'Отправить2';
     td.appendChild(input);
     tr.appendChild(td);
     table.appendChild(tr);

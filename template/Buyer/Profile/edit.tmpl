@@ -1,7 +1,7 @@
 <h3>Изменить профиль</h3>
 
 {if $messageType}
-<div class="message">
+<div class="errorMessage">
     {if $messageType === 'savingFailed'}
         <p>Изменения не были сохранены. Возникла ошибка.</p>
     {else if $messageType === 'emptyLogin'}
@@ -31,7 +31,7 @@
     
     {include file="$baseTemplatePath/formText.tmpl" value="{$user->address}" name="address" caption="Адрес магазина или торговой точки"}
     
-    {include file="$baseTemplatePath/formText.tmpl" value="{$user->city}" name="city" caption="Город"}
+    {include file="$baseTemplatePath/formText.tmpl" value="{$user->city}" name="city" caption="Город*"}
     
 </table>
 <p>

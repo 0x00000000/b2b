@@ -23,13 +23,9 @@ function addToBasket(code, count, link) {
                     document.getElementById('basketEmpty').style.display = 'none';
                     document.getElementById('basketCount').innerHTML = count;
                     document.getElementById('basketCost').innerHTML = cost;
-                    var table = renderTable(response.basket.order.products);
-                    document.getElementById('table').innerHTML = '';
-                    document.getElementById('table').appendChild(table);
                 } else {
                     document.getElementById('basket').style.display = 'none';
                     document.getElementById('basketEmpty').style.display = 'block';
-                    document.getElementById('table').innerHTML = '';
                 }
             }
         }

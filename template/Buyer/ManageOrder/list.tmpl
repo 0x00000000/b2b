@@ -1,0 +1,51 @@
+<div class="listContent">
+
+<h3>Список заказов</h3>
+
+<div class="message">
+{if $messageType}
+    {if $messageType === 'itemNotFound'}
+        <p>Заказ не найден.</p>
+    {else if $messageType === 'wrongParamethers'}
+        <p>Неверные параметры.</p>
+    {/if}
+{/if}
+</div>
+
+{if $pagesCount > 1}
+<div class="pages">
+{foreach $pagesList as $page}
+{if $page === $currentPage}
+    <strong>{$page}</strong>
+{else}
+    <a href="{$baseUrl}/list/{$page}">{$page}</a>
+{/if}
+{/foreach}
+</div>
+{/if}
+
+<table class="listTable">
+    <tr>
+        <th>Id заказа</th>
+        <th>Дата</th>
+        <th>Комментарий</th>
+        <th>К-во товаров</th>
+        <th>Стоимость</th>
+        <th>Просмотр</th>
+    </tr>
+    
+    {foreach $itemsList as $item}
+    <tr>
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->id}"}</td>
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->date}"}</td>
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->comment}"}</td>
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->getProductsCount()}"}</td>
+        <td>{include file="$baseTemplatePath/viewText.tmpl" value="{$item->getProductsCost()}"}</td>
+        <td>
+            <a href="{$baseUrl}/view/{$item->id}">Подробнее</a>
+        </td>
+    </tr>
+    {/foreach}
+</table>
+
+</div>

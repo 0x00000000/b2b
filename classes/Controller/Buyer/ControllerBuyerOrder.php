@@ -15,12 +15,13 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
     
     protected function actionIndex() {
         
-        if ($this->getFromPost('submit')) {
+        if (! is_null($this->getFromPost('comment'))) {
             $this->innerActionDoSaveOrder();
         }
         
         $this->addCssFile('/css/Buyer/order.css');
         $this->addJsFile('/js/Buyer/order.js');
+        $this->addJsFile('/js/Buyer/FormSender.js');
         
         $order = Factory::instance()->createModel('Order');
         $orderState = $this->getFromSession('orderState');

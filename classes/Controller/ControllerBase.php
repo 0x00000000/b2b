@@ -254,6 +254,7 @@ abstract class ControllerBase extends Controller {
             $mainMenu = array(
                 array('link' => $urlPrefix . '/', 'caption' => 'Каталог'),
                 array('link' => $urlPrefix . '/order', 'caption' => 'Ваш заказ'),
+                array('link' => $urlPrefix . '/history', 'caption' => 'История заказов'),
                 array('link' => $urlPrefix . '/contacts', 'caption' => 'Контакты'),
             );
         }
@@ -270,6 +271,15 @@ abstract class ControllerBase extends Controller {
             $mainMenu[] = array('link' => $urlPrefix . '/logout', 'caption' => 'Выйти', 'class' => 'leave');
         }
         
+        foreach ($mainMenu as &$menuItem) {
+            if ($menuItem['link'] === $urlPrefix . '/') { // Каталог.
+                $menuItem['current'] =
+                    preg_match('|' . $menuItem['link'] . '$|', $this->getUrl())
+                    || strpos($this->getUrl(), $menuItem['link'] . 'catalog/') !== false;
+            } else {
+                $menuItem['current'] = strpos($this->getUrl(), $menuItem['link']) !== false;
+            }
+        }
         $this->getPageView()->set('mainMenu', $mainMenu);
     }
     
@@ -278,7 +288,7 @@ abstract class ControllerBase extends Controller {
      */
     protected function setPageViewVariables(): void {
         $this->getPageView()->set('user', $this->getAuth()->getUser());
-        $this->getPageView()->set('url', $this->getUrl());
+        $this->getPageView()->set('currentUrl', $this->getUrl());
         $this->getPageView()->set('rootUrl', $this->getRootUrl());
         $this->getPageView()->set('baseTemplatePath', $this->getBaseTemplatePath());
         $this->getPageView()->set('bodyClass', '');
