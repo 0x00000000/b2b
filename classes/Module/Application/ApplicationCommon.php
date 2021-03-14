@@ -42,6 +42,8 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/admin/page[/<action>][/<id>]', 'Admin/ControllerAdminManagePage', 'index');
         
+        $router->setRule('/admin/setting[/<action>][/<id>]', 'Admin/ControllerAdminManageSetting', 'index');
+        
         $router->setRule('/admin/file[/<action>][/<id>]', 'Admin/ControllerAdminManageFile', 'index');
         
         $router->setRule('/seller', 'Seller/ControllerSellerIndex', 'index');
@@ -50,13 +52,19 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/seller/price[/<action>][/<from>]', 'Seller/ControllerSellerUploadPrice', 'index');
         
+        $router->setRule('/seller/file[/<action>][/<id>]', 'Seller/ControllerSellerManageFile', 'index');
+        
         $router->setRule('/seller/new[/<action>][/<id>]', 'Seller/ControllerSellerManageNew', 'index');
         
         $router->setRule('/seller/buyer[/<action>][/<id>]', 'Seller/ControllerSellerManageBuyer', 'index');
         
         $router->setRule('/order/buy/<code>/<count>', 'Buyer/ControllerBuyerOrder', 'buy');
         
+        $router->setRule('/order/repeat/<orderId>', 'Buyer/ControllerBuyerOrder', 'repeat');
+        
         $router->setRule('/order/get', 'Buyer/ControllerBuyerOrder', 'get');
+        
+        $router->setRule('/order/clear', 'Buyer/ControllerBuyerOrder', 'clear');
         
         $router->setRule('/order', 'Buyer/ControllerBuyerOrder', 'index');
         

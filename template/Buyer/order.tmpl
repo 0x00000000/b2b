@@ -1,10 +1,10 @@
 <div class="listContent">
 
 <h3 id="basketEmpty"{if $order && $order->getProductsCount() || $messageType === 'orderSaved'} class="hidden"{/if}>Ваша корзина пуста.</h3>
-<h3 id="basket"{if ! $order || ! $order->getProductsCount() || $messageType === 'orderSaved'} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Стоимость товаров <span id="basketCost">{$order->getProductsCost()}</span></h3>
+<h3 id="basket"{if ! $order || ! $order->getProductsCount() || $messageType === 'orderSaved'} class="hidden"{/if}>В вашей корзине <span id="basketCount">{$order->getProductsCount()}</span> товар(ов). Сумма заказа <span id="basketCost">{$order->getProductsCost()}</span></h3>
 
 {if $order && $order->getProductsCount()}
-<h1>Ваш заказ</h1>
+<h1 id="orderCaption">Ваш заказ</h1>
 {/if}
 
 <div class="message">
@@ -13,10 +13,16 @@
             <p>Ваша корзина пуста.</p>
         {else if $messageType === 'errorSaveOrderSavingError'}
             <p>Заказ не отправлен, возникли технические проблемы. Свяжитесь с нами по телефону.</p>
-        {else if $messageType === 'orderSaved' && $orderId}
+        {else if $messageType === 'orderSaved' && ! empty($orderId)}
             <h3>Ваш заказ отправлен. Номер вашего заказа {$orderId}.</h3>
         {else if $messageType === 'orderSaved'}
             <h3>Ваш заказ отправлен.</h3>
+        {else if $messageType === 'orderRepeatedMissedProducts' && ! empty($missedProductsCount)}
+            <h3>Вы успешно повторили заказ. К сожалению {$missedProductsCount} товаров нет в наличии.</h3>
+        {else if $messageType === 'orderRepeatedMissedProducts'}
+            <h3>Вы успешно повторили заказ. К сожалению некоторых товаров нет в наличии.</h3>
+        {else if $messageType === 'orderRepeated'}
+            <h3>Вы успешно повторили заказ.</h3>
         {/if}
     {/if}
 </div>

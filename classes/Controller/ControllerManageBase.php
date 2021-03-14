@@ -64,6 +64,18 @@ abstract class ControllerManageBase extends ControllerBase {
     protected $_id = null;
     
     /**
+     * Allow user execute actions.
+     */
+    protected $_canDo = array(
+        'add' => true,
+        'view' => true,
+        'edit' => true,
+        'delete' => true,
+        'disable' => true,
+        'list' => true,
+    );
+    
+    /**
      * Class constructor.
      */
     public function __construct() {
@@ -80,17 +92,17 @@ abstract class ControllerManageBase extends ControllerBase {
             $this->_id = $get['id'];
         }
         
-        if ($this->_action === 'add') {
+        if ($this->_action === 'add' && $this->_canDo['add']) {
             $content = $this->innerActionAdd();
-        } else if ($this->_action === 'view' && $this->_id) {
+        } else if ($this->_action === 'view' && $this->_id && $this->_canDo['view']) {
             $content = $this->innerActionView();
-        } else if ($this->_action === 'edit' && $this->_id) {
+        } else if ($this->_action === 'edit' && $this->_id && $this->_canDo['edit']) {
             $content = $this->innerActionEdit();
-        } else if ($this->_action === 'delete' && $this->_id) {
+        } else if ($this->_action === 'delete' && $this->_id && $this->_canDo['delete']) {
             $content = $this->innerActionDelete();
-        } else if ($this->_action === 'disable' && $this->_id) {
+        } else if ($this->_action === 'disable' && $this->_id && $this->_canDo['disable']) {
             $content = $this->innerActionDisable(); // Disables or enables item.
-        } else if ($this->_action === 'list') {
+        } else if ($this->_action === 'list' && $this->_canDo['list']) {
             $content = $this->innerActionList();
         } else if (empty($this->_action)) {
             $content = $this->innerActionList();
@@ -121,6 +133,10 @@ abstract class ControllerManageBase extends ControllerBase {
                 $values = $model->$methodName();
                 $this->getView()->set($propertyData['name'] . 'Values', $values);
             }
+        }
+        
+        foreach ($this->_canDo as $name => $value) {
+            $this->getView()->set('can' . ucfirst($name), $value);
         }
     }
     

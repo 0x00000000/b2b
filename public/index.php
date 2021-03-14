@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace B2bShop;
 
 use B2bShop\Module\Factory\Factory;

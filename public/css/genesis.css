@@ -1,3 +1,8 @@
+body div#wraper {
+    padding-top: 2px;
+    margin-top: 130px;
+}
+
 #wraper .units-row .unit-70 {
     width: 100%;
 }
@@ -12,9 +17,10 @@
 }
 
 .userInfo h3 {
+    margin: 0;
     line-height: 30px;
     font-size: 18px;
-    text-align:center;
+    text-align: right;
 }
 
 .userInfo input[type="submit"] {
@@ -39,28 +45,54 @@
 .unit-70.topMenu {
 }
 
-@media(max-width: 600px){
-    .userInfoLine {
-        clear: both;
+@media only screen and (max-width: 1100px) {
+    body .menu li.menu-item a,
+    body .menu li.menu-item a {
+        padding-left: 10px;
+        padding-right: 10px;
     }
     
-    .basket {
-        padding-bottom: 5px;
-        min-height: 70px;
+    .units-row .unit-70.topMenu {
+        margin-left: 0;
     }
     
 }
 
+@media only screen and (max-width: 950px) {
+    body .units-row .unit-30 {
+        width: auto;
+    }
+    
+    body ul.menu li a,
+    body ul.menu li.current-menu-item a {
+        font-size: 11px;
+    }
+}
+
 @media only screen and (max-width: 767px) {
+    .userInfo {
+        float: none;
+        padding-left: 0;
+    }
+
+    .userInfoLine {
+        float: none;
+    }
+
+    .userInfo h3 {
+        line-height: 30px;
+        margin: 0;
+        font-size: 18px;
+        text-align: right;
+    }
+
     .units-row .genesisLogo.unit-30 {
         margin-bottom: 0;
     }
     
     .unit-70.topMenu ul.menu {
         display: block;
-        padding: 0 !important;
         margin: 0;
-        font-size: 14px;
     }
     .unit-70.topMenu ul.menu li {
         float: left;
@@ -77,4 +109,11 @@
         background-color: #0065B3;
     }
     
+}
+
+@media only screen and (max-width: 600px) {
+    body .unit-70.topMenu ul.menu li a,
+    body .unit-70.topMenu ul.menu li.current-menu-item a {
+        font-size: 13px;
+    }
 }

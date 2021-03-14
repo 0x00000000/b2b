@@ -31,22 +31,4 @@ class ModelCategory extends ModelDatabase {
         array('name' => 'deleted', 'type' => self::TYPE_BOOL, 'skipControl' => true),
     );
     
-    public function getGoods($pageNumber): array {
-        $items = array();
-        $pageNumber = (int) $pageNumber;
-        
-        $settings = Factory::instance()->createModel('Settings')->getSettings();
-        
-        $conditionsList = array('disabled' => false, 'delete' => false,);
-        if ($this->getPk()) {
-            $conditionsList['categoryId'] = $this->getPk();
-        }
-        $sortingList = array('name' => 'asc');
-        $limit = $settings->productsPerPage;
-        $offset = $pageNumber ? ($pageNumber - 1) * $limit : 0;
-        $items = Factory::instance()->createModel('Product')
-            ->getModelsList($conditionsList, $limit, $offset, $sortingList);
-        
-        return $items;
-    }
 }

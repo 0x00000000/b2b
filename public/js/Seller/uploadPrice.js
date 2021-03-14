@@ -2,20 +2,20 @@ function uploadPrice(productsCount, productsUploadCount) {
     sendSavePriceRequest(1);
     
     function sendSavePriceRequest(from) {
-        var progressWidth = Math.ceil((from + productsUploadCount) * 100 / productsCount);
+        let progressWidth = Math.ceil((from + productsUploadCount) * 100 / productsCount);
         if (progressWidth > 100) {
             progressWidth = 100;
         }
-        var progressLeftElement = document.getElementById('progressLeft');
+        let progressLeftElement = document.getElementById('progressLeft');
         progressLeftElement.style.setProperty('width', progressWidth + '%');
         
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('GET', window.location.href + '/savePrice/' + from);
         xhr.send();
 
         xhr.onload = function() {
             if (xhr.status == 200) {
-                var response = JSON.parse(xhr.response);
+                let response = JSON.parse(xhr.response);
                 if (response && ! response.error && response.finished) {
                     document.getElementById('success').style.setProperty('display', 'block');
                 } else {

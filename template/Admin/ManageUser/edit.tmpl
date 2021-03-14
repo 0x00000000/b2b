@@ -1,5 +1,13 @@
 <h3>Изменить</h3>
 
+{if $messageType}
+<div class="message errorMessage">
+    {if $messageType === 'loginExists'}
+        <p>Изменения не сохранены. Существует другой пользователь с таким же логином.</p>
+    {/if}
+</div>
+{/if}
+
 <form action="{$currentUrl}" method="POST" enctype="multipart/form-data">
 <table class="formTable">
 {foreach $propertiesList as $propertyName => $property}

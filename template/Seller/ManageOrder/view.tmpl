@@ -1,4 +1,8 @@
-<h3>Просмотр заказа</h3>
+<h3>Просмотр заказа № {$item->id} от {$item->user->organization}</h3>
+
+<p>
+    {include file="$baseTemplatePath/buttonCancel.tmpl" value="Назад"}
+</p>
 
 <table class="listTable">
     <tr>

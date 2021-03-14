@@ -30,18 +30,18 @@ class ControllerFile extends ControllerBase {
     
     protected function actionIndex() {
         $url = $this->getRequest()->url;
-        $urlPrefix = Config::instance()->get('application', 'urlPrefix');
-        if ($urlPrefix) { // If application is not in site's root.
-            $url = preg_replace('|^' . $urlPrefix . '|', '', $url);
-        }
+        $urlPrefix = Config::instance()->get('application', 'urlPrefix') . $this->_innerUrl . '/';
+        $url = preg_replace('|^' . $urlPrefix . '|', '', $url);
         
-        $condition = array_merge($this->_conditionsList, array(/*'url' => $url*/));
+        $condition = array_merge($this->_conditionsList, array('url' => $url));
         $file = Factory::instance()->createModel('File')
             ->getOneModel($condition);
         if ($file) {
             if ($this->checkAccess($file)) {
                 $this->sendFile($file);
             } else {
+                $this->setStashData('redirectAfterLoginUrl', $this->getUrl());
+                $this->setStashData('redirectAfterLoginTime', time());
                 $this->redirect($this->getAuthUrl());
             }
         } else {

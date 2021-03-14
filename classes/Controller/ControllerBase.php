@@ -232,59 +232,6 @@ abstract class ControllerBase extends Controller {
     }
     
     /**
-     * Adds menu varibles to page's view.
-     */
-    protected function setPageViewMenuVariables(): void {
-        $urlPrefix = Config::instance()->get('application', 'urlPrefix');
-        if ($this->getAuth()->isAdmin()) {
-            $mainMenu = array(
-                array('link' => $urlPrefix . '/admin/seller', 'caption' => 'Продавцы'),
-                array('link' => $urlPrefix . '/admin/admin', 'caption' => 'Администраторы'),
-                array('link' => $urlPrefix . '/admin/question', 'caption' => 'Антибот'),
-                array('link' => $urlPrefix . '/admin/file', 'caption' => 'Файлы'),
-                array('link' => $urlPrefix . '/admin/page', 'caption' => 'Страницы'),
-            );
-        } else if ($this->getAuth()->isSeller()) {
-            $mainMenu = array(
-                array('link' => $urlPrefix . '/seller/order', 'caption' => 'Заказы'),
-                array('link' => $urlPrefix . '/seller/price', 'caption' => 'Прайс'),
-                array('link' => $urlPrefix . '/seller/new', 'caption' => 'Заявки'),
-                array('link' => $urlPrefix . '/seller/buyer', 'caption' => 'Покупатели'),
-            );
-        } else if ($this->getAuth()->isBuyer()) {
-            $mainMenu = array(
-                array('link' => $urlPrefix . '/', 'caption' => 'Каталог'),
-                array('link' => $urlPrefix . '/order', 'caption' => 'Ваш заказ'),
-                array('link' => $urlPrefix . '/history', 'caption' => 'История заказов'),
-                array('link' => $urlPrefix . '/contacts', 'caption' => 'Контакты'),
-            );
-        }
-        
-        if ($this->getAuth()->isGuest()) {
-            $mainMenu[] = array('link' => 'http://genesis.lg.ua/?page_id=32', 'caption' => 'Контакты');
-        }
-        
-        if ($this->getAuth()->isGuest()) {
-            $mainMenu[] = array('link' => $urlPrefix . '/register', 'caption' => 'Регистрация');
-            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Вход');
-        } else {
-            $mainMenu[] = array('link' => $urlPrefix . '/profile', 'caption' => 'Профиль');
-            $mainMenu[] = array('link' => $urlPrefix . '/logout', 'caption' => 'Выйти', 'class' => 'leave');
-        }
-        
-        foreach ($mainMenu as &$menuItem) {
-            if ($menuItem['link'] === $urlPrefix . '/') { // Каталог.
-                $menuItem['current'] =
-                    preg_match('|' . $menuItem['link'] . '$|', $this->getUrl())
-                    || strpos($this->getUrl(), $menuItem['link'] . 'catalog/') !== false;
-            } else {
-                $menuItem['current'] = strpos($this->getUrl(), $menuItem['link']) !== false;
-            }
-        }
-        $this->getPageView()->set('mainMenu', $mainMenu);
-    }
-    
-    /**
      * Adds common varibles to page's view.
      */
     protected function setPageViewVariables(): void {
@@ -509,7 +456,6 @@ abstract class ControllerBase extends Controller {
         $this->addCssFile('/css/common.css');
         $this->addCssFile('/css/genesis.css');
         $this->addJsFile('/vendor/jquery/jquery-3.3.1.js');
-        $this->addJsFile('/vendor/nicEdit/nicEdit.js');
         $this->addJsFile('/js/common.js');
     }
     
@@ -593,6 +539,61 @@ abstract class ControllerBase extends Controller {
      */
     protected function getControlsList(ModelDatabase $model) {
         return array();
+    }
+    
+    /**
+     * Adds menu varibles to page's view.
+     */
+    protected function setPageViewMenuVariables(): void {
+        $urlPrefix = Config::instance()->get('application', 'urlPrefix');
+        if ($this->getAuth()->isAdmin()) {
+            $mainMenu = array(
+                array('link' => $urlPrefix . '/admin/seller', 'caption' => 'Продавцы'),
+                array('link' => $urlPrefix . '/admin/admin', 'caption' => 'Администраторы'),
+                array('link' => $urlPrefix . '/admin/question', 'caption' => 'Антибот'),
+                array('link' => $urlPrefix . '/admin/file', 'caption' => 'Файлы'),
+                array('link' => $urlPrefix . '/admin/setting', 'caption' => 'Настройки'),
+                array('link' => $urlPrefix . '/admin/page', 'caption' => 'Страницы'),
+            );
+        } else if ($this->getAuth()->isSeller()) {
+            $mainMenu = array(
+                array('link' => $urlPrefix . '/seller/order', 'caption' => 'Заказы'),
+                array('link' => $urlPrefix . '/seller/price', 'caption' => 'Прайс'),
+                array('link' => $urlPrefix . '/seller/file', 'caption' => 'Файлы'),
+                array('link' => $urlPrefix . '/seller/new', 'caption' => 'Заявки'),
+                array('link' => $urlPrefix . '/seller/buyer', 'caption' => 'Покупатели'),
+            );
+        } else if ($this->getAuth()->isBuyer()) {
+            $mainMenu = array(
+                array('link' => $urlPrefix . '/', 'caption' => 'Каталог'),
+                array('link' => $urlPrefix . '/order', 'caption' => 'Ваш заказ'),
+                array('link' => $urlPrefix . '/history', 'caption' => 'История заказов'),
+                array('link' => $urlPrefix . '/contacts', 'caption' => 'Контакты'),
+            );
+        }
+        
+        if ($this->getAuth()->isGuest()) {
+            $mainMenu[] = array('link' => 'http://genesis.lg.ua/?page_id=32', 'caption' => 'Контакты');
+        }
+        
+        if ($this->getAuth()->isGuest()) {
+            $mainMenu[] = array('link' => $urlPrefix . '/register', 'caption' => 'Регистрация');
+            $mainMenu[] = array('link' => $urlPrefix . '/login', 'caption' => 'Вход');
+        } else {
+            $mainMenu[] = array('link' => $urlPrefix . '/profile', 'caption' => 'Профиль');
+            $mainMenu[] = array('link' => $urlPrefix . '/logout', 'caption' => 'Выйти', 'class' => 'leave');
+        }
+        
+        foreach ($mainMenu as &$menuItem) {
+            if ($menuItem['link'] === $urlPrefix . '/') { // Каталог.
+                $menuItem['current'] =
+                    preg_match('|' . $menuItem['link'] . '$|', $this->getUrl())
+                    || strpos($this->getUrl(), $menuItem['link'] . 'catalog/') !== false;
+            } else {
+                $menuItem['current'] = strpos($this->getUrl(), $menuItem['link']) !== false;
+            }
+        }
+        $this->getPageView()->set('mainMenu', $mainMenu);
     }
     
 }

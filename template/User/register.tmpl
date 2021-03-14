@@ -1,31 +1,34 @@
 <h3>Регистрация</h3>
 
 <div class="errorMessage">
-{if $messageType}
-    {if $messageType === 'savingFailed'}
+{if $messageType && $messageType === 'successfullyRegistered'}
+    <div class="message"><p>Вы успешно зарегистрировались. Свяжитесь с нами по телефону, чтобы мы активировали вашу учётную запись.</p></div>
+{else if $messageTypeRegister}
+    {if $messageTypeRegister === 'savingFailed'}
         <p>Изменения не были сохранены. Возникла ошибка.</p>
-    {else if $messageType === 'emptyLogin'}
+    {else if $messageTypeRegister === 'emptyLogin'}
         <p>Укажите ваш логин.</p>
-    {else if $messageType === 'existingLogin'}
+    {else if $messageTypeRegister === 'existingLogin'}
         <p>Такой логин уже зарегистрирован в системе.</p>
-    {else if $messageType === 'emptyPassword'}
+    {else if $messageTypeRegister === 'emptyPassword'}
         <p>Пароль не может быть пустым.</p>
-    {else if $messageType === 'emptyConfirm'}
+    {else if $messageTypeRegister === 'emptyConfirm'}
         <p>Введите подтверждение пароля.</p>
-    {else if $messageType === 'passwordDifferent'}
+    {else if $messageTypeRegister === 'passwordDifferent'}
         <p>Введённые пароли отличаются.</p>
-    {else if $messageType === 'emptyOrganization'}
+    {else if $messageTypeRegister === 'emptyOrganization'}
         <p>Укажите юридическое название.</p>
-    {else if $messageType === 'emptyPhone'}
+    {else if $messageTypeRegister === 'emptyPhone'}
         <p>Укажите ваш телефон.</p>
-    {else if $messageType === 'emptyCity'}
+    {else if $messageTypeRegister === 'emptyCity'}
         <p>Укажите ваш город.</p>
-    {else if $messageType === 'checkBot'}
+    {else if $messageTypeRegister === 'checkBot'}
         <p>Вы дали неверный ответ на вопрос. Подтвердите что вы не робот.</p>
     {/if}
 {/if}
 </div>
 
+{if empty($messageType) || $messageType !== 'successfullyRegistered'}
 <form action="{$currentUrl}" method="POST">
 <table class="formTable smallTable">
 
@@ -58,3 +61,4 @@
     {include file="$baseTemplatePath/buttonCancel.tmpl" value="Отмена"}
 </p>
 </form>
+{/if}

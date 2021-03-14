@@ -44,7 +44,7 @@
 </div>
 {/if}
 
-<p><a href="{$baseUrl}/add">Создать</a></a>
+{if ! empty($canAdd)}<p><a href="{$baseUrl}/add">Создать</a></a>{/if}
         
 <table class="listTable">
     <tr>
@@ -81,10 +81,10 @@
     {/if}
     {/foreach}
     <td>
-        <a href="{$baseUrl}/view/{$item->id}">просмотр</a>&nbsp;&nbsp;&nbsp;
-        <a href="{$baseUrl}/edit/{$item->id}">изменить</a>&nbsp;&nbsp;&nbsp;
-        <a href="{$baseUrl}/delete/{$item->id}" onClick="return confirm('Подтвердите удаление');">удалить</a>&nbsp;&nbsp;&nbsp;
-        <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}активировать{else}деактивировать{/if}</a>
+        {if ! empty($canView)}<a href="{$baseUrl}/view/{$item->id}">просмотр</a>&nbsp;&nbsp;&nbsp;{/if}
+        {if ! empty($canEdit)}<a href="{$baseUrl}/edit/{$item->id}">изменить</a>&nbsp;&nbsp;&nbsp;{/if}
+        {if ! empty($canDelete)}<a href="{$baseUrl}/delete/{$item->id}" onClick="return confirm('Подтвердите удаление');">удалить</a>&nbsp;&nbsp;&nbsp;{/if}
+        {if ! empty($canDisable)}<a href="{$baseUrl}/disable/{$item->id}" onClick="return confirm('Подтвердите действие');">{if $item->disabled}активировать{else}деактивировать{/if}</a>{/if}
     </td>
     </tr>
     {/foreach}

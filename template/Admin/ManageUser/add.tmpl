@@ -1,5 +1,15 @@
 <h3>Создать</h3>
 
+{if $messageType}
+<div class="message errorMessage">
+    {if $messageType === 'loginExists'}
+        <p>Пользователь не создан. Существует другой пользователь с таким же логином.</p>
+    {else if $messageType === 'emptyPassword'}
+        <p>Пользователь не создан. Не задан пароль для пользователя.</p>
+    {/if}
+</div>
+{/if}
+
 <form action="{$currentUrl}" method="POST" enctype="multipart/form-data">
 <table class="formTable">
 {foreach $propertiesList as $propertyName => $property}

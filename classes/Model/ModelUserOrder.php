@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace B2bShop\Model;
 
 use B2bShop\Module\Factory\Factory;
-use B2bShop\ModelUser;
 
 /**
  * Model current user order.
  * 
+ * @property string|null $id Id.
  * @property string|null $userId User id.
  * @property Model|null $user User object.
  * @property string|null $products Product data.
@@ -22,14 +22,10 @@ class ModelUserOrder extends ModelDatabase {
     protected $_table = 'user_order';
     
     /**
-     * @var string $_pkFieldName Primary key field name.
-     */
-    protected $_pkFieldName = 'user_id';
-    
-    /**
      * @var array $_propertiesList List of properties.
      */
     protected $_propertiesList = array(
+        array('name' => 'id'),
         array('name' => 'userId'),
         array('name' => 'user'),
         array('name' => 'products'),

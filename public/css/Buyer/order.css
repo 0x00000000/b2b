@@ -26,3 +26,6 @@ input[type=button].orderCountSet {
     text-align: center;
 }
 
+div.orderDeleteBox {
+    margin-top: 10px;
+}

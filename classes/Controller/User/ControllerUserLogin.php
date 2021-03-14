@@ -43,16 +43,23 @@ class ControllerUserLogin extends ControllerBase {
     }
     
     protected function innerActionDoLogin() {
+        sleep(1);
         if ($this->getFromPost('login') && $this->getFromPost('password')) {
             sleep(1);
             if ($this->getAuth()->login($this->getFromPost('login'), $this->getFromPost('password'))) {
                 $this->setStashData('messageType', '');
-                if ($this->getAuth()->isAdmin()) {
+                $redirectAfterLoginUrl = $this->popStashData('redirectAfterLoginUrl');
+                $redirectAfterLoginTime = $this->popStashData('redirectAfterLoginTime');
+                if ($redirectAfterLoginUrl && $redirectAfterLoginTime && $redirectAfterLoginTime + Config::instance()->get('site', 'redirectAfterLoginLifeTime') > time()) {
+                    $this->redirect($redirectAfterLoginUrl);
+                } else if ($this->getAuth()->isAdmin()) {
                     $this->redirect($this->getRootUrl() . Config::instance()->get('admin', 'mainPageUrl'));
                 } else if ($this->getAuth()->isSeller()) {
                     $this->redirect($this->getRootUrl() . Config::instance()->get('seller', 'mainPageUrl'));
-                } else {
+                } else if ($this->getAuth()->isBuyer()) {
                     $this->redirect($this->getRootUrl() . Config::instance()->get('buyer', 'mainPageUrl'));
+                } else {
+                    $this->redirect($this->getRootUrl());
                 }
             } else {
                 $this->setStashData('messageType', 'loginFailed');

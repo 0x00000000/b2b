@@ -1,23 +1,34 @@
 function addToBasket(code, count, link) {
-    var xhr = new XMLHttpRequest();
-    count = parseInt(count);
-    if (count <= 0) {
-        count = 1;
+    let regexp = /^\s*\d+\s*$/;
+    if (typeof count === 'string' && ! regexp.test(count)) {
+        alert('Введите корректное количество целым числом');
+        document.getElementById('productCoount' + code).focus();
+        return;
     }
+    
+    count = parseInt(count);
+    if (count <= 0 || isNaN(count)) {
+        alert('Введите корректное количество целым числом');
+        document.getElementById('productCoount' + code).focus();
+        return;
+    }
+    
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', rootUrl + '/order/buy/' + code + '/' + count);
     xhr.send();
-
+    
     xhr.onload = function() {
         if (xhr.status == 200) {
+            let response;
             try {
-                var response = JSON.parse(xhr.response);
+                response = JSON.parse(xhr.response);
             } catch (e) {
-                var response = null;
+                response = null;
             }
             if (response && response.basket && ! response.error) {
                 link.style.display = 'none';
-                var count = response.basket ? response.basket.count : 0;
-                var cost = response.basket ? response.basket.cost : 0;
+                let count = response.basket ? response.basket.count : 0;
+                let cost = response.basket ? response.basket.cost : 0;
                 if (count) {
                     document.getElementById('basket').style.display = 'block';
                     document.getElementById('basketEmpty').style.display = 'none';
@@ -30,8 +41,8 @@ function addToBasket(code, count, link) {
             }
         }
     };
-    
     xhr.onerror = function() {
         document.getElementById('error').style.setProperty('display', 'block');
     };
+    
 }

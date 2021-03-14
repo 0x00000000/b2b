@@ -18,11 +18,7 @@
     </div>
 {/if}
 
-<div class="downloadPrice">
-<a href="http://genesis.lg.ua/Prkfn/price_new.xls">Скачать прайс в Excel по торговым маркам</a>
-<br />
-<a href="http://genesis.lg.ua/Prkfn/price_new_group.xls">Скачать прайс в Excel по группам товаров</a>
-</div>
+<div class="downloadPrice">{$downloadPrices}</div>
 
 {if $currentCategory}
 <h1>{$currentCategory->caption}</h1>

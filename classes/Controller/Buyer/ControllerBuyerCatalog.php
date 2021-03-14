@@ -44,11 +44,15 @@ class ControllerBuyerCatalog extends ControllerBuyerBase {
         $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
         $order->setState($userOrder->getState());
         
+        $setting = Factory::instance()->createModel('Setting')->getOneModel(array('name' => 'downloadPrices'));
+        $downloadPrices = $setting ? $setting->value : '';
+        
         $this->getView()->setTemplate('Buyer/catalog');
         $this->getView()->set('categoriesList', $categoriesList);
         $this->getView()->set('currentCategory', $currentCategory);
         $this->getView()->set('productsList', $productsList);
         $this->getView()->set('order', $order);
+        $this->getView()->set('downloadPrices', $downloadPrices);
         $content = $this->getView()->render();
         
         return $content;

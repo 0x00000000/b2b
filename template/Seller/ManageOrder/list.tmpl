@@ -74,7 +74,7 @@
             {if ! $item->disabled}<a href="{$baseUrl}/export/{$item->id}">экспортировать</a>&nbsp;{/if}
         </td>
         <td>
-            <a href="{$baseUrl}/disable/{$item->id}">{if $item->disabled}активировать{else}деактивировать{/if}</a>
+            <a href="{$baseUrl}/disable/{$item->id}" onClick="return confirm('Подтвердите действие');">{if $item->disabled}активировать{else}деактивировать{/if}</a>
         </td>
         <td>
             <a href="{$baseUrl}/view/{$item->id}">просмотр</a>&nbsp;&nbsp;&nbsp;

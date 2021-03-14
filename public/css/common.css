@@ -86,7 +86,8 @@ table td {
     vertical-align: middle;
 }
 table td.alignLeft,
-table.alignLeft td {
+table.alignLeft td,
+.alignLeft {
     text-align: left;
 }
 
@@ -109,7 +110,7 @@ form input[type="text"], form input[type="password"], form select {
 }
 
 textarea {
-    width: 200px;
+    width: 600px;
     height: 200px;
     border: 1px solid #222;
     font-size: 18px;

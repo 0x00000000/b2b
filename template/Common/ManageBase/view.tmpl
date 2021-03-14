@@ -1,5 +1,9 @@
 <h3>Просмотр</h3>
 
+<p>
+    {include file="$baseTemplatePath/buttonCancel.tmpl" value="Назад"}
+</p>
+
 <table class="viewTable">
 {foreach $propertiesList as $propertyName => $property}
 {if $controlsList[$propertyName] !== 'none'}
@@ -16,6 +20,7 @@
 {/if}
 {/foreach}
 </table>
+
 <p>
     {include file="$baseTemplatePath/buttonCancel.tmpl" value="Назад"}
 </p>

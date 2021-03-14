@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace B2bShop\Controller\Admin;
 
-class ControllerAdminManagePage extends ControllerAdminManageBase {
+use B2bShop\Module\Factory\Factory;
+
+class ControllerAdminManageSetting extends ControllerAdminManageBase {
     
     /**
      * @var string $_modelName Name of managed model class.
      */
-    protected $_modelName = 'Page';
+    protected $_modelName = 'Setting';
     
     /**
-     * @var array $_innerUrl Inner url to controller's root page. Should be started from '/'.
+     * @var string $_innerUrl Inner url to controller's root page. Should start from '/'.
      */
-    protected $_innerUrl = '/admin/page';
+    protected $_innerUrl = '/admin/setting';
     
     /**
      * @var array $_modelControlsList Defines controls for model properties.
@@ -22,18 +24,22 @@ class ControllerAdminManagePage extends ControllerAdminManageBase {
      * propertyName => controlType
      */
     protected $_modelControlsList = array(
-        'content' => self::CONTROL_HTML,
+        'name' => self::CONTROL_LABEL,
+        'caption' => self::CONTROL_LABEL,
+        'value' => self::CONTROL_TEXTAREA,
+        'disabled' => self::CONTROL_NONE,
+        'deleted' => self::CONTROL_NONE,
     );
     
     /**
      * Allow user execute actions.
      */
     protected $_canDo = array(
-        'add' => true,
+        'add' => false,
         'view' => true,
         'edit' => true,
         'delete' => false,
-        'disable' => true,
+        'disable' => false,
         'list' => true,
     );
     

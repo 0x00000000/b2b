@@ -32,10 +32,11 @@ class ConfigCommon extends ConfigBase {
             'keywords' => '',
             'description' => '',
             'sessionLifeTime' => '86400',
+            'redirectAfterLoginLifeTime' => '600',
         ),
         'user' => array(
-            'salt1' => 'DSneicld3!',
-            'salt2' => 'gHjeMzz)$3',
+            'salt1' => 'abcdefghij',
+            'salt2' => 'klmnopqrst',
         ),
         'admin' => array(
             'mainPageUrl' => '/admin',

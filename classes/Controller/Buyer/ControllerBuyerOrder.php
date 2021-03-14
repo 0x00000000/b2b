@@ -79,27 +79,44 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
         $order->setState($userOrder->getState());
         
         if ($code && $count) {
-            $product = Factory::instance()->createModel('Product')->getOneModel(array('disabled' => false, 'deleted' => false, 'code' => $code));
-            if ($product) {
-                if ($count > 0) {
+            if ($count > 0) {
+                $product = Factory::instance()->createModel('Product')->getOneModel(array('disabled' => false, 'deleted' => false, 'code' => $code));
+                if ($product) {
                     $order->addProduct($product, $count);
-                } else {
-                    $order->removeProduct($product->code, -$count);
                 }
+            } else {
+                $order->removeProduct($code, -$count);
             }
         }
         
         $userOrder->setState($order->getState());
-        $test = $userOrder->save();
+        $userOrder->save();
         
-        $result = array(
-            'error' => false,
-            'basket' => array(
-                'count' => $order->getProductsCount(),
-                'cost' => $order->getProductsCost(),
-                'order' => $order->getDataAsArray(),
-            )
-        );
+        if ($order->getProductsCount()) {
+            $count = ! empty($order->products[$code]['count'])
+                ? $order->products[$code]['count']
+                : 0;
+            $result = array(
+                'error' => false,
+                'basket' => array(
+                    'count' => $order->getProductsCount(),
+                    'cost' => $order->getProductsCost(),
+                    'changedProduct' => array(
+                        'code' => $code,
+                        'count' => $count,
+                    ),
+                ),
+            );
+        } else {
+            $result = array(
+                'error' => false,
+                'basket' => array(
+                    'count' => $order->getProductsCount(),
+                    'cost' => $order->getProductsCost(),
+                    'order' => $order->getDataAsArray(),
+                ),
+            );
+        }
         return json_encode($result);
     }
     
@@ -116,7 +133,7 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
                 'count' => $order->getProductsCount(),
                 'cost' => $order->getProductsCost(),
                 'order' => $order->getDataAsArray(),
-            )
+            ),
         );
         return json_encode($result);
     }
@@ -127,6 +144,57 @@ class ControllerBuyerOrder extends ControllerBuyerBase {
         if ($orderId) {
             $this->getView()->set('orderId', $orderId);
         }
+        $missedProductsCount = $this->popStashData('missedProductsCount');
+        if ($missedProductsCount) {
+            $this->getView()->set('missedProductsCount', $missedProductsCount);
+        }
+    }
+    
+    protected function actionRepeat() {
+        $orderId = $this->getFromGet('orderId');
+        $prevOrder = Factory::instance()->createModel('Order')->getOneModel(array('orderId' => $orderId));
+        
+        $order = Factory::instance()->createModel('Order');
+        $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+        $order->setState($userOrder->getState());
+        
+        $report = $order->join($prevOrder);
+        
+        $userOrder->setState($order->getState());
+        $userOrder->save();
+        
+        if ($report && $report['missedProductsCount']) {
+            $this->setStashData('messageType', 'orderRepeatedMissedProducts');
+            $this->setStashData('missedProductsCount', $report['missedProductsCount']);
+        } else if ($report && ! $report['error']) {
+            $this->setStashData('messageType', 'orderRepeated');
+        }
+        
+        $this->redirect($this->getBaseUrl());
+    }
+    
+    protected function actionClear() {
+        $this->setAjaxMode(true);
+        
+        $order = Factory::instance()->createModel('Order');
+        $userOrder = Factory::instance()->createModel('UserOrder')->getForUser($this->getAuth()->getUser());
+        $order->setState($userOrder->getState());
+        
+        $order->products = array();
+        
+        $userOrder->setState($order->getState());
+        $userOrder->save();
+        
+        
+        $result = array(
+            'error' => false,
+            'basket' => array(
+                'count' => $order->getProductsCount(),
+                'cost' => $order->getProductsCost(),
+                'order' => $order->getDataAsArray(),
+            ),
+        );
+        return json_encode($result);
     }
     
 }

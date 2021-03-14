@@ -24,6 +24,7 @@ abstract class ControllerAbstract {
     public const CONTROL_SELECT_BOOL = 'selectBool';
     public const CONTROL_SELECT = 'select';
     public const CONTROL_FILE = 'file';
+    public const CONTROL_LABEL = 'label';
     public const CONTROL_NONE = 'none';
     
     /**

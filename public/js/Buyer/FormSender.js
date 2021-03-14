@@ -1,7 +1,7 @@
 function FormSender() {
-    var _canSend = true;
-    var _shouldSend = false;
-    var _sendCallback = undefined;
+    let _canSend = true;
+    let _shouldSend = false;
+    let _sendCallback = undefined;
     
     this.setSendCallback = function(callback) {
         if (typeof callback === 'function') {

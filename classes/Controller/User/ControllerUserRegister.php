@@ -15,7 +15,7 @@ class ControllerUserRegister extends ControllerBase {
     /**
      * @var array $_innerUrl Inner url to controller's root page. Should be started from '/'.
      */
-    protected $_innerUrl = '/profile';
+    protected $_innerUrl = '/register';
     
     /**
      * Executes before controller action.
@@ -34,7 +34,7 @@ class ControllerUserRegister extends ControllerBase {
             
             $this->setPropertiesFromPost($user);
         } else {
-            $this->getView()->set('messageType', null);
+            $this->getView()->set('messageTypeRegister', null);
         }
         
         $this->getView()->set('user', $user);
@@ -58,26 +58,26 @@ class ControllerUserRegister extends ControllerBase {
         $password = $this->getFromPost('password');
         $confirmPassword = $this->getFromPost('confirmPassword');
         
-        $messageType = null;
+        $messageTypeRegister = null;
         if (empty($user->login)) {
-            $messageType = 'emptyLogin';
+            $messageTypeRegister = 'emptyLogin';
         } else if (empty($this->getFromPost('password'))) {
-            $messageType = 'emptyPassword';
+            $messageTypeRegister = 'emptyPassword';
         } else if (empty($password)) {
-            $messageType = 'emptyPassword';
+            $messageTypeRegister = 'emptyPassword';
         } else if (empty($confirmPassword)) {
-            $messageType = 'emptyConfirm';
+            $messageTypeRegister = 'emptyConfirm';
         } else if ($password !== $confirmPassword) {
-            $messageType = 'passwordDifferent';
+            $messageTypeRegister = 'passwordDifferent';
         } else if (empty($user->organization)) {
-            $messageType = 'emptyOrganization';
+            $messageTypeRegister = 'emptyOrganization';
         } else if (empty($user->phone)) {
-            $messageType = 'emptyPhone';
+            $messageTypeRegister = 'emptyPhone';
         } else if (empty($user->city)) {
-            $messageType = 'emptyCity';
+            $messageTypeRegister = 'emptyCity';
         }
         
-        if (empty($messageType)) {
+        if (empty($messageTypeRegister)) {
             if ($this->checkBot()) {
                 $user->setPassword($password);
                 $user->isBuyer = true;
@@ -87,19 +87,19 @@ class ControllerUserRegister extends ControllerBase {
                 if (! $user->isLoginExisted($user->login)) {
                     if ($user->save()) {
                         $this->setStashData('messageType', 'successfullyRegistered');
-                        $this->redirect($this->getAuthUrl());
+                        $this->redirect($this->getBaseUrl());
                     } else {
-                        $messageType = 'savingFailed';
+                        $messageTypeRegister = 'savingFailed';
                     }
                 } else {
-                    $messageType = 'existingLogin';
+                    $messageTypeRegister = 'existingLogin';
                 }
             } else {
-                $messageType = 'checkBot';
+                $messageTypeRegister = 'checkBot';
             }
         }
         
-        $this->getView()->set('messageType', $messageType);
+        $this->getView()->set('messageTypeRegister', $messageTypeRegister);
         
     }
     

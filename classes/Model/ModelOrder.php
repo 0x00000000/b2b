@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace B2bShop\Model;
 
 use B2bShop\Module\Factory\Factory;
-use B2bShop\ModelUser;
 
 /**
  * Model order.
@@ -164,6 +163,42 @@ class ModelOrder extends ModelDatabase {
                 }
             }
         }
+    }
+    
+    public function join(?ModelOrder $orderToJoin): array {
+        if ($orderToJoin) {
+            $missedProductsCount = 0;
+            $productModel = Factory::instance()->createModel('Product');
+            $products = $this->products;
+            foreach ($orderToJoin->products as $code => $productData) {
+                if (isset($products[$code])) {
+                    if ($productData['count'] > $products[$code]['count']) {
+                        $products[$code]['count'] = $productData['count'];
+                        $products[$code]['cost'] = number_format($productData['count'] * $products[$code]['price'], 2, '.', '');
+                    }
+                } else {
+                    $productToAdd = $productModel->getOneModel(array('code' => $code, 'deleted' => false, 'disabled' => false));
+                    if ($productToAdd) {
+                        $products[$productToAdd->code] = array(
+                            'caption' => $productToAdd->caption,
+                            'link' => $productToAdd->link,
+                            'price' => $productToAdd->price,
+                            'cost' => number_format($productData['count'] * $productToAdd->price, 2, '.', ''),
+                            'count' => $productData['count'],
+                        );
+                    } else {
+                        $missedProductsCount++;
+                    }
+                }
+            }
+            $this->products = $products;
+            
+            $result = array('error' => '0', 'missedProductsCount' => $missedProductsCount);
+        } else {
+            $result = array('error' => '1');
+        }
+        
+        return $result;
     }
     
 }
