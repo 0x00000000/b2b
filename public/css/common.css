@@ -193,6 +193,14 @@ table.smallestTable {
     max-width: 400px;
 }
 
+.htmlNicEditContainer textarea {
+    height: 400px;
+}
+
+.htmlNicEditContainer > div {
+    background: white;
+}
+
 .hidden {
     display: none;
 }

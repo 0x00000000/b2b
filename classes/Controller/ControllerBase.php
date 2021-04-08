@@ -456,6 +456,7 @@ abstract class ControllerBase extends Controller {
         $this->addCssFile('/css/common.css');
         $this->addCssFile('/css/genesis.css');
         $this->addJsFile('/vendor/jquery/jquery-3.3.1.js');
+        $this->addJsFile('/vendor/nicEdit/nicEdit.js');
         $this->addJsFile('/js/common.js');
     }
     
