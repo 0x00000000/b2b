@@ -27,8 +27,8 @@ class ConfigCommon extends ConfigBase {
             'prefix' => 'b2bshop_',
         ),
         'site' => array(
-            'caption' => 'Компьютерная периферия и аксессуары в Луганске',
-            'title' => 'Компьютерная периферия и аксессуары в Луганске',
+            'caption' => 'Компьютерная периферия и аксессуары',
+            'title' => 'Компьютерная периферия и аксессуары',
             'keywords' => '',
             'description' => '',
             'sessionLifeTime' => '86400',
