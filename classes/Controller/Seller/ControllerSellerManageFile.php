@@ -29,29 +29,33 @@ class ControllerSellerManageFile extends ControllerSellerManageBase {
      * propertyName => controlType
      */
     protected $_modelControlsList = array(
-        'name' => self::CONTROL_NONE,
         'type' => self::CONTROL_NONE,
-        'url' => self::CONTROL_LABEL,
-        'comment' => self::CONTROL_LABEL,
         'content' => self::CONTROL_FILE,
-        'accessAdmin' => self::CONTROL_NONE,
-        'accessSeller' => self::CONTROL_NONE,
-        'accessBuyer' => self::CONTROL_NONE,
-        'accessGuest' => self::CONTROL_NONE,
-        'disabled' => self::CONTROL_NONE,
     );
     
-    /**
-     * Allow user execute actions.
-     */
-    protected $_canDo = array(
-        'add' => false,
-        'view' => false,
-        'edit' => true,
-        'delete' => false,
-        'disable' => false,
-        'list' => true,
-    );
+    protected function innerActionDoAdd() {
+        $model = Factory::instance()->createModel($this->_modelName);
+        $canSave = $this->setPropertiesFromPost($model);
+        if ($canSave) {
+            $fileInfo = $this->getRequest()->files['content'];
+            if (! empty($fileInfo['tmp_name'])) {
+                $fileInfo = $this->getRequest()->files['content'];
+                $model->content = file_get_contents($fileInfo['tmp_name']);
+                $model->name = $fileInfo['name'];
+                $model->type = $fileInfo['type'];
+            }
+            
+            if ($model->save()) {
+                $this->setStashData('messageType', 'addedSuccessfully');
+            } else {
+                $this->setStashData('messageType', 'addingFailed');
+            }
+        } else {
+            $this->setStashData('messageType', 'addingFailed');
+        }
+        $this->redirect($this->getBaseUrl());
+        
+    }
     
     protected function innerActionDoEdit() {
         $conditionsList = $this->_conditionsList;
@@ -60,14 +64,20 @@ class ControllerSellerManageFile extends ControllerSellerManageBase {
         $item = $model->getOneModel($conditionsList);
         
         if ($item) {
-            $fileInfo = $this->getRequest()->files['content'];
-            if (! empty($fileInfo['tmp_name'])) {
-                $item->content = file_get_contents($fileInfo['tmp_name']);
-                $item->name = $fileInfo['name'];
-                $item->type = $fileInfo['type'];
-            }
-            if ($item->save()) {
-                $this->setStashData('messageType', 'editedSuccessfully');
+            $canSave = $this->setPropertiesFromPost($item);
+            
+            if ($canSave) {
+                $fileInfo = $this->getRequest()->files['content'];
+                if (! empty($fileInfo['tmp_name'])) {
+                    $item->content = file_get_contents($fileInfo['tmp_name']);
+                    $item->name = $fileInfo['name'];
+                    $item->type = $fileInfo['type'];
+                }
+                if ($item->save()) {
+                    $this->setStashData('messageType', 'editedSuccessfully');
+                } else {
+                    $this->setStashData('messageType', 'editingFailed');
+                }
             } else {
                 $this->setStashData('messageType', 'editingFailed');
             }
@@ -90,6 +100,7 @@ class ControllerSellerManageFile extends ControllerSellerManageBase {
         $model = Factory::instance()->createModel($this->_modelName);
         $item = $model->getOneModel($conditionsList);
         $item->content = '<a href="' . $this->getRootUrl() . $this->_downloadUrl . '/' . $item->url . '">' . $item->name . '</a>';
+        $item->name = '<a href="' . $this->getRootUrl() . $this->_downloadUrl . '/redirect/' . $item->url . '">' . $item->name . '</a>';
         
         if ($item) {
             $this->getView()->set('item', $item);
@@ -128,6 +139,7 @@ class ControllerSellerManageFile extends ControllerSellerManageBase {
         
         foreach ($itemsList as $item) {
             $item->content = '<a href="' . $this->getRootUrl() . $this->_downloadUrl . '/' . $item->url . '">' . $item->name . '</a>';
+            $item->name = '<a href="' . $this->getRootUrl() . $this->_downloadUrl . '/redirect/' . $item->url . '">' . $item->name . '</a>';
         }
         
         $modelsCount = $model->getCount(

@@ -3,6 +3,8 @@
 {if $messageType}
     {if $messageType === 'loginFailed'}
         <div class="message"><p>Неверный логин или пароль.</p></div>
+    {else if $messageType === 'loginInactive'}
+        <div class="message errorMessage"><p>Свяжитесь с нами по телефону, чтобы мы активировали вашу учётную запись!</p></div>
     {/if}
 {/if}
 

@@ -552,7 +552,6 @@ abstract class ControllerBase extends Controller {
                 array('link' => $urlPrefix . '/admin/seller', 'caption' => 'Продавцы'),
                 array('link' => $urlPrefix . '/admin/admin', 'caption' => 'Администраторы'),
                 array('link' => $urlPrefix . '/admin/question', 'caption' => 'Антибот'),
-                array('link' => $urlPrefix . '/admin/file', 'caption' => 'Файлы'),
                 array('link' => $urlPrefix . '/admin/setting', 'caption' => 'Настройки'),
                 array('link' => $urlPrefix . '/admin/page', 'caption' => 'Страницы'),
             );
@@ -571,10 +570,10 @@ abstract class ControllerBase extends Controller {
                 array('link' => $urlPrefix . '/history', 'caption' => 'История заказов'),
                 array('link' => $urlPrefix . '/contacts', 'caption' => 'Контакты'),
             );
-        }
-        
-        if ($this->getAuth()->isGuest()) {
-            $mainMenu[] = array('link' => 'http://genesis.lg.ua/?page_id=32', 'caption' => 'Контакты');
+        } else if ($this->getAuth()->isGuest()) {
+            $mainMenu = array(
+                array('link' => $urlPrefix . '/publiccontacts', 'caption' => 'Контакты'),
+            );
         }
         
         if ($this->getAuth()->isGuest()) {

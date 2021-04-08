@@ -45,8 +45,6 @@ abstract class AuthBase extends Auth {
      * Check user by user auth information.
      */
     public function check($login, $password): bool {
-        $result = false;
-        
         $user = Factory::instance()->createModel('User');
         $result = $user->check($login, $password);
         
@@ -82,6 +80,16 @@ abstract class AuthBase extends Auth {
             $this->setUserToSession($this->_user);
             $result = true;
         }
+        
+        return $result;
+    }
+    
+    /**
+     * Checks if user is inactive.
+     */
+    public function isInactive(string $login, string $password): bool {
+        $user = Factory::instance()->createModel('User');
+        $result = $user->checkInactive($login, $password);
         
         return $result;
     }

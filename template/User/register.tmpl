@@ -1,9 +1,11 @@
-<h3>Регистрация</h3>
-
-<div class="errorMessage">
 {if $messageType && $messageType === 'successfullyRegistered'}
-    <div class="message"><p>Вы успешно зарегистрировались. Свяжитесь с нами по телефону, чтобы мы активировали вашу учётную запись.</p></div>
-{else if $messageTypeRegister}
+    <h3>Свяжитесь с нами по телефону, чтобы мы активировали вашу учётную запись!</h3>
+{else}
+    <h3>Регистрация</h3>
+{/if}
+
+{if $messageTypeRegister}
+<div class="errorMessage">
     {if $messageTypeRegister === 'savingFailed'}
         <p>Изменения не были сохранены. Возникла ошибка.</p>
     {else if $messageTypeRegister === 'emptyLogin'}
@@ -25,8 +27,8 @@
     {else if $messageTypeRegister === 'checkBot'}
         <p>Вы дали неверный ответ на вопрос. Подтвердите что вы не робот.</p>
     {/if}
-{/if}
 </div>
+{/if}
 
 {if empty($messageType) || $messageType !== 'successfullyRegistered'}
 <form action="{$currentUrl}" method="POST">

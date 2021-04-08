@@ -61,6 +61,9 @@ class ControllerUserLogin extends ControllerBase {
                 } else {
                     $this->redirect($this->getRootUrl());
                 }
+            } else if ($this->getAuth()->isInactive($this->getFromPost('login'), $this->getFromPost('password'))) {
+                $this->setStashData('messageType', 'loginInactive');
+                $this->redirect();
             } else {
                 $this->setStashData('messageType', 'loginFailed');
                 $this->redirect();

@@ -106,6 +106,27 @@ class ModelUser extends ModelDatabase {
     }
     
     /**
+     * Checks existing inactive user with login and password.
+     */
+    public function checkInactive($login, $password) {
+        $result = false;
+        
+        $dbData = $this->getDataRecord(
+            array(
+                'login' => $login,
+                'password' => $this->encodePassword($password),
+                'disabled' => '1',
+                'deleted' => '0'
+            )
+        );
+        if ($dbData && count($dbData)) {
+            $result = true;
+        }
+        
+        return $result;
+    }
+    
+    /**
      * Password can't be gotten.
      */
     public function getPassword() {

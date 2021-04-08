@@ -22,6 +22,11 @@ class ControllerFile extends ControllerBase {
     protected $_innerUrl = '/file';
     
     /**
+     * @var $_innerRedirectUrl Url to controller's redirect root page. Should start from '/'.
+     */
+    protected $_innerRedirectUrl = '/file/redirect';
+    
+    /**
      * Class constructor.
      */
     public function __construct() {
@@ -45,10 +50,18 @@ class ControllerFile extends ControllerBase {
                 $this->redirect($this->getAuthUrl());
             }
         } else {
-            $content = '';
             $this->send404();
         }
+    }
+    
+    protected function actionRedirect() {
+        $url = $this->getRequest()->url;
+        $urlPrefixRedirectFrom = Config::instance()->get('application', 'urlPrefix') . $this->_innerRedirectUrl . '/';
+        $urlPrefixRedirectTo = Config::instance()->get('application', 'urlPrefix') . $this->_innerUrl . '/';
+        $url = preg_replace('|^' . $urlPrefixRedirectFrom . '|', $urlPrefixRedirectTo, $url);
+        $this->_pageTemplate = 'simple';
         
+        $content = '<script>window.location.href = "' . $url . '";</script>';
         return $content;
     }
     

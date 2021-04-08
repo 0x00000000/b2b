@@ -44,8 +44,6 @@ class ApplicationCommon extends ApplicationBase {
         
         $router->setRule('/admin/setting[/<action>][/<id>]', 'Admin/ControllerAdminManageSetting', 'index');
         
-        $router->setRule('/admin/file[/<action>][/<id>]', 'Admin/ControllerAdminManageFile', 'index');
-        
         $router->setRule('/seller', 'Seller/ControllerSellerIndex', 'index');
         
         $router->setRule('/seller/order[/<action>][/<id>]', 'Seller/ControllerSellerOrdersList', 'index');

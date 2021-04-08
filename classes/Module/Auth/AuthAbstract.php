@@ -34,6 +34,11 @@ abstract class AuthAbstract {
     abstract public function logout(): bool;
     
     /**
+     * Checks if user is inactive.
+     */
+    abstract public function isInactive(string $login, string $password): bool;
+    
+    /**
      * Check if user is admin.
      */
     abstract public function isAdmin();
