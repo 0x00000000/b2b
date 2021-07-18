@@ -395,15 +395,6 @@ abstract class ControllerBase extends Controller {
         
         return $value;
     }
-    protected function getFromPost2(string $name, string $defaultValue = null): ?string {
-        if (array_key_exists($name, $this->getRequest()->post)) {
-            $value = (string) $this->getRequest()->post[$name];
-        } else {
-            $value = $defaultValue;
-        }
-        
-        return $value;
-    }
     
     /**
      * Gets variable value from $_SESSION.

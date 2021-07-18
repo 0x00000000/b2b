@@ -486,7 +486,7 @@ abstract class ModelDatabase extends Model {
     }
     
     /**
-     * Sets promary key value.
+     * Sets primary key value.
      */
     protected function setPk($pk) {
         $this->{$this->_pkFieldName} = $pk;
